@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
+import Head from "next/head";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import coordsData from "../data/coordsXY.json";
 import seedDataRaw from "../data/seed_data.json";
+
 
 type SlotId =
   | "01" | "02" | "03" | "04" | "05" | "06" | "07" | "08" | "09" | "10"
@@ -117,11 +119,17 @@ export default function MapPage() {
   };
 
   return (
-    <div className="relative flex flex-col items-center">
-      <div className="flex justify-between w-full max-w-[1200px] p-4">
-        <button
-          onClick={() => router.push("/")}
-          className="px-4 py-2 bg-gray-700 text-white rounded"
+    <>
+      <Head>
+        <title>Nightreign Seed Finder</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <div className="relative flex flex-col items-center">
+        <div className="flex justify-between w-full max-w-[1200px] p-4">
+          <button
+            onClick={() => router.push("/")}
+            className="px-4 py-2 bg-gray-700 text-white rounded"
         >
           Change Map
         </button>
@@ -238,5 +246,6 @@ export default function MapPage() {
         }
       `}</style>
     </div>
+    </>
   );
 }
