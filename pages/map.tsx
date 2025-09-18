@@ -222,7 +222,7 @@ export default function MapPage() {
                   onClick={() => setActiveSlot(null)}
                   className="px-4 py-2 bg-black rounded hover:bg-gray-600"
                 >
-                  Fechar
+                  Close
                 </button>
               </div>
             </div>
