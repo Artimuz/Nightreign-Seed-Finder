@@ -3,11 +3,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 const mapTypes = [
-  { id: "Normal", src: "/Images/mapTypes/normalIcon.jpg" },
-  { id: "Mountaintop", src: "/Images/mapTypes/mountainIcon.jpg" },
-  { id: "Crater", src: "/Images/mapTypes/craterIcon.jpg" },
-  { id: "Rotted Woods", src: "/Images/mapTypes/rotIcon.jpg" },
-  { id: "Noklateo, the Shrouded City", src: "/Images/mapTypes/noklateoIcon.jpg" },
+  { id: "Normal", src: "/Images/mapTypes/normalIcon.webp" },
+  { id: "Mountaintop", src: "/Images/mapTypes/mountainIcon.webp" },
+  { id: "Crater", src: "/Images/mapTypes/craterIcon.webp" },
+  { id: "Rotted Woods", src: "/Images/mapTypes/rotIcon.webp" },
+  { id: "Noklateo, the Shrouded City", src: "/Images/mapTypes/noklateoIcon.webp" },
 ];
 
 export default function HomePage() {
