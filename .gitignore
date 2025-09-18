@@ -43,3 +43,5 @@ next-env.d.ts
 # Imagens / PSDs
 *.psd
 *.psb
+*.png
+*.jpg
