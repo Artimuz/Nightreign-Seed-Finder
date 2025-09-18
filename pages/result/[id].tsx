@@ -5,7 +5,6 @@ import { useState } from "react";
 import coordsData from "../../data/coordsXY.json";
 import seedDataRaw from "../../data/seed_data.json";
 
-
 type SlotId =
   | "01" | "02" | "03" | "04" | "05" | "06" | "07" | "08" | "09" | "10"
   | "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18" | "19" | "20"
@@ -20,7 +19,6 @@ interface Seed {
 
 const coords = coordsData as { id: string; x: number; y: number }[];
 
-// mesmo banco de ícones usado no map.tsx
 const buildingIcons = [
   { id: "empty", src: "/Images/buildingIcons/empty.webp" },
   { id: "church", src: "/Images/buildingIcons/church.webp" },
@@ -63,21 +61,17 @@ export default function ResultPage() {
   const { id } = router.query;
   const [debugHover, setDebugHover] = useState(false);
 
-  // tamanhos idênticos ao map.tsx para alinhamento 1:1
   const mapOriginalSize = 1000;
   const mapDisplaySize = 1000;
-  const overlayIconScale = 85; // tamanho dos ícones no overlay (ajuste se quiser)
+  const overlayIconScale = 85;
 
-  // normaliza id (string)
   const idStr = Array.isArray(id) ? id[0] : id ?? "";
 
-  // busca seed (aceita id com zeros à esquerda)
   const findSeed = (seedId: string): Seed | null => {
     const all = seedDataRaw as Seed[];
     if (!seedId) return null;
     let s = all.find((x) => x.seed_id === seedId);
     if (!s) {
-      // tentar com padding (ex: "38" -> "038")
       const padded = seedId.padStart(3, "0");
       s = all.find((x) => x.seed_id === padded);
     }
@@ -86,29 +80,29 @@ export default function ResultPage() {
 
   const seed = findSeed(idStr);
 
-  // função auxiliar para pegar src do ícone do slot (ou undefined)
   const getIconSrcForSlot = (slotId: string, seedObj: Seed | null): string | undefined => {
     if (!seedObj) return undefined;
+
     if (slotId === "nightlord") {
       const nl = seedObj.nightlord;
       if (!nl) return undefined;
       return nightlordIcons.find((i) => i.id === nl)?.src;
     } else {
-      const v = (seedObj.slots as any)?.[slotId as SlotId] ?? "";
-      if (!v || v === "") return undefined;
-      return buildingIcons.find((i) => i.id === v)?.src;
+      if ((slotId as SlotId) in seedObj.slots) {
+        const v = seedObj.slots[slotId as SlotId];
+        if (!v || v === "") return undefined;
+        return buildingIcons.find((i) => i.id === v)?.src;
+      }
+      return undefined;
     }
   };
 
-  // coleta overlays (uma entrada por ícone a ser desenhado)
   const overlays = (() => {
     if (!seed) return [];
     const list: { id: string; x: number; y: number; src: string }[] = [];
     for (const c of coords) {
       const src = getIconSrcForSlot(c.id, seed);
-      if (src) {
-        list.push({ id: c.id, x: c.x, y: c.y, src });
-      }
+      if (src) list.push({ id: c.id, x: c.x, y: c.y, src });
     }
     return list;
   })();
@@ -129,7 +123,6 @@ export default function ResultPage() {
             New Seed
           </button>
 
-          {/* Botão Debug (lado oposto) */}
           <button
             aria-label="Debug overlay"
             title="Hover to show debug overlay"
@@ -160,7 +153,6 @@ export default function ResultPage() {
             style={{ display: "block", width: mapDisplaySize, height: mapDisplaySize }}
           />
 
-          {/* Overlay de debug: só renderiza quando hover no botão */}
           {debugHover && seed && overlays.map((ov) => {
             const topPos = (ov.y / mapOriginalSize) * mapDisplaySize;
             const leftPos = (ov.x / mapOriginalSize) * mapDisplaySize;
@@ -174,7 +166,7 @@ export default function ResultPage() {
                   width: overlayIconScale,
                   height: overlayIconScale,
                   transform: "translate(-50%, -50%)",
-                  pointerEvents: "none", // não atrapalha interação
+                  pointerEvents: "none",
                   zIndex: 60,
                   display: "flex",
                   alignItems: "center",
@@ -194,15 +186,13 @@ export default function ResultPage() {
         </div>
 
         <p className="mt-4 text-sm text-gray-200 max-w-[1000px] text-center">
-          Seed found: <span className="font-semibold">{seed ? seed.seed_id : idStr}</span>. Source:
-          {" "}
+          Seed found: <span className="font-semibold">{seed ? seed.seed_id : idStr}</span>. Source:{" "}
           <a href="https://thefifthmatt.github.io/nightreign/" className="underline" target="_blank" rel="noreferrer">
             thefifthmatt
           </a>
         </p>
 
         <style jsx>{`
-          /* apenas para adaptar contraste do texto em fundos claros/escuros (ajuste conforme tema) */
           .text-gray-200 { color: #e5e7eb; }
         `}</style>
       </div>

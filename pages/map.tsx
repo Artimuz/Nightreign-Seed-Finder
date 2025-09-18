@@ -180,7 +180,7 @@ export default function MapPage() {
         <div className="relative" style={{ width: mapDisplaySize, height: mapDisplaySize }}>
           {type && (
             <Image
-              src={`/Images/mapTypes/${type}.png`}
+              src={`/Images/mapTypes/${type}.webp`}
               alt={type}
               width={mapDisplaySize}
               height={mapDisplaySize}
@@ -210,8 +210,8 @@ export default function MapPage() {
 
             const iconSrc =
               slot.id === "nightlord"
-                ? (nightlordIcons.find((b) => b.id === currentId)?.src ?? "/Images/buildingIcons/empty.png")
-                : (buildingIcons.find((b) => b.id === currentId)?.src ?? "/Images/buildingIcons/empty.png");
+                ? (nightlordIcons.find((b) => b.id === currentId)?.src ?? "/Images/buildingIcons/empty.webp")
+                : (buildingIcons.find((b) => b.id === currentId)?.src ?? "/Images/buildingIcons/empty.webp");
 
             return (
               <div
