@@ -136,14 +136,6 @@ export default function ResultPage() {
           </button>
         </div>
 
-        <h1 className="text-xl font-bold mb-4">Seed {seed ? seed.seed_id : idStr}</h1>
-
-        {!seed && (
-          <p className="text-sm text-red-400 mb-4">
-            Seed {idStr} not found in seed_data.json.
-          </p>
-        )}
-
         <div className="relative" style={{ width: mapDisplaySize, height: mapDisplaySize }}>
           <img
             src={`https://thefifthmatt.github.io/nightreign/pattern/${idStr}.jpg`}
