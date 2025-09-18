@@ -63,7 +63,7 @@ export default function ResultPage() {
 
   const mapOriginalSize = 1000;
   const mapDisplaySize = 1000;
-  const overlayIconScale = 85;
+  const overlayIconScale = 90;
 
   const idStr = Array.isArray(id) ? id[0] : id ?? "";
 

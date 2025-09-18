@@ -65,44 +65,38 @@ export default function MapPage() {
   const mapDisplaySize = 1000;
   const iconScale = 85;
 
-  // slots mantém apenas os valores que o usuário confirmou (se vazio -> não existe a chave)
   const [slots, setSlots] = useState<Record<string, string>>({ nightlord: "empty" });
   const [remainingSeeds, setRemainingSeeds] = useState<Seed[]>([]);
   const [activeSlot, setActiveSlot] = useState<string | null>(null);
 
   const maxColumns = 4;
 
-  // inicializa remainingSeeds com filtro por tipo de mapa (se houver)
   useEffect(() => {
     const allSeeds = seedDataRaw as Seed[];
     if (type) setRemainingSeeds(allSeeds.filter(s => s.map_type === type));
     else setRemainingSeeds(allSeeds);
   }, [type]);
 
-  // calcula as opções possíveis para um slot - se excludeCurrent === true, remove o valor atual do slot
   const computeOptionsForSlot = (slotId: string, excludeCurrent = false) => {
     const allSeeds = seedDataRaw as Seed[];
     const validIds = new Set<string>();
 
-    // Para cada seed, verificamos se ela é compatível com as outras escolhas do usuário (exceto o slot sendo editado)
     for (const seed of allSeeds) {
       if (type && seed.map_type !== type) continue;
 
       let ok = true;
       for (const [sId, val] of Object.entries(slots)) {
-        if (sId === slotId) continue; // ignorar o slot que estamos avaliando (simular vazio)
+        if (sId === slotId) continue;
         if (!val) continue;
         if (val === "empty") continue;
         if (sId === "nightlord") {
           if (seed.nightlord !== val) { ok = false; break; }
         } else {
-          // validação para slots "01".."27"
           if (seed.slots?.[sId as SlotId] !== val) { ok = false; break; }
         }
       }
       if (!ok) continue;
 
-      // se a seed passou nas restrições acima, coleta o valor possível para slotId nessa seed
       if (slotId === "nightlord") {
         validIds.add(seed.nightlord || "empty");
       } else {
@@ -111,27 +105,23 @@ export default function MapPage() {
       }
     }
 
-    // garantir que o usuário sempre possa escolher 'empty' (limpar)
     validIds.add("empty");
 
     const current = slots[slotId] || "empty";
     if (excludeCurrent) validIds.delete(current);
 
-    // transforma em objetos de ícone
     const iconsPool = slotId === "nightlord" ? nightlordIcons : buildingIcons;
     const icons = iconsPool.filter((ic) => validIds.has(ic.id));
 
     return icons;
   };
 
-  // quando o usuário confirma uma opção no modal
   const handleSlotSelection = (slotId: string, iconId: string) => {
-    // calcula nextSlots (estado *final* após a seleção)
+
     const nextSlots = { ...slots };
     if (iconId === "empty") delete nextSlots[slotId];
     else nextSlots[slotId] = iconId;
 
-    // filtra seeds com base no nextSlots e map_type
     const allSeeds = seedDataRaw as Seed[];
     const filtered = allSeeds.filter((seed) => {
       if (type && seed.map_type !== type) return false;
@@ -146,11 +136,11 @@ export default function MapPage() {
       return true;
     });
 
-    // aplica o estado e o filtro
+
     setSlots(nextSlots);
     setRemainingSeeds(filtered);
 
-    // se só sobrou 1 seed => navegar para resultado
+
     if (filtered.length === 1) {
       router.push(`/result/${filtered[0].seed_id}`);
     }
@@ -190,21 +180,13 @@ export default function MapPage() {
 
           {coords.map((slot) => {
             const currentId = slots[slot.id] || "empty";
-
-            // opções considerando o slot como estava (para decidir se o slot aparece)
             const fullOptions = computeOptionsForSlot(slot.id, false);
-
-            // opções do modal (exclui o valor atual — assim não aparece duplicado)
             const modalOptions = computeOptionsForSlot(slot.id, true);
-
-            // regra: ocultar slots 01–27 quando só tiver 'empty' (mesmo comportamento anterior)
             if (/^(0?[1-9]|1[0-9]|2[0-7])$/.test(slot.id)) {
-              // fullOptions contém 'empty' sempre; se for o único item, ocultamos
               if (fullOptions.length === 1 && fullOptions[0].id === "empty") {
                 return null;
               }
             }
-
             const topPos = (slot.y / mapOriginalSize) * mapDisplaySize - iconScale / 2;
             const leftPos = (slot.x / mapOriginalSize) * mapDisplaySize - iconScale / 2;
 
@@ -236,11 +218,11 @@ export default function MapPage() {
             );
           })}
 
-          {/* Modal */}
+          {}
           {activeSlot && (
             <div
               className="fixed inset-0 flex items-center justify-center bg-opacity-40 z-50 transition-opacity duration-150"
-              onClick={() => setActiveSlot(null)} // fecha sem alterar (mantém estado)
+              onClick={() => setActiveSlot(null)}
             >
               <div
                 className="bg-gray-800 border border-gray-400 rounded-lg p-6 max-w-[500px] w-full transform transition-all duration-150 scale-95 opacity-0 animate-fadeIn"
