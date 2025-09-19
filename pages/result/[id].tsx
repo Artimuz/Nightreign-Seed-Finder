@@ -13,6 +13,7 @@ type SlotId =
 interface Seed {
   seed_id: string;
   map_type: string;
+  Event?: string;
   nightlord: string;
   slots: Record<SlotId, string>;
 }
@@ -56,6 +57,19 @@ const nightlordIcons = [
   { id: "8_Heolstor", src: "/Images/nightlordIcons/8_Heolstor.webp" },
 ];
 
+const Events = [
+  { id: "augurraid", src: "/Images/events/augurraid.webp" },
+  { id: "extraboss", src: "/Images/events/extraboss.webp" },
+  { id: "fellomen", src: "/Images/events/fellomen.webp" },
+  { id: "frenzytower", src: "/Images/events/frenzytower.webp" },
+  { id: "gnosterplague", src: "/Images/events/gnosterplague.webp" },
+  { id: "libracurse", src: "/Images/events/libracurse.webp" },
+  { id: "mausoleum", src: "/Images/events/mausoleum.webp" },
+  { id: "meteorstrike", src: "/Images/events/meteorstrike.webp" },
+  { id: "nighthorde", src: "/Images/events/nighthorde.webp" },
+  { id: "sorcerersrise", src: "/Images/events/sorcerersrise.webp" },
+];
+
 export default function ResultPage() {
   const router = useRouter();
   const { id } = router.query;
@@ -64,6 +78,7 @@ export default function ResultPage() {
   const mapOriginalSize = 1000;
   const mapDisplaySize = 1000;
   const overlayIconScale = 90;
+  const eventIconScale = 150;
 
   const idStr = Array.isArray(id) ? id[0] : id ?? "";
 
@@ -105,6 +120,18 @@ export default function ResultPage() {
       if (src) list.push({ id: c.id, x: c.x, y: c.y, src });
     }
     return list;
+  })();
+
+  const eventOverlay = (() => {
+    if (!seed?.Event) return null;
+    const eventIcon = Events.find((e) => e.id === seed.Event);
+    if (!eventIcon) return null;
+    return {
+      id: "event",
+      x: 910,
+      y: 900,
+      src: eventIcon.src,
+    };
   })();
 
   return (
@@ -175,6 +202,34 @@ export default function ResultPage() {
               </div>
             );
           })}
+
+          {}
+          {eventOverlay && (
+            <div
+              key={eventOverlay.id}
+              style={{
+                position: "absolute",
+                top: `${(eventOverlay.y / mapOriginalSize) * mapDisplaySize}px`,
+                left: `${(eventOverlay.x / mapOriginalSize) * mapDisplaySize}px`,
+                width: eventIconScale,
+                height: eventIconScale,
+                transform: "translate(-50%, -50%)",
+                pointerEvents: "none",
+                zIndex: 70,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.7))',
+              }}
+            >
+              <Image
+                src={eventOverlay.src}
+                alt="Event"
+                width={eventIconScale}
+                height={eventIconScale}
+              />
+            </div>
+          )}
         </div>
 
         <p className="mt-4 text-sm text-gray-200 max-w-[1000px] text-center">
