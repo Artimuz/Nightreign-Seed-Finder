@@ -24,18 +24,13 @@ export default function HomePage() {
         <title>Nightreign Seed Finder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      {/* Container principal: coluna full screen */}
       <div className="flex flex-col min-h-screen">
 
-        {/* Header */}
         <header className="h-16 bg-gray-800 flex items-center justify-center px-6">
           <p className="text-lg font-semibold text-gray-200">Nightreign Seed Finder</p>
         </header>
 
-        {/* Body: flex-1 para ocupar o espaço restante */}
         <main className="flex-1 flex flex-col items-center justify-center p-6">
-          <h1 className="text-2xl font-bold mb-6 text-center">Select your map</h1>
           <div className="grid grid-cols-3 gap-4">
             {mapTypes.map((map) => (
               <button
@@ -54,8 +49,6 @@ export default function HomePage() {
             ))}
           </div>
         </main>
-
-        {/* Footer sempre no fim da página */}
         <Footer />
       </div>
     </>
