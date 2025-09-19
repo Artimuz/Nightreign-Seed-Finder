@@ -2,68 +2,22 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+
 import coordsData from "../data/coordsXY.json";
 import seedDataRaw from "../data/seed_data.json";
 
-type SlotId =
-  | "01" | "02" | "03" | "04" | "05" | "06" | "07" | "08" | "09" | "10"
-  | "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18" | "19" | "20"
-  | "21" | "22" | "23" | "24" | "25" | "26" | "27";
-
-interface Seed {
-  seed_id: string;
-  map_type: string;
-  nightlord: string;
-  slots: Record<SlotId, string>;
-}
+import { Seed, SlotId } from "../types";
+import { buildingIcons, nightlordIcons } from "../constants/icons";
 
 const coords = coordsData as { id: string; x: number; y: number }[];
-
-const buildingIcons = [
-  { id: "empty", src: "/Images/buildingIcons/empty.webp" },
-  { id: "church", src: "/Images/buildingIcons/church.webp" },
-  { id: "fort", src: "/Images/buildingIcons/fort.webp" },
-  { id: "fort_magic", src: "/Images/buildingIcons/fort_magic.webp" },
-  { id: "greatchurch", src: "/Images/buildingIcons/greatchurch.webp" },
-  { id: "greatchurch_fire", src: "/Images/buildingIcons/greatchurch_fire.webp" },
-  { id: "greatchurch_holy", src: "/Images/buildingIcons/greatchurch_holy.webp" },
-  { id: "mainencampment", src: "/Images/buildingIcons/mainencampment.webp" },
-  { id: "mainencampment_eletric", src: "/Images/buildingIcons/mainencampment_eletric.webp" },
-  { id: "mainencampment_fire", src: "/Images/buildingIcons/mainencampment_fire.webp" },
-  { id: "mainencampment_madness", src: "/Images/buildingIcons/mainencampment_madness.webp" },
-  { id: "ruins", src: "/Images/buildingIcons/ruins.webp" },
-  { id: "ruins_bleed", src: "/Images/buildingIcons/ruins_bleed.webp" },
-  { id: "ruins_blight", src: "/Images/buildingIcons/ruins_blight.webp" },
-  { id: "ruins_eletric", src: "/Images/buildingIcons/ruins_eletric.webp" },
-  { id: "ruins_fire", src: "/Images/buildingIcons/ruins_fire.webp" },
-  { id: "ruins_frostbite", src: "/Images/buildingIcons/ruins_frostbite.webp" },
-  { id: "ruins_holy", src: "/Images/buildingIcons/ruins_holy.webp" },
-  { id: "ruins_magic", src: "/Images/buildingIcons/ruins_magic.webp" },
-  { id: "ruins_poison", src: "/Images/buildingIcons/ruins_poison.webp" },
-  { id: "ruins_sleep", src: "/Images/buildingIcons/ruins_sleep.webp" },
-  { id: "sorcerers", src: "/Images/buildingIcons/sorcerers.webp" },
-  { id: "township", src: "/Images/buildingIcons/township.webp" },
-];
-
-const nightlordIcons = [
-  { id: "1_Gladius", src: "/Images/nightlordIcons/1_Gladius.webp" },
-  { id: "2_Adel", src: "/Images/nightlordIcons/2_Adel.webp" },
-  { id: "3_Gnoster", src: "/Images/nightlordIcons/3_Gnoster.webp" },
-  { id: "4_Maris", src: "/Images/nightlordIcons/4_Maris.webp" },
-  { id: "5_Libra", src: "/Images/nightlordIcons/5_Libra.webp" },
-  { id: "6_Fulghor", src: "/Images/nightlordIcons/6_Fulghor.webp" },
-  { id: "7_Caligo", src: "/Images/nightlordIcons/7_Caligo.webp" },
-  { id: "8_Heolstor", src: "/Images/nightlordIcons/8_Heolstor.webp" },
-  { id: "empty", src: "/Images/buildingIcons/empty.webp" },
-];
 
 export default function MapPage() {
   const router = useRouter();
   const { type } = router.query as { type?: string };
 
   const mapOriginalSize = 1000;
-  const mapDisplaySize = 1000;
-  const iconScale = 85;
+  const mapDisplaySize = 1100;
+  const iconScale = 80;
 
   const [slots, setSlots] = useState<Record<string, string>>({ nightlord: "empty" });
   const [remainingSeeds, setRemainingSeeds] = useState<Seed[]>([]);
@@ -87,8 +41,8 @@ export default function MapPage() {
       let ok = true;
       for (const [sId, val] of Object.entries(slots)) {
         if (sId === slotId) continue;
-        if (!val) continue;
-        if (val === "empty") continue;
+        if (!val || val === "empty") continue;
+
         if (sId === "nightlord") {
           if (seed.nightlord !== val) { ok = false; break; }
         } else {
@@ -111,13 +65,14 @@ export default function MapPage() {
     if (excludeCurrent) validIds.delete(current);
 
     const iconsPool = slotId === "nightlord" ? nightlordIcons : buildingIcons;
-    const icons = iconsPool.filter((ic) => validIds.has(ic.id));
 
-    return icons;
+    return Array.from(validIds).map((id) => ({
+      id,
+      src: iconsPool[id] ?? buildingIcons["empty"],
+    }));
   };
 
   const handleSlotSelection = (slotId: string, iconId: string) => {
-
     const nextSlots = { ...slots };
     if (iconId === "empty") delete nextSlots[slotId];
     else nextSlots[slotId] = iconId;
@@ -136,10 +91,8 @@ export default function MapPage() {
       return true;
     });
 
-
     setSlots(nextSlots);
     setRemainingSeeds(filtered);
-
 
     if (filtered.length === 1) {
       router.push(`/result/${filtered[0].seed_id}`);
@@ -182,18 +135,20 @@ export default function MapPage() {
             const currentId = slots[slot.id] || "empty";
             const fullOptions = computeOptionsForSlot(slot.id, false);
             const modalOptions = computeOptionsForSlot(slot.id, true);
+
             if (/^(0?[1-9]|1[0-9]|2[0-7])$/.test(slot.id)) {
               if (fullOptions.length === 1 && fullOptions[0].id === "empty") {
                 return null;
               }
             }
+
             const topPos = (slot.y / mapOriginalSize) * mapDisplaySize - iconScale / 2;
             const leftPos = (slot.x / mapOriginalSize) * mapDisplaySize - iconScale / 2;
 
             const iconSrc =
               slot.id === "nightlord"
-                ? (nightlordIcons.find((b) => b.id === currentId)?.src ?? "/Images/buildingIcons/empty.webp")
-                : (buildingIcons.find((b) => b.id === currentId)?.src ?? "/Images/buildingIcons/empty.webp");
+                ? nightlordIcons[currentId] ?? buildingIcons["empty"]
+                : buildingIcons[currentId] ?? buildingIcons["empty"];
 
             return (
               <div
@@ -218,7 +173,6 @@ export default function MapPage() {
             );
           })}
 
-          {}
           {activeSlot && (
             <div
               className="fixed inset-0 flex items-center justify-center bg-opacity-40 z-50 transition-opacity duration-150"
