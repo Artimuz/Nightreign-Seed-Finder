@@ -24,6 +24,32 @@ export const buildingIcons: Record<string, string> = {
   township: "/Images/buildingIcons/township.webp",
 };
 
+export const buildingIconOrder: string[] = [
+  "empty",
+  "church",
+  "fort",
+  "fort_magic",
+  "greatchurch",
+  "greatchurch_fire",
+  "greatchurch_holy",
+  "mainencampment",
+  "mainencampment_eletric",
+  "mainencampment_fire",
+  "mainencampment_madness",
+  "ruins",
+  "ruins_bleed",
+  "ruins_blight",
+  "ruins_eletric",
+  "ruins_fire",
+  "ruins_frostbite",
+  "ruins_holy",
+  "ruins_magic",
+  "ruins_poison",
+  "ruins_sleep",
+  "sorcerers",
+  "township",
+];
+
 export const nightlordIcons: Record<string, string> = {
   "1_Gladius": "/Images/nightlordIcons/1_Gladius.webp",
   "2_Adel": "/Images/nightlordIcons/2_Adel.webp",

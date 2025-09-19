@@ -7,7 +7,7 @@ import coordsData from "../data/coordsXY.json";
 import seedDataRaw from "../data/seed_data.json";
 
 import { Seed, SlotId } from "../types";
-import { buildingIcons, nightlordIcons } from "../constants/icons";
+import { buildingIcons, nightlordIcons, buildingIconOrder } from "../constants/icons";
 
 const coords = coordsData as { id: string; x: number; y: number }[];
 
@@ -179,38 +179,31 @@ export default function MapPage() {
               onClick={() => setActiveSlot(null)}
             >
               <div
-                className="bg-gray-800 border border-gray-400 rounded-lg p-6 max-w-[500px] w-full transform transition-all duration-150 scale-95 opacity-0 animate-fadeIn"
+                className="items-center justify-center bg-gray-800 border border-gray-400 rounded-lg p-5 w-auto max-w-[450px] transform transition-all duration-150 scale-95 opacity-0 animate-fadeIn"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div
-                  className="grid gap-4"
+                  className="items-center justify-center grid gap-4 auto-cols-auto auto-rows-auto"
                   style={{
-                    gridTemplateColumns: `repeat(${maxColumns}, minmax(0, 1fr))`,
+                    gridTemplateColumns: `repeat(${maxColumns}, minmax(0, auto))`,
                   }}
                 >
-                  {computeOptionsForSlot(activeSlot, true).map((icon) => (
-                    <div
-                      key={icon.id}
-                      className="flex items-center justify-center cursor-pointer hover:opacity-80"
-                      onClick={() => handleSlotSelection(activeSlot, icon.id)}
-                    >
-                      <Image
-                        src={icon.src}
-                        alt={icon.id}
-                        width={iconScale}
-                        height={iconScale}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex justify-end mt-4">
-                  <button
-                    onClick={() => setActiveSlot(null)}
-                    className="px-4 py-2 bg-black rounded hover:bg-gray-600"
-                  >
-                    Close
-                  </button>
+                  {computeOptionsForSlot(activeSlot, true)
+                    .sort((a, b) => buildingIconOrder.indexOf(a.id) - buildingIconOrder.indexOf(b.id))
+                    .map((icon) => (
+                      <div
+                        key={icon.id}
+                        className="flex items-center justify-center cursor-pointer hover:opacity-80"
+                        onClick={() => handleSlotSelection(activeSlot, icon.id)}
+                      >
+                        <Image
+                          src={icon.src}
+                          alt={icon.id}
+                          width={iconScale}
+                          height={iconScale}
+                        />
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
