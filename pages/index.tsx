@@ -36,8 +36,8 @@ export default function HomePage() {
               <Image
                 src={map.src}
                 alt={map.id}
-                width={350}
-                height={350}
+                width={250}
+                height={250}
                 className="object-contain"
               />
             </button>
