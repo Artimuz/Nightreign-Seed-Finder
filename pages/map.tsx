@@ -9,6 +9,7 @@ import seedDataRaw from "../data/seed_data.json";
 import { Seed, SlotId } from "../types";
 import { buildingIcons, nightlordIcons, buildingIconOrder } from "../constants/icons";
 import { MAP_ORIGINAL_SIZE, MAP_MIN_SIZE, MAP_MAX_SIZE, ICON_SCALE_RATIO } from "../constants/layout";
+import Footer from "../components/footer";
 
 const coords = coordsData as { id: string; x: number; y: number }[];
 
@@ -32,8 +33,8 @@ export default function MapPage() {
 
   useEffect(() => {
     const updateMapSize = () => {
-      const headerHeight = 40;
-      const footerHeight = 40;
+      const headerHeight = 60;
+      const footerHeight = 60;
       const availableHeight = window.innerHeight - headerHeight - footerHeight - 32;
       const size = Math.min(Math.max(availableHeight, MAP_MIN_SIZE), MAP_MAX_SIZE);
       setMapDisplaySize(size);
@@ -205,6 +206,7 @@ export default function MapPage() {
             )}
           </div>
         </main>
+        <Footer />
       </div>
     </>
   );

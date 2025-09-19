@@ -15,6 +15,7 @@ import {
   MAP_MAX_SIZE,
   ICON_SCALE_RATIO,
 } from "../../constants/layout";
+import Footer from "@/components/footer";
 
 const coords = coordsData as { id: string; x: number; y: number }[];
 
@@ -30,8 +31,8 @@ export default function ResultPage() {
 
   useEffect(() => {
     const updateMapSize = () => {
-      const headerHeight = 50;
-      const footerPadding = 50;
+      const headerHeight = 75;
+      const footerPadding = 75;
       const availableHeight = window.innerHeight - headerHeight - footerPadding;
       const size = Math.min(Math.max(availableHeight, MAP_MIN_SIZE), MAP_MAX_SIZE);
       setMapDisplaySize(size);
@@ -168,6 +169,7 @@ export default function ResultPage() {
 
           {}
         </main>
+        <Footer />
       </div>
     </>
   );
