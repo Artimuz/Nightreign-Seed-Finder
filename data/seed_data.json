@@ -707,9 +707,9 @@
   "slots": {
     "01": "",
     "02": "ruins_blight",
-    "03": "mainencampment",
+    "03": "",
 		"04": "",
-    "05": "",
+    "05": "mainencampment",
     "06": "",
 		"07": "",
     "08": "",
@@ -5137,8 +5137,8 @@
     "20": "mainencampment_eletric",
     "21": "ruins_magic",
 		"22": "fort",
-    "23": "fort",
-    "24": "fort",
+    "23": "church",
+    "24": "church",
 		"25": "ruins_eletric",
     "26": "ruins_eletric",
     "27": ""
@@ -9211,8 +9211,8 @@
 	"nightlord": "7_Caligo",
   "slots": {
     "01": "",
-    "02": "",
-    "03": "ruins_bleed",
+    "02": "ruins_bleed",
+    "03": "",
 		"04": "",
     "05": "greatchurch",
     "06": "",
@@ -10248,7 +10248,7 @@
     "21": "mainencampment",
 		"22": "greatchurch",
     "23": "church",
-    "24": "W",
+    "24": "",
 		"25": "ruins_poison",
     "26": "ruins_poison",
     "27": ""
