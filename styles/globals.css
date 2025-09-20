@@ -64,4 +64,45 @@ body {
   z-index: 70;
 }
 
+.ghost-icon {
+  opacity: 1;
+  filter: hue-rotate(160deg) saturate(180%) brightness(1.2) blur(1px);
+  animation: ghosty 5.5s ease-in-out infinite,  heatDistortion 6s ease-in-out infinite;
+}
 
+@keyframes ghosty {
+  0% {
+    opacity: 7;
+    filter: hue-rotate(160deg) saturate(200%) brightness(1.8) blur(0.8px);
+    transform: scale(1);
+  }
+  10% {
+    opacity: 8;
+    filter: hue-rotate(160deg) saturate(200%) brightness(1.6) blur(0.7px);
+    transform: scale(1.1);
+  }
+  50% {
+    opacity: 8;
+    filter: hue-rotate(180deg) saturate(200%) brightness(1.8) blur(0px);
+    transform: scale(1.1);
+  }
+  90% {
+    opacity: 8;
+    filter: hue-rotate(160deg) saturate(200%) brightness(1.6) blur(0.7px);
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 7;
+    filter: hue-rotate(160deg) saturate(200%) brightness(1.8) blur(0.8px);
+    transform: scale(1);
+  }
+}
+
+/* leve distorção como calor */
+@keyframes heatDistortion {
+  0%   { transform: translateY(0px) skewX(0deg); }
+  25%  { transform: translateY(-0.5px) skewX(1deg); }
+  50%  { transform: translateY(0.5px) skewX(-1deg); }
+  75%  { transform: translateY(-0.5px) skewX(0.5deg); }
+  100% { transform: translateY(0px) skewX(0deg); }
+}

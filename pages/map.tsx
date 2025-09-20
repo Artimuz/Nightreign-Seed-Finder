@@ -7,8 +7,17 @@ import coordsData from "../data/coordsXY.json";
 import seedDataRaw from "../data/seed_data.json";
 
 import { Seed, SlotId } from "../types";
-import { buildingIcons, nightlordIcons, buildingIconOrder } from "../constants/icons";
-import { MAP_ORIGINAL_SIZE, MAP_MIN_SIZE, MAP_MAX_SIZE, ICON_SCALE_RATIO } from "../constants/layout";
+import {
+  buildingIcons,
+  nightlordIcons,
+  buildingIconOrder,
+} from "../constants/icons";
+import {
+  MAP_ORIGINAL_SIZE,
+  MAP_MIN_SIZE,
+  MAP_MAX_SIZE,
+  ICON_SCALE_RATIO,
+} from "../constants/layout";
 import Footer from "../components/footer";
 
 const coords = coordsData as { id: string; x: number; y: number }[];
@@ -19,7 +28,9 @@ export default function MapPage() {
 
   const [mapDisplaySize, setMapDisplaySize] = useState(750);
   const [iconScale, setIconScale] = useState(80);
-  const [slots, setSlots] = useState<Record<string, string>>({ nightlord: "empty" });
+  const [slots, setSlots] = useState<Record<string, string>>({
+    nightlord: "empty",
+  });
   const [remainingSeeds, setRemainingSeeds] = useState<Seed[]>([]);
   const [activeSlot, setActiveSlot] = useState<string | null>(null);
 
@@ -27,7 +38,7 @@ export default function MapPage() {
 
   useEffect(() => {
     const allSeeds = seedDataRaw as Seed[];
-    if (type) setRemainingSeeds(allSeeds.filter(s => s.map_type === type));
+    if (type) setRemainingSeeds(allSeeds.filter((s) => s.map_type === type));
     else setRemainingSeeds(allSeeds);
   }, [type]);
 
@@ -35,12 +46,14 @@ export default function MapPage() {
     const updateMapSize = () => {
       const headerHeight = 60;
       const footerHeight = 60;
-      const availableHeight = window.innerHeight - headerHeight - footerHeight - 32;
-      const size = Math.min(Math.max(availableHeight, MAP_MIN_SIZE), MAP_MAX_SIZE);
+      const availableHeight =
+        window.innerHeight - headerHeight - footerHeight - 32;
+      const size = Math.min(
+        Math.max(availableHeight, MAP_MIN_SIZE),
+        MAP_MAX_SIZE
+      );
       setMapDisplaySize(size);
-
-      const scale = size * ICON_SCALE_RATIO;
-      setIconScale(scale);
+      setIconScale(size * ICON_SCALE_RATIO);
     };
 
     updateMapSize();
@@ -61,14 +74,21 @@ export default function MapPage() {
         if (!val || val === "empty") continue;
 
         if (sId === "nightlord") {
-          if (seed.nightlord !== val) { ok = false; break; }
+          if (seed.nightlord !== val) {
+            ok = false;
+            break;
+          }
         } else {
-          if (seed.slots?.[sId as SlotId] !== val) { ok = false; break; }
+          if (seed.slots?.[sId as SlotId] !== val) {
+            ok = false;
+            break;
+          }
         }
       }
       if (!ok) continue;
 
-      if (slotId === "nightlord") validIds.add(seed.nightlord || "empty");
+      if (slotId === "nightlord")
+        validIds.add(seed.nightlord || "empty");
       else validIds.add(seed.slots?.[slotId as SlotId] || "empty");
     }
 
@@ -92,7 +112,8 @@ export default function MapPage() {
       for (const [sId, val] of Object.entries(nextSlots)) {
         if (val === "empty") continue;
         if (sId === "nightlord" && seed.nightlord !== val) return false;
-        if (sId !== "nightlord" && seed.slots?.[sId as SlotId] !== val) return false;
+        if (sId !== "nightlord" && seed.slots?.[sId as SlotId] !== val)
+          return false;
       }
       return true;
     });
@@ -100,7 +121,12 @@ export default function MapPage() {
     setSlots(nextSlots);
     setRemainingSeeds(filtered);
 
-    if (filtered.length === 1) router.push(`/result/${filtered[0].seed_id}`);
+    if (filtered.length === 1) {
+      router.push({
+        pathname: `/result/${filtered[0].seed_id}`,
+        query: { fromMap: "true" },
+      });
+    }
     setActiveSlot(null);
   };
 
@@ -112,7 +138,6 @@ export default function MapPage() {
       </Head>
 
       <div className="min-h-screen flex flex-col bg-black text-white">
-        {/* Header fixo */}
         <header className="h-12 bg-gray-800 flex items-center justify-between px-6">
           <button
             onClick={() => router.push("/")}
@@ -123,12 +148,16 @@ export default function MapPage() {
           <p className="mt-2 text-sm text-gray-200 max-w-[1000px] text-center">
             How does your map look like?
           </p>
-          <p className="text-gray-300">Seeds Remaining: {remainingSeeds.length}</p>
+          <p className="text-gray-300">
+            Seeds Remaining: {remainingSeeds.length}
+          </p>
         </header>
 
-        {}
         <main className="flex-1 flex flex-col items-center justify-center p-6 w-full">
-          <div className="relative" style={{ width: mapDisplaySize, height: mapDisplaySize }}>
+          <div
+            className="relative"
+            style={{ width: mapDisplaySize, height: mapDisplaySize }}
+          >
             {type && (
               <Image
                 src={`/Images/mapTypes/${type}.webp`}
@@ -139,21 +168,77 @@ export default function MapPage() {
               />
             )}
 
+            {/* Render slots */}
             {coords.map((slot) => {
               const currentId = slots[slot.id] || "empty";
               const fullOptions = computeOptionsForSlot(slot.id, false);
               const modalOptions = computeOptionsForSlot(slot.id, true);
 
               if (/^(0?[1-9]|1[0-9]|2[0-7])$/.test(slot.id)) {
-                if (fullOptions.length === 1 && fullOptions[0].id === "empty") return null;
+                if (
+                  fullOptions.length === 1 &&
+                  fullOptions[0].id === "empty"
+                )
+                  return null;
               }
 
-              const topPos = (slot.y / MAP_ORIGINAL_SIZE) * mapDisplaySize - iconScale / 2;
-              const leftPos = (slot.x / MAP_ORIGINAL_SIZE) * mapDisplaySize - iconScale / 2;
-              const iconSrc =
+              const topPos =
+                (slot.y / MAP_ORIGINAL_SIZE) * mapDisplaySize -
+                iconScale / 2;
+              const leftPos =
+                (slot.x / MAP_ORIGINAL_SIZE) * mapDisplaySize -
+                iconScale / 2;
+
+              // Normal icon
+              let iconSrc =
                 slot.id === "nightlord"
-                  ? nightlordIcons[currentId] ?? buildingIcons["empty"]
-                  : buildingIcons[currentId] ?? buildingIcons["empty"];
+                  ? nightlordIcons[currentId] ??
+                    buildingIcons["empty"]
+                  : buildingIcons[currentId] ??
+                    buildingIcons["empty"];
+
+              // Detecta se deve mostrar o "fantasma"
+              let ghostMode = false;
+              if (
+                currentId === "empty" &&
+                fullOptions.length === 2 && // "empty" + 1 opção
+                fullOptions.some((opt) => opt.id !== "empty")
+              ) {
+                const ghostOption = fullOptions.find(
+                  (opt) => opt.id !== "empty"
+                );
+                if (ghostOption) {
+                  iconSrc = ghostOption.src;
+                  ghostMode = true;
+                }
+              }
+
+              const handleClick = () => {
+                if (ghostMode) {
+                  const ghostOption = fullOptions.find(
+                    (opt) => opt.id !== "empty"
+                  );
+                  if (ghostOption) {
+                    handleSlotSelection(slot.id, ghostOption.id);
+                  }
+                  return;
+                }
+                if (modalOptions.length === 1) {
+                  handleSlotSelection(slot.id, modalOptions[0].id);
+                  return;
+                }
+                if (
+                  modalOptions.length === 0 &&
+                  fullOptions.length === 1 &&
+                  fullOptions[0].id === "empty"
+                ) {
+                  handleSlotSelection(slot.id, "empty");
+                  return;
+                }
+                if (modalOptions.length > 0) {
+                  setActiveSlot(slot.id);
+                }
+              };
 
               return (
                 <div
@@ -164,11 +249,17 @@ export default function MapPage() {
                     left: leftPos,
                     width: iconScale,
                     height: iconScale,
-                    cursor: modalOptions.length > 0 ? "pointer" : "default",
+                    cursor: "pointer",
                   }}
-                  onClick={() => (modalOptions.length > 0 ? setActiveSlot(slot.id) : null)}
+                  onClick={handleClick}
                 >
-                  <Image src={iconSrc} alt={currentId} width={iconScale} height={iconScale} />
+                  <Image
+                    src={iconSrc}
+                    alt={currentId}
+                    width={iconScale}
+                    height={iconScale}
+                    className={ghostMode ? "ghost-icon" : ""}
+                  />
                 </div>
               );
             })}
@@ -184,20 +275,30 @@ export default function MapPage() {
                 >
                   <div
                     className="items-center justify-center grid gap-4 auto-cols-auto auto-rows-auto"
-                    style={{ gridTemplateColumns: `repeat(${maxColumns}, minmax(0, auto))` }}
+                    style={{
+                      gridTemplateColumns: `repeat(${maxColumns}, minmax(0, auto))`,
+                    }}
                   >
                     {computeOptionsForSlot(activeSlot, true)
                       .sort(
                         (a, b) =>
-                          buildingIconOrder.indexOf(a.id) - buildingIconOrder.indexOf(b.id)
+                          buildingIconOrder.indexOf(a.id) -
+                          buildingIconOrder.indexOf(b.id)
                       )
                       .map((icon) => (
                         <div
                           key={icon.id}
                           className="flex items-center justify-center cursor-pointer hover:opacity-80"
-                          onClick={() => handleSlotSelection(activeSlot, icon.id)}
+                          onClick={() =>
+                            handleSlotSelection(activeSlot, icon.id)
+                          }
                         >
-                          <Image src={icon.src} alt={icon.id} width={iconScale} height={iconScale} />
+                          <Image
+                            src={icon.src}
+                            alt={icon.id}
+                            width={iconScale}
+                            height={iconScale}
+                          />
                         </div>
                       ))}
                   </div>
