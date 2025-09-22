@@ -23,7 +23,8 @@ const THANKS_TIMEOUT = 1;
 
 export default function ResultPage() {
   const router = useRouter();
-  const { id, fromMap: fromMapQuery } = router.query;
+  const { id, fromMap: fromMapQuery, pathLog: pathLogQuery } = router.query;
+
   const { locale, texts, changeLocale, SUPPORTED_LOCALES } = useLocale();
 
   const [debugHover, setDebugHover] = useState(false);
@@ -40,6 +41,17 @@ export default function ResultPage() {
   const idStr = Array.isArray(id) ? id[0] : id ?? "";
   const seed = findSeed(idStr, seedDataRaw as Seed[]);
 
+  const parsedPathLog: (string | number)[] =
+    typeof pathLogQuery === "string"
+      ? (() => {
+          try {
+            return JSON.parse(pathLogQuery);
+          } catch {
+            return [];
+          }
+        })()
+      : [];
+
   useEffect(() => {
     const updateMapSize = () => {
       const headerHeight = 75;
@@ -54,24 +66,32 @@ export default function ResultPage() {
     return () => window.removeEventListener("resize", updateMapSize);
   }, []);
 
-  // Prompt automático
   useEffect(() => {
     if (!showPrompt || hasResponded) return;
+
     let timeLeft = PROMPT_TIMEOUT;
     setProgress(100);
 
     const interval = setInterval(() => {
       timeLeft -= 0.1;
       setProgress((timeLeft / PROMPT_TIMEOUT) * 100);
+
       if (timeLeft <= 0) {
         clearInterval(interval);
         setFadeOut(true);
-        setTimeout(() => handleResponse(true), 500);
+
+        if (!hasResponded) {
+          setHasResponded(true);
+          sendLog(false);
+          setThanksMessage(texts.prompt.thanksNo);
+
+          setTimeout(() => setShowPrompt(false), 1000);
+        }
       }
     }, 100);
 
     return () => clearInterval(interval);
-  }, [showPrompt, hasResponded]);
+  }, [showPrompt, hasResponded, seed, texts.prompt]);
 
   const sendLog = (bugReport: boolean) => {
     if (!seed) return;
@@ -99,19 +119,21 @@ export default function ResultPage() {
         bug_report: bugReport,
         session_duration: sessionDuration,
         additional_info: { map_type: seed.map_type },
+        path_taken: parsedPathLog,
       }),
     }).finally(() => {
       sessionStorage.setItem("sessionStart", Date.now().toString());
     });
 
     if (fromMapQuery) {
-      const { fromMap, ...rest } = router.query;
+      const { fromMap, pathLog, ...rest } = router.query;
       router.replace({ pathname: router.pathname, query: rest }, undefined, { shallow: true });
     }
   };
 
   const handleResponse = (isYes: boolean) => {
-    if (hasResponded || !texts.prompt) return; // ⚠️ Evita erro caso texts.prompt seja undefined
+    if (hasResponded || !texts.prompt) return;
+
     setHasResponded(true);
     sendLog(!isYes);
 
@@ -119,13 +141,20 @@ export default function ResultPage() {
 
     let timeLeft = THANKS_TIMEOUT;
     setThanksProgress(100);
+
     const interval = setInterval(() => {
       timeLeft -= 0.1;
       setThanksProgress((timeLeft / THANKS_TIMEOUT) * 100);
+
       if (timeLeft <= 0) {
         clearInterval(interval);
         setFadeOut(true);
-        setTimeout(() => setShowPrompt(false), 500);
+        setTimeout(() => {
+          setShowPrompt(false);
+          if (!isYes && seed) {
+            router.push(`/map?type=${encodeURIComponent(seed.map_type)}`);
+          }
+        }, 1000);
       }
     }, 100);
   };
@@ -139,13 +168,15 @@ export default function ResultPage() {
   };
 
   const overlays = coords
-    .map((c) => {
+    .map((c, index) => {
       const src = getIconSrcForSlot(c.id, seed);
-      return src ? { id: c.id, x: c.x, y: c.y, src } : null;
+      return src ? { id: c.id, x: c.x, y: c.y, src, number: index + 1 } : null;
     })
-    .filter(Boolean) as { id: string; x: number; y: number; src: string }[];
+    .filter(Boolean) as { id: string; x: number; y: number; src: string; number: number }[];
 
-  const eventOverlay = seed?.Event ? { id: "event", x: 910, y: 905, src: Events[seed.Event] } : null;
+  const eventOverlay = seed?.Event
+    ? { id: "event", x: 910, y: 905, src: Events[seed.Event] }
+    : null;
 
   if (!texts.header || !texts.prompt) return null;
 
@@ -166,7 +197,9 @@ export default function ResultPage() {
           </button>
 
           <p className="absolute inset-x-0 text-center text-sm text-gray-200">
-            {texts.header.seedLabel} <span className="font-semibold">{seed ? seed.seed_id : idStr}</span>. {texts.header.sourceLabel}:{" "}
+            {texts.header.seedLabel}{" "}
+            <span className="font-semibold">{seed ? seed.seed_id : idStr}</span>.{" "}
+            {texts.header.sourceLabel}:{" "}
             <a
               href="https://thefifthmatt.github.io/nightreign/"
               className="underline pointer-events-auto"
@@ -219,10 +252,11 @@ export default function ResultPage() {
                 return (
                   <div
                     key={ov.id}
-                    className="overlay-icon overlay-icon-shadow"
+                    className="overlay-icon overlay-icon-shadow relative"
                     style={{ top: topPos, left: leftPos, width: iconScale, height: iconScale }}
                   >
                     <Image src={ov.src} alt={ov.id} width={iconScale} height={iconScale} />
+                    <span className="slot-number">{ov.number}</span>
                   </div>
                 );
               })}
@@ -238,7 +272,12 @@ export default function ResultPage() {
                   height: iconScale * 2,
                 }}
               >
-                <Image src={eventOverlay.src} alt="Event" width={iconScale * 2} height={iconScale * 2} />
+                <Image
+                  src={eventOverlay.src}
+                  alt="Event"
+                  width={iconScale * 2}
+                  height={iconScale * 2}
+                />
               </div>
             )}
           </div>

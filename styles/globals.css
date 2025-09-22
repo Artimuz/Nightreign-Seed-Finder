@@ -91,7 +91,7 @@ body {
   }
 }
 
-/* leve distorção como calor */
+
 @keyframes heatDistortion {
   0%   { transform: translateY(0px) skewX(0deg); }
   25%  { transform: translateY(-0.5px) skewX(1deg); }
@@ -103,7 +103,7 @@ body {
 .feedback-box {
   position: absolute;
   bottom: 2rem;
-  background-color: rgba(17, 17, 17, 0.9); /* bg-gray-900 + opacity */
+  background-color: rgba(17, 17, 17, 0.9);
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
@@ -112,7 +112,19 @@ body {
   flex-direction: column;
   align-items: center;
   width: 90%;
-  max-width: 28rem; /* max-w-md */
+  max-width: 28rem;
   min-height: 110px;
   transition: opacity 0.5s ease-in-out;
+}
+
+.slot-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 2px black, -2px -2px 2px black, 2px -2px 2px black, -2px 2px 2px black;
+  pointer-events: none;
 }
