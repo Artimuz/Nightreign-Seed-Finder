@@ -9,10 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { seed_id, timezone, bug_report, session_duration, additional_info } = req.body;
 
-    // Log para verificar o payload
-    console.log('Incoming payload:', req.body);
+    // console.log('Incoming payload:', req.body);
 
-    // Garante que session_duration seja um número inteiro
     const sessionDurationInt = Number(session_duration) || 0;
 
     const { data, error } = await supabase.from('seedfinder_logs').insert([

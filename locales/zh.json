@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "新地图",
+    "changeMapButton": "更改地图",
+    "mapQuestion": "你的地图长什么样？",
+    "seedsRemaining": "剩余种子",
+    "seedLabel": "种子",
+    "sourceLabel": "来源",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "悬停以显示调试覆盖",
+    "mapTitle": "Nightreign 种子查找器"
+  },
+  "prompt": {
+    "question": "这是你需要的地图吗？",
+    "yesButton": "是",
+    "noButton": "否",
+    "thanksYes": "谢谢！",
+    "thanksNo": "谢谢！我会处理的。"
+  },
+  "footer": {
+    "githubRepository": "GitHub 仓库"
+  }
+}

@@ -1,7 +1,9 @@
-
 import React from "react";
+import { useLocale } from "@/hooks/LocaleContext";
 
 export default function Footer() {
+  const { texts } = useLocale();
+
   return (
     <footer className="w-full bg-gray-900 text-gray-300 text-sm py-4 flex justify-center items-center">
       <p>
@@ -11,7 +13,7 @@ export default function Footer() {
           rel="noopener noreferrer"
           className="underline hover:text-white"
         >
-          GitHub Repository
+          {texts.footer.githubRepository}
         </a>
       </p>
     </footer>

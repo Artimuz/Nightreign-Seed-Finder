@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "New Map",
+    "changeMapButton": "Change Map",
+    "mapQuestion": "How does your map look like?",
+    "seedsRemaining": "Seeds Remaining",
+    "seedLabel": "Seed",
+    "sourceLabel": "Source",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "Hover to show debug overlay",
+    "mapTitle": "Nightreign Seed Finder"
+  },
+  "prompt": {
+    "question": "Is it the map you needed?",
+    "yesButton": "Yes",
+    "noButton": "No",
+    "thanksYes": "Thank you!",
+    "thanksNo": "Thank you! I will work on it."
+  },
+  "footer": {
+    "githubRepository": "GitHub Repository"
+  }
+}

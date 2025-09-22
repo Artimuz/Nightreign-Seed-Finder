@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "خريطة جديدة",
+    "changeMapButton": "تغيير الخريطة",
+    "mapQuestion": "كيف تبدو خريطتك؟",
+    "seedsRemaining": "البذور المتبقية",
+    "seedLabel": "البذرة",
+    "sourceLabel": "المصدر",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "مرّر لإظهار تراكب التصحيح",
+    "mapTitle": "محدد بذور نايت رين"
+  },
+  "prompt": {
+    "question": "هل هذه هي الخريطة التي تحتاجها؟",
+    "yesButton": "نعم",
+    "noButton": "لا",
+    "thanksYes": "شكراً لك!",
+    "thanksNo": "شكراً! سأعمل على ذلك."
+  },
+  "footer": {
+    "githubRepository": "مستودع GitHub"
+  }
+}

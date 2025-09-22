@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "Nowa mapa",
+    "changeMapButton": "Zmień mapę",
+    "mapQuestion": "Jak wygląda twoja mapa?",
+    "seedsRemaining": "Pozostałe nasiona",
+    "seedLabel": "Nasiono",
+    "sourceLabel": "Źródło",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "Najedź, aby pokazać nakładkę debugowania",
+    "mapTitle": "Wyszukiwarka nasion Nightreign"
+  },
+  "prompt": {
+    "question": "Czy to mapa, której potrzebowałeś?",
+    "yesButton": "Tak",
+    "noButton": "Nie",
+    "thanksYes": "Dziękuję!",
+    "thanksNo": "Dziękuję! Pracuję nad tym."
+  },
+  "footer": {
+    "githubRepository": "Repozytorium GitHub"
+  }
+}

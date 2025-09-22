@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "Nuevo Mapa",
+    "changeMapButton": "Cambiar Mapa",
+    "mapQuestion": "¿Cómo se ve tu mapa?",
+    "seedsRemaining": "Semillas Restantes",
+    "seedLabel": "Semilla",
+    "sourceLabel": "Fuente",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "Pasa el mouse para mostrar la superposición de depuración",
+    "mapTitle": "Buscador de Semillas de Nightreign"
+  },
+  "prompt": {
+    "question": "¿Es el mapa que necesitabas?",
+    "yesButton": "Sí",
+    "noButton": "No",
+    "thanksYes": "¡Gracias!",
+    "thanksNo": "¡Gracias! Trabajaré en ello."
+  },
+  "footer": {
+    "githubRepository": "Repositorio GitHub"
+  }
+}

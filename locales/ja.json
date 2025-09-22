@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "新しいマップ",
+    "changeMapButton": "マップを変更",
+    "mapQuestion": "あなたのマップはどのように見えますか？",
+    "seedsRemaining": "残りのシード",
+    "seedLabel": "シード",
+    "sourceLabel": "ソース",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "デバッグオーバーレイを表示するにはホバーしてください",
+    "mapTitle": "ナイトレインシードファインダー"
+  },
+  "prompt": {
+    "question": "これは必要なマップですか？",
+    "yesButton": "はい",
+    "noButton": "いいえ",
+    "thanksYes": "ありがとうございます！",
+    "thanksNo": "ありがとうございます！作業します。"
+  },
+  "footer": {
+    "githubRepository": "GitHubリポジトリ"
+  }
+}

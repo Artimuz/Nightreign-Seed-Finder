@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "새 지도",
+    "changeMapButton": "지도 변경",
+    "mapQuestion": "지도는 어떻게 생겼나요?",
+    "seedsRemaining": "남은 시드",
+    "seedLabel": "시드",
+    "sourceLabel": "출처",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "디버그 오버레이 표시하려면 마우스를 올리세요",
+    "mapTitle": "나이트레인 시드 찾기"
+  },
+  "prompt": {
+    "question": "필요한 지도인가요?",
+    "yesButton": "예",
+    "noButton": "아니요",
+    "thanksYes": "감사합니다!",
+    "thanksNo": "감사합니다! 작업하겠습니다."
+  },
+  "footer": {
+    "githubRepository": "GitHub 저장소"
+  }
+}

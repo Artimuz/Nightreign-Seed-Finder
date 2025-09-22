@@ -1,0 +1,23 @@
+{
+  "header": {
+    "newMapButton": "Новая карта",
+    "changeMapButton": "Сменить карту",
+    "mapQuestion": "Как выглядит ваша карта?",
+    "seedsRemaining": "Оставшиеся семена",
+    "seedLabel": "Семя",
+    "sourceLabel": "Источник",
+    "sourceLink": "thefifthmatt",
+    "debugButton": "Наведите, чтобы показать отладку",
+    "mapTitle": "Найденные семена Nightreign"
+  },
+  "prompt": {
+    "question": "Это нужная вам карта?",
+    "yesButton": "Да",
+    "noButton": "Нет",
+    "thanksYes": "Спасибо!",
+    "thanksNo": "Спасибо! Я над этим поработаю."
+  },
+  "footer": {
+    "githubRepository": "GitHub репозиторий"
+  }
+}
