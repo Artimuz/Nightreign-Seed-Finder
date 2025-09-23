@@ -1,4 +1,3 @@
-
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
@@ -34,15 +33,17 @@ export default function ResultPage() {
     typeof pathLogQuery === "string"
       ? (() => {
           try {
-            return JSON.parse(pathLogQuery);
+            const arr = JSON.parse(pathLogQuery);
+            return Array.isArray(arr) ? arr : [];
           } catch {
             return [];
           }
         })()
       : [];
 
-  // Only show prompt if parsedPathLog is not null/empty
-  const shouldShowPrompt = parsedPathLog && Array.isArray(parsedPathLog) && parsedPathLog.length > 0;
+  // Only allow debug overlay if pathLogQuery is invalid on first load
+  const [isDebugAllowed] = useState(() => !parsedPathLog || parsedPathLog.length === 0);
+  const shouldShowPrompt = !(!parsedPathLog || parsedPathLog.length === 0);
   const [showPrompt, setShowPrompt] = useState(shouldShowPrompt);
   const [debugHover, setDebugHover] = useState(false);
   const [mapDisplaySize, setMapDisplaySize] = useState(MAP_ORIGINAL_SIZE);
@@ -212,29 +213,32 @@ export default function ResultPage() {
             </a>
           </p>
 
-          <button
-            aria-label={texts.header.debugButton}
-            title={texts.header.debugButton}
-            onMouseEnter={() => setDebugHover(true)}
-            onMouseLeave={() => setDebugHover(false)}
-            onFocus={() => setDebugHover(true)}
-            onBlur={() => setDebugHover(false)}
-            className="ml-auto w-9 h-9 rounded-full bg-gray-700 text-white flex items-center justify-center text-lg font-bold hover:bg-gray-600 z-10"
-          >
-            ?
-          </button>
-
-          <select
-            value={locale}
-            onChange={(e) => changeLocale(e.target.value)}
-            className="ml-2 bg-gray-700 text-white px-2 py-1 rounded z-10"
-          >
-            {Object.entries(SUPPORTED_LOCALES).map(([code, name]) => (
-              <option key={code} value={code}>
-                {String(name)}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2 ml-auto">
+            {isDebugAllowed && (
+              <button
+                aria-label={texts.header.debugButton}
+                title={texts.header.debugButton}
+                onMouseEnter={() => setDebugHover(true)}
+                onMouseLeave={() => setDebugHover(false)}
+                onFocus={() => setDebugHover(true)}
+                onBlur={() => setDebugHover(false)}
+                className="w-9 h-9 rounded-full bg-gray-700 text-white flex items-center justify-center text-lg font-bold hover:bg-gray-600 z-10"
+              >
+                ?
+              </button>
+            )}
+            <select
+              value={locale}
+              onChange={(e) => changeLocale(e.target.value)}
+              className="bg-gray-700 text-white px-2 py-1 rounded z-10"
+            >
+              {Object.entries(SUPPORTED_LOCALES).map(([code, name]) => (
+                <option key={code} value={code}>
+                  {String(name)}
+                </option>
+              ))}
+            </select>
+          </div>
         </header>
 
         <main className="flex-1 flex flex-col items-center justify-center p-6 w-full relative">
@@ -247,7 +251,7 @@ export default function ResultPage() {
               style={{ display: "block", width: "100%", height: "100%" }}
             />
 
-            {debugHover &&
+            {isDebugAllowed && debugHover &&
               overlays.map((ov) => {
                 const topPos = (ov.y / MAP_ORIGINAL_SIZE) * mapDisplaySize;
                 const leftPos = (ov.x / MAP_ORIGINAL_SIZE) * mapDisplaySize;
