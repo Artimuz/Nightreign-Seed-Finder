@@ -1,8 +1,8 @@
+
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-
 import coordsData from "../../data/coordsXY.json";
 import seedDataRaw from "../../data/seed_data.json";
 import { Seed, SlotId } from "../../types";
@@ -27,17 +27,6 @@ export default function ResultPage() {
 
   const { locale, texts, changeLocale, SUPPORTED_LOCALES } = useLocale();
 
-  const [debugHover, setDebugHover] = useState(false);
-  const [mapDisplaySize, setMapDisplaySize] = useState(MAP_ORIGINAL_SIZE);
-  const [iconScale, setIconScale] = useState(MAP_ORIGINAL_SIZE * ICON_SCALE_RATIO);
-
-  const [showPrompt, setShowPrompt] = useState(true);
-  const [progress, setProgress] = useState(100);
-  const [thanksProgress, setThanksProgress] = useState(100);
-  const [hasResponded, setHasResponded] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
-  const [thanksMessage, setThanksMessage] = useState<string | null>(null);
-
   const idStr = Array.isArray(id) ? id[0] : id ?? "";
   const seed = findSeed(idStr, seedDataRaw as Seed[]);
 
@@ -51,6 +40,18 @@ export default function ResultPage() {
           }
         })()
       : [];
+
+  // Only show prompt if parsedPathLog is not null/empty
+  const shouldShowPrompt = parsedPathLog && Array.isArray(parsedPathLog) && parsedPathLog.length > 0;
+  const [showPrompt, setShowPrompt] = useState(shouldShowPrompt);
+  const [debugHover, setDebugHover] = useState(false);
+  const [mapDisplaySize, setMapDisplaySize] = useState(MAP_ORIGINAL_SIZE);
+  const [iconScale, setIconScale] = useState(MAP_ORIGINAL_SIZE * ICON_SCALE_RATIO);
+  const [progress, setProgress] = useState(100);
+  const [thanksProgress, setThanksProgress] = useState(100);
+  const [hasResponded, setHasResponded] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [thanksMessage, setThanksMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const updateMapSize = () => {
@@ -95,6 +96,7 @@ export default function ResultPage() {
 
   const sendLog = (bugReport: boolean) => {
     if (!seed) return;
+    if (!parsedPathLog || !Array.isArray(parsedPathLog) || parsedPathLog.length === 0) return;
 
     let sessionStart = sessionStorage.getItem("sessionStart");
     if (!sessionStart) {
