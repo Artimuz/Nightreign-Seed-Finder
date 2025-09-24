@@ -41,7 +41,6 @@ export default function ResultPage() {
         })()
       : [];
 
-  // Only allow debug overlay if pathLogQuery is invalid on first load
   const [isDebugAllowed] = useState(() => !parsedPathLog || parsedPathLog.length === 0);
   const shouldShowPrompt = !(!parsedPathLog || parsedPathLog.length === 0);
   const [showPrompt, setShowPrompt] = useState(shouldShowPrompt);

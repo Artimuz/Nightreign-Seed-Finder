@@ -1,5 +1,7 @@
+
 @import "tailwindcss";
 
+/* Theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,12 +19,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Icon image utility */
 .icon-img {
-  object-fit: contain; 
-  transform: scale(0.95);   
+  object-fit: contain;
+  transform: scale(0.95);
   display: block;
 }
 
+/* Fade in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -33,11 +38,11 @@ body {
     transform: scale(1);
   }
 }
-
 .animate-fadeIn {
   animation: fadeIn 0.15s ease-out forwards;
 }
 
+/* Overlay icons */
 .overlay-icon {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -46,23 +51,21 @@ body {
   align-items: center;
   justify-content: center;
 }
-
 .overlay-icon-shadow {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
   z-index: 60;
 }
-
 .event-icon-shadow {
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
   z-index: 70;
 }
 
+/* Ghost icon effect */
 .ghost-icon {
   opacity: 1;
   filter: hue-rotate(160deg) saturate(180%) brightness(1.2) blur(1px);
-  animation: ghosty 5.5s ease-in-out infinite,  heatDistortion 6s ease-in-out infinite;
+  animation: ghosty 5.5s ease-in-out infinite, heatDistortion 6s ease-in-out infinite;
 }
-
 @keyframes ghosty {
   0% {
     opacity: 7;
@@ -90,8 +93,6 @@ body {
     transform: scale(1);
   }
 }
-
-
 @keyframes heatDistortion {
   0%   { transform: translateY(0px) skewX(0deg); }
   25%  { transform: translateY(-0.5px) skewX(1deg); }
@@ -100,6 +101,7 @@ body {
   100% { transform: translateY(0px) skewX(0deg); }
 }
 
+/* Feedback box styling */
 .feedback-box {
   position: absolute;
   bottom: 2rem;
@@ -117,6 +119,7 @@ body {
   transition: opacity 0.5s ease-in-out;
 }
 
+/* Overlay slot number styling */
 .slot-number {
   position: absolute;
   top: 50%;
