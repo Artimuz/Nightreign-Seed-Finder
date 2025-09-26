@@ -1,7 +1,6 @@
 
 @import "tailwindcss";
 
-/* Theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -20,14 +19,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Icon image utility */
 .icon-img {
   object-fit: contain;
   transform: scale(0.95);
   display: block;
 }
 
-/* Fade in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -42,7 +39,6 @@ body {
   animation: fadeIn 0.15s ease-out forwards;
 }
 
-/* Overlay icons */
 .overlay-icon {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -60,36 +56,34 @@ body {
   z-index: 70;
 }
 
-/* Ghost icon effect */
 .ghost-icon {
   opacity: 1;
   filter: hue-rotate(160deg) saturate(180%) brightness(1.2) blur(1px);
-  animation: ghosty 5.5s ease-in-out infinite, heatDistortion 6s ease-in-out infinite;
+  animation: ghosty 7.5s ease-in-out infinite, heatDistortion 8s ease-in-out infinite;
 }
 @keyframes ghosty {
   0% {
-    opacity: 7;
-    filter: hue-rotate(160deg) saturate(200%) brightness(1.8) blur(0.8px);
-    transform: scale(1);
+    opacity: 0.6;
+    filter: hue-rotate(160deg) saturate(200%) brightness(2.5) blur(0.8px) drop-shadow(0 6px 18px rgb(255, 144, 18));
   }
-  10% {
-    opacity: 8;
-    filter: hue-rotate(160deg) saturate(200%) brightness(1.6) blur(0.7px);
+  5% {
+    opacity: 0.7;
+    filter: hue-rotate(160deg) saturate(200%) brightness(2.6) blur(0.7px) drop-shadow(0 2px 8px rgb(255, 144, 18));
     transform: scale(1.1);
   }
   50% {
-    opacity: 8;
-    filter: hue-rotate(180deg) saturate(200%) brightness(1.8) blur(0px);
+    opacity: 0.9;
+    filter: hue-rotate(180deg) saturate(200%) brightness(2.0) blur(0.1px) drop-shadow(0 0px 5px rgb(255, 54, 18));
     transform: scale(1.1);
   }
-  90% {
-    opacity: 8;
-    filter: hue-rotate(160deg) saturate(200%) brightness(1.6) blur(0.7px);
+  95% {
+    opacity: 0.7;
+    filter: hue-rotate(160deg) saturate(200%) brightness(2.6) blur(0.7px) drop-shadow(0 2px 8px rgb(255, 144, 18));
     transform: scale(1.1);
   }
   100% {
-    opacity: 7;
-    filter: hue-rotate(160deg) saturate(200%) brightness(1.8) blur(0.8px);
+    opacity: 0.6;
+    filter: hue-rotate(160deg) saturate(200%) brightness(2.5) blur(0.8px) drop-shadow(0 6px 18px rgb(255, 144, 18));
     transform: scale(1);
   }
 }
@@ -101,7 +95,6 @@ body {
   100% { transform: translateY(0px) skewX(0deg); }
 }
 
-/* Feedback box styling */
 .feedback-box {
   position: absolute;
   bottom: 2rem;
@@ -119,7 +112,6 @@ body {
   transition: opacity 0.5s ease-in-out;
 }
 
-/* Overlay slot number styling */
 .slot-number {
   position: absolute;
   top: 50%;
