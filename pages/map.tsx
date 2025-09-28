@@ -42,7 +42,6 @@ export default function MapPage() {
 
   const [pathLog, setPathLog] = useState<(string | number)[]>([]);
 
-
   useEffect(() => {
     const allSeeds = seedDataRaw as Seed[];
     if (type) {
@@ -125,7 +124,6 @@ export default function MapPage() {
     let updatedLog: (string | number)[] = [...pathLog];
 
     if (iconId === "empty") {
-
       updatedLog = updatedLog.filter(
         (entry) =>
           entry !== Number(slotId) &&
@@ -306,12 +304,13 @@ export default function MapPage() {
                   }}
                   onClick={handleClick}
                 >
-                  <Image
+                  <img
                     src={iconSrc}
                     alt={currentId}
                     width={iconScale}
                     height={iconScale}
                     className={ghostMode ? "ghost-icon" : ""}
+                    loading="lazy"
                   />
                 </div>
               );
@@ -346,11 +345,12 @@ export default function MapPage() {
                             handleSlotSelection(activeSlot, icon.id)
                           }
                         >
-                          <Image
+                          <img
                             src={icon.src}
                             alt={icon.id}
                             width={iconScale}
                             height={iconScale}
+                            loading="lazy"
                           />
                         </div>
                       ))}
