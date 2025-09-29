@@ -17,7 +17,7 @@ import Footer from "../../components/footer";
 import useLocale from "@/hooks/useLocale";
 
 const coords = coordsData as { id: string; x: number; y: number }[];
-const PROMPT_TIMEOUT = 15;
+const PROMPT_TIMEOUT = 5;
 const THANKS_TIMEOUT = 1;
 
 export default function ResultPage() {

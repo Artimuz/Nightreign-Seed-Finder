@@ -58,32 +58,32 @@ body {
 
 .ghost-icon {
   opacity: 1;
-  filter: hue-rotate(160deg) saturate(180%) brightness(1.2) blur(1px);
-  animation: ghosty 7.5s ease-in-out infinite, heatDistortion 8s ease-in-out infinite;
+  filter:  brightness(1.2) blur(1px);
+  animation: ghosty 4.5s ease-in-out infinite, heatDistortion 8s ease-in-out infinite;
 }
 @keyframes ghosty {
   0% {
-    opacity: 0.6;
-    filter: hue-rotate(160deg) saturate(200%) brightness(2.5) blur(0.8px) drop-shadow(0 6px 18px rgb(255, 144, 18));
+    opacity: 0.5;
+    filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
   }
-  5% {
-    opacity: 0.7;
-    filter: hue-rotate(160deg) saturate(200%) brightness(2.6) blur(0.7px) drop-shadow(0 2px 8px rgb(255, 93, 18));
+  35% {
+    opacity: 0.55;
+    filter: saturate(10%) brightness(2.3) blur(0.35px) drop-shadow(0 6px 18px rgb(3, 95, 231));
     transform: scale(1.1);
   }
   50% {
-    opacity: 0.9;
-    filter: hue-rotate(180deg) saturate(200%) brightness(2.0) blur(0.1px) drop-shadow(0 0px 5px rgb(255, 54, 18));
+    opacity: 0.8;
+    filter: saturate(5%) brightness(2.5) blur(0.2px) drop-shadow(0 6px 18px rgb(25, 110, 236));
     transform: scale(1.1);
   }
-  95% {
-    opacity: 0.7;
-    filter: hue-rotate(160deg) saturate(200%) brightness(2.6) blur(0.7px) drop-shadow(0 2px 8px rgb(255, 93, 18));
+  65% {
+    opacity: 0.55;
+    filter: saturate(10%) brightness(2.3) blur(0.35px) drop-shadow(0 6px 18px rgb(3, 95, 231));
     transform: scale(1.1);
   }
   100% {
-    opacity: 0.6;
-    filter: hue-rotate(160deg) saturate(200%) brightness(2.5) blur(0.8px) drop-shadow(0 6px 18px rgb(255, 144, 18));
+    opacity: 0.5;
+    filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
     transform: scale(1);
   }
 }
