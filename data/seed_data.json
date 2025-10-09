@@ -7877,7 +7877,7 @@
 {
   "seed_id": "225",
   "map_type": "Crater",
-  "Event": "",
+  "Event": "libracurse",
 	"nightlord": "6_Fulghor",
   "slots": {
     "01": "",
