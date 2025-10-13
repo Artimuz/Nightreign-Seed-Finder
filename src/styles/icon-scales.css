@@ -1,0 +1,96 @@
+
+.ghost-icon {
+  opacity: 1;
+  filter: brightness(1.2) blur(1px);
+  animation: ghosty 4.5s ease-in-out infinite, heatDistortion 8s ease-in-out infinite;
+}
+@keyframes ghosty {
+  0% {
+    opacity: 0.67;
+    filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
+    transform: scale(1);
+  }
+  35% {
+    opacity: 0.85;
+    filter: saturate(10%) brightness(2.3) blur(0.35px) drop-shadow(0 6px 18px rgb(3, 95, 231));
+    transform: scale(1.1);
+  }
+  50% {
+    opacity: 0.80;
+    filter: saturate(5%) brightness(2.5) blur(0.2px) drop-shadow(0 6px 18px rgb(25, 110, 236));
+    transform: scale(1.1);
+  }
+  65% {
+    opacity: 0.85;
+    filter: saturate(10%) brightness(2.3) blur(0.35px) drop-shadow(0 6px 18px rgb(3, 95, 231));
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.67;
+    filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
+    transform: scale(1);
+  }
+}
+@keyframes heatDistortion {
+  0%   { transform: translateY(0px) skewX(0deg); }
+  25%  { transform: translateY(-0.5px) skewX(1deg); }
+  50%  { transform: translateY(0.5px) skewX(-1deg); }
+  75%  { transform: translateY(-0.5px) skewX(0.5deg); }
+  100% { transform: translateY(0px) skewX(0deg); }
+}
+.scale-controllers {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  background: rgba(30, 41, 59, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 1000;
+  min-width: 200px;
+}
+.scale-controller {
+  margin-bottom: 12px;
+}
+.scale-controller:last-child {
+  margin-bottom: 0;
+}
+.scale-controller label {
+  display: block;
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.scale-controller input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: #475569;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.scale-controller input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.scale-controller input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+.scale-value {
+  color: #94a3b8;
+  font-size: 11px;
+  text-align: right;
+}

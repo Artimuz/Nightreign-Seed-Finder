@@ -1,0 +1,11 @@
+
+:root {
+  --video-hue: 0deg;
+  --video-saturation: 20%;
+  --video-brightness: 50%;
+  --image-hue: 0deg;
+  --image-saturation: 20%;
+  --image-brightness: 50%;
+  --video-bg-filter: hue-rotate(var(--video-hue)) saturate(var(--video-saturation)) brightness(var(--video-brightness));
+  --image-bg-filter: hue-rotate(var(--image-hue)) saturate(var(--image-saturation)) brightness(var(--image-brightness));
+}

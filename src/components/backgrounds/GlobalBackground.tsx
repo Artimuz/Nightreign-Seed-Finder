@@ -1,0 +1,76 @@
+'use client'
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+export const GlobalBackground: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
+  
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+  
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.addEventListener('loadedmetadata', handleVideoLoad);
+      video.addEventListener('canplay', handleVideoLoad);
+      if (video.readyState >= 2) {
+        handleVideoLoad();
+      }
+    }
+    return () => {
+      if (video) {
+        video.removeEventListener('loadedmetadata', handleVideoLoad);
+        video.removeEventListener('canplay', handleVideoLoad);
+      }
+    };
+  }, []);
+  
+  useEffect(() => {
+    // Force image to show after a short delay regardless of video state
+    const timer = setTimeout(() => {
+      setImageLoaded(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <div className="global-background">
+      {}
+      <div className="global-background-black" />
+      {}
+      <div className="global-background-gradient" />
+      {}
+      <video
+        ref={videoRef}
+        className={`global-background-video ${videoLoaded ? 'loaded' : 'loading'}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/Images/Top.BG.webm" type="video/webm" />
+      </video>
+      {}
+      <div className={`global-background-image bg-image-2 ${imageLoaded ? 'loaded' : 'loading'}`}>
+        <Image
+          src="/Images/BG2.webp"
+          alt=""
+          fill
+          priority
+          onLoad={handleImageLoad}
+          sizes="100vw"
+          style={{ 
+            objectFit: 'cover',
+            objectPosition: 'center'
+          }}
+        />
+      </div>
+    </div>
+  );
+};
