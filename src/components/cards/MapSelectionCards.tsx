@@ -45,12 +45,12 @@ export const MapSelectionCards: React.FC = () => {
       >
         {}
         <motion.div
-          className="text-center mb-2"
+          className="text-center"
           variants={titleVariants}
         >
           {}
           <div className="flex justify-center">
-            <div className="w-full max-w-md mx-auto">
+            <div className="w-full max-w-lg mx-auto">
               <Image
                 src="/Images/Title_n.webp"
                 alt="NIGHTREIGN"
@@ -58,12 +58,12 @@ export const MapSelectionCards: React.FC = () => {
                 height={160}
                 priority
                 className="w-full h-auto object-contain"
-                sizes="(max-width: 768px) 300px, 400px"
+                sizes="(max-width: 768px) 350px, 500px"
               />
             </div>
           </div>
           {}
-          <h1 className="text-2xl md:text-4xl font-bold font-mantinia text-white mb-16 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent text-outlined -mt-8 md:-mt-12 seed-finder-glow">
+          <h1 className="text-2xl md:text-4xl font-bold font-mantinia text-white mb-8 -mt-8 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent text-outlined seed-finder-glow">
             SEED FINDER
           </h1>
         </motion.div>
