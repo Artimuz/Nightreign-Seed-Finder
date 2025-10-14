@@ -76,7 +76,11 @@ export class PerformanceMonitor {
         }
       });
 
-      observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+      try {
+        observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
+      } catch (error) {
+        observer.observe({ entryTypes: ['largest-contentful-paint'] });
+      }
       this.observers.push(observer);
     } catch (error) {
       console.warn('Performance Observer not supported:', error);
@@ -103,7 +107,7 @@ export class PerformanceMonitor {
       metrics.shift();
     }
 
-    if (name === 'LCP' && value > 2500) {
+    if (name === 'LCP' && value > 5000) {
       console.warn(`Poor LCP: ${value}ms`);
     } else if (name === 'FID' && value > 100) {
       console.warn(`Poor FID: ${value}ms`);

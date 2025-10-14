@@ -138,14 +138,16 @@ export const IconImage: React.FC<{
   src: string;
   alt: string;
   size?: number;
-}> = ({ src, alt, size = 64 }) => (
+  priority?: boolean;
+}> = ({ src, alt, size = 64, priority = false }) => (
   <OptimizedImage
     src={src}
     alt={alt}
     width={size}
     height={size}
     sizes={`${size}px`}
-    quality={80}
-    loading="lazy"
+    quality={75}
+    priority={priority}
+    loading={priority ? "eager" : "lazy"}
   />
 );

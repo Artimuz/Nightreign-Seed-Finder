@@ -28,13 +28,16 @@ export const getOptimalImageSize = (
 export const preloadCriticalImages = (imageSrcs: string[]) => {
   if (typeof window === 'undefined') return;
   
-  imageSrcs.forEach(src => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = src;
-    document.head.appendChild(link);
-  });
+  setTimeout(() => {
+    imageSrcs.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.type = 'image/webp';
+      link.href = src;
+      document.head.appendChild(link);
+    });
+  }, 500);
 };
 
 export const createBlurDataURL = (width: number = 8, height: number = 8): string => {

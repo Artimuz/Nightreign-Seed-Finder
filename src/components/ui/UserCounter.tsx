@@ -22,6 +22,7 @@ export default function UserCounter() {
             src="/Images/viewIcon.webp"
             alt="Active users"
             size={16}
+            priority
           />
           <span className="text-sm text-gray-300 font-medium">
             {totalUsers}

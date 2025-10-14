@@ -50,15 +50,17 @@ export const MapSelectionCards: React.FC = () => {
         >
           {}
           <div className="flex justify-center">
-            <Image
-              src="/Images/Title_n.webp"
-              alt="NIGHTREIGN"
-              width={400}
-              height={160}
-              priority
-              className="h-40 md:h-46 w-auto object-contain"
-              sizes="(max-width: 768px) 300px, 400px"
-            />
+            <div className="w-full max-w-md mx-auto">
+              <Image
+                src="/Images/Title_n.webp"
+                alt="NIGHTREIGN"
+                width={400}
+                height={160}
+                priority
+                className="w-full h-auto object-contain"
+                sizes="(max-width: 768px) 300px, 400px"
+              />
+            </div>
           </div>
           {}
           <h1 className="text-2xl md:text-4xl font-bold font-mantinia text-white mb-16 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent text-outlined -mt-8 md:-mt-12 seed-finder-glow">
