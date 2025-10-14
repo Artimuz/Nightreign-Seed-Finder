@@ -17,9 +17,39 @@ const containerVariants = {
   visible: { 
     opacity: 1,
     transition: { 
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
+
+const mapVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+const eventVariants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 2,
+    y: -200
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      delay: 1.2,
       type: "spring",
       stiffness: 300,
-      damping: 30
+      damping: 20,
+      duration: 1.0
     }
   }
 };
@@ -66,10 +96,12 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ seedId }) => {
       animate="visible"
     >
       <div className="relative">
-        {/* Seed Pattern Image - 1000px same as game map */}
-        <div 
+        <motion.div 
           className="relative mx-auto"
           style={{ width: mapSize, height: mapSize }}
+          variants={mapVariants}
+          initial="hidden"
+          animate="visible"
         >
           <Image
             src={seedImageUrl}
@@ -81,20 +113,22 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ seedId }) => {
             priority
           />
             
-          {/* Event Overlay - positioned and sized proportionally (20% of map size) */}
           {seed.Event && Events[seed.Event] && (
             (() => {
-              const eventIconSize = Math.round(mapSize * 0.16); // Always 20% of map size
+              const eventIconSize = Math.round(mapSize * 0.16);
               const halfIconSize = eventIconSize / 2;
               return (
-                <div
+                <motion.div
                   className="absolute"
                   style={{
-                    top: (905 / 1000) * mapSize - halfIconSize, // Scale position and centering proportionally
-                    left: (910 / 1000) * mapSize - halfIconSize, // Scale position and centering proportionally
+                    top: (905 / 1000) * mapSize - halfIconSize,
+                    left: (910 / 1000) * mapSize - halfIconSize,
                     width: `${eventIconSize}px`,
                     height: `${eventIconSize}px`
                   }}
+                  variants={eventVariants}
+                  initial="hidden"
+                  animate="visible"
                 >
                   <Image
                     src={Events[seed.Event]}
@@ -104,11 +138,11 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ seedId }) => {
                     className="object-contain drop-shadow-lg"
                     sizes={`${eventIconSize}px`}
                   />
-                </div>
+                </motion.div>
               );
             })()
           )}
-        </div>
+        </motion.div>
         
       </div>
     </motion.div>

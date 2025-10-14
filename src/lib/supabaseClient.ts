@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { getEnvironmentConfig } from '@/lib/config/environment';
 
 interface MockQueryBuilder {
   upsert: (data: Record<string, unknown>, options?: Record<string, unknown>) => Promise<{ data: null; error: null }>;
@@ -25,19 +26,56 @@ interface MockSubscription {
   subscribe: () => string;
 }
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
 let supabase: SupabaseClient | MockSupabaseClient;
 
-if (supabaseUrl && supabaseAnonKey) {
-  supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
-} else {
+try {
+  const config = getEnvironmentConfig();
+  const supabaseUrl = config.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = config.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (supabaseUrl && supabaseAnonKey && supabaseUrl !== 'your_supabase_url_here' && supabaseAnonKey !== 'your_supabase_anon_key_here') {
+    supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+      global: {
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+          'X-Client-Info': 'nightreign-seed-finder@1.0.0',
+        },
+        fetch: (url, options = {}) => {
+          return fetch(url, {
+            ...options,
+            mode: 'cors',
+            credentials: 'omit',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': supabaseAnonKey,
+              'Authorization': `Bearer ${supabaseAnonKey}`,
+              'X-Client-Info': 'nightreign-seed-finder@1.0.0',
+              'Prefer': 'return=minimal',
+              ...options.headers,
+            },
+          });
+        },
+      },
+      db: {
+        schema: 'public',
+      },
+      realtime: {
+        params: {
+          eventsPerSecond: 10,
+        },
+      },
+    });
+  } else {
+    throw new Error('Supabase configuration missing or using placeholder values');
+  }
+} catch (error) {
+  console.warn('Supabase client initialization failed, using mock client:', error);
   const mockQueryBuilder: MockQueryBuilder = {
     upsert: () => Promise.resolve({ data: null, error: null }),
     insert: () => Promise.resolve({ data: null, error: null }),

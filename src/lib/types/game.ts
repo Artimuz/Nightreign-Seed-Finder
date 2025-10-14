@@ -34,6 +34,7 @@ export interface GameState {
   currentPhase: GamePhase;
   activeSlot: string | null;
   activeBuildingPanel: boolean;
+  previewBuilding: string | null;
   matchingSeeds: Seed[];
   _isInternalURLUpdate: boolean;
   sessionStartTime: number;
@@ -47,6 +48,7 @@ export interface GameState {
   setFoundSeed: (seedId: string) => void;
   setActiveSlot: (slotId: string | null) => void;
   setActiveBuildingPanel: (active: boolean) => void;
+  setPreviewBuilding: (building: string | null) => void;
   getUndoPreview: () => void;
   undo: () => void;
   restart: () => void;

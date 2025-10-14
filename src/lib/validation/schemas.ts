@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export interface LogRequestSchema {
   seed_id: string;
   timezone?: string;
@@ -6,6 +8,47 @@ export interface LogRequestSchema {
   additional_info?: Record<string, unknown>;
   path_taken?: Array<string[]>;
 }
+
+export const LogRequestZodSchema = z.object({
+  seed_id: z.string()
+    .min(1, 'Seed ID is required')
+    .max(100, 'Seed ID too long')
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Seed ID contains invalid characters'),
+  timezone: z.string()
+    .max(50, 'Timezone string too long')
+    .regex(/^[a-zA-Z0-9/_+-]+$/, 'Invalid timezone format')
+    .optional(),
+  bug_report: z.boolean().optional(),
+  session_duration: z.number()
+    .min(0, 'Session duration cannot be negative')
+    .max(86400, 'Session duration too long')
+    .optional(),
+  additional_info: z.record(z.unknown())
+    .refine(
+      (data) => JSON.stringify(data).length <= 10000,
+      'Additional info too large'
+    )
+    .optional(),
+  path_taken: z.array(z.array(z.string().max(200)))
+    .max(1000, 'Path taken too large')
+    .optional(),
+});
+
+export const SessionZodSchema = z.object({
+  session_id: z.string()
+    .length(32, 'Invalid session ID length')
+    .regex(/^[a-f0-9]+$/, 'Invalid session ID format'),
+  page_path: z.string()
+    .min(1, 'Page path is required')
+    .max(500, 'Page path too long')
+    .regex(/^[a-zA-Z0-9/_.-]+$/, 'Invalid page path format'),
+  is_localhost: z.boolean(),
+  nightlord: z.string()
+    .max(100, 'Nightlord name too long')
+    .regex(/^[a-zA-Z0-9_-]*$/, 'Invalid nightlord name format')
+    .nullable()
+    .optional(),
+});
 
 export interface SessionSchema {
   session_id: string;

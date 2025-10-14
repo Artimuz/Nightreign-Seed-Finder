@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+import { sessionQueries } from '@/lib/database/queries';
+import { measureAsync } from '@/lib/performance/monitoring';
 import { supabase } from '@/lib/supabaseClient';
 interface UsersByPage {
   [pagePath: string]: number;
@@ -11,60 +13,33 @@ export const useUserCounter = () => {
   const [usersByPage, setUsersByPage] = useState<UsersByPage>({});
   const [usersByNightlord, setUsersByNightlord] = useState<UsersByNightlord>({});
   const [isConnected, setIsConnected] = useState(false);
-  const calculateUserCounts = (sessions: Array<{
-    last_heartbeat: string;
-    is_localhost: boolean;
-    page_path: string;
-    nightlord?: string;
-  }>) => {
-    const now = new Date();
-    const ninetyMinutesAgo = new Date(now.getTime() - 5400000);
-    const activeSessions = sessions.filter(session =>
-      new Date(session.last_heartbeat) > ninetyMinutesAgo
-    );
-    const nonLocalhostSessions = activeSessions.filter(session =>
-      !session.is_localhost
-    );
-    const pageCount: UsersByPage = {};
-    const nightlordCount: UsersByNightlord = {};
-    activeSessions.forEach(session => {
-      pageCount[session.page_path] = (pageCount[session.page_path] || 0) + 1;
-      if (session.nightlord && !session.is_localhost) {
-        nightlordCount[session.nightlord] = (nightlordCount[session.nightlord] || 0) + 1;
+  const cleanupOldSessions = async () => {
+    await measureAsync('session_cleanup', async () => {
+      try {
+
+        await sessionQueries.cleanupExpiredSessions();
+      } catch (error) {
+        console.error('Session cleanup failed:', error);
       }
     });
-    const total = nonLocalhostSessions.length;
-    setTotalUsers(total);
-    setUsersByPage(pageCount);
-    setUsersByNightlord(nightlordCount);
-  };
-  const cleanupOldSessions = async () => {
-    try {
-      await fetch('/api/cleanup-sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } catch {
-    }
   };
   const fetchInitialData = useCallback(async () => {
-    try {
-      const { data, error } = await supabase
-        .from('user_sessions')
-        .select('*');
-      if (error) {
-        return;
+    await measureAsync('user_counter_fetch', async () => {
+      try {
+
+        const [totalUsers, usersByNightlord] = await Promise.all([
+          sessionQueries.getUserCount(),
+          sessionQueries.getUsersByNightlord(),
+        ]);
+
+        setTotalUsers(totalUsers);
+        setUsersByNightlord(usersByNightlord);
+        setIsConnected(true);
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        setIsConnected(false);
       }
-      calculateUserCounts((data as Array<{
-        last_heartbeat: string;
-        is_localhost: boolean;
-        page_path: string;
-        nightlord?: string;
-      }>) || []);
-    } catch {
-    }
+    });
   }, []);
   useEffect(() => {
     cleanupOldSessions().then(() => {
@@ -91,7 +66,7 @@ export const useUserCounter = () => {
         try {
           channel.unsubscribe();
         } catch {
-          // Silent fail for mock client
+
         }
       }
     };

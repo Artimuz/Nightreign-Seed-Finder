@@ -1,10 +1,10 @@
 'use client'
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { MAP_TYPES } from '@/lib/types';
 import { useState, useEffect } from 'react';
 import { getResponsiveMapSize } from '@/lib/constants/mapSizing';
 import { SeedCounter } from './SeedCounter';
+import { GameMapImage } from '@/components/ui/OptimizedImage';
 interface MapDisplayProps {
   mapType: string;
 }
@@ -39,13 +39,10 @@ export const MapDisplay: React.FC<MapDisplayProps> = ({ mapType }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <Image
+          <GameMapImage
             src={mapData.mapImage}
             alt={mapData.title}
-            width={mapSize}
-            height={mapSize}
-            className="object-cover rounded-lg map-shadow"
-            sizes={`${mapSize}px`}
+            size={mapSize}
             priority
           />
           {}

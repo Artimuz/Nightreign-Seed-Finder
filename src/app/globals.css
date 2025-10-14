@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Active slot glow effect */
+.active-slot-glow {
+  filter: drop-shadow(0 0 8px #60a5fa) drop-shadow(0 0 5 #3b82f6) drop-shadow(0 0 10px #2563eb) drop-shadow(0 0 10px #1d4ed8);
+}
 @font-face {
   font-family: 'Mantinia';
   src: url('/fonts/Mantinia Regular/Mantinia Regular.otf') format('opentype');

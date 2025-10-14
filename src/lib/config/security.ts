@@ -28,8 +28,43 @@ export const sanitizeInput = (input: string, maxLength: number = SECURITY_CONFIG
   
   return input
     .slice(0, maxLength)
-    .replace(/[<>'"&]/g, '')
+    // Remove script tags completely
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    // Escape HTML characters
+    .replace(/[<>'"&]/g, (match) => ({
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      '&': '&amp;'
+    }[match] || match))
+    // Remove null bytes and other control characters
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
     .trim();
+};
+
+export const sanitizeObject = (obj: Record<string, unknown>, maxDepth: number = 3): Record<string, unknown> => {
+  if (maxDepth <= 0) return {};
+  
+  const result: Record<string, unknown> = {};
+  
+  for (const [key, value] of Object.entries(obj)) {
+    const sanitizedKey = sanitizeInput(key, 100);
+    
+    if (typeof value === 'string') {
+      result[sanitizedKey] = sanitizeInput(value);
+    } else if (typeof value === 'number' || typeof value === 'boolean') {
+      result[sanitizedKey] = value;
+    } else if (Array.isArray(value)) {
+      result[sanitizedKey] = value
+        .slice(0, 100) // Limit array size
+        .map(item => typeof item === 'string' ? sanitizeInput(item) : item);
+    } else if (value && typeof value === 'object') {
+      result[sanitizedKey] = sanitizeObject(value as Record<string, unknown>, maxDepth - 1);
+    }
+  }
+  
+  return result;
 };
 
 export const validateApiInput = (data: unknown): { isValid: boolean; errors: string[] } => {

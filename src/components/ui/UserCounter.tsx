@@ -1,6 +1,6 @@
 'use client';
 import { useUserCounter } from '@/hooks/useUserCounter';
-import Image from 'next/image';
+import { IconImage } from '@/components/ui/OptimizedImage';
 import { useState } from 'react';
 export default function UserCounter() {
   const { totalUsers, usersByNightlord } = useUserCounter();
@@ -18,12 +18,10 @@ export default function UserCounter() {
         onMouseLeave={() => setShowTooltip(false)}
       >
         <div className="flex items-center gap-2 bg-black/70 backdrop-blur-sm border border-gray-600/50 rounded-lg px-3 py-2">
-          <Image
+          <IconImage
             src="/Images/viewIcon.webp"
             alt="Active users"
-            width={16}
-            height={16}
-            className="opacity-80"
+            size={16}
           />
           <span className="text-sm text-gray-300 font-medium">
             {totalUsers}

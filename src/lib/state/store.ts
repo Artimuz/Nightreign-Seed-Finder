@@ -14,6 +14,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   currentPhase: 'selection',
   activeSlot: null,
   activeBuildingPanel: false,
+  previewBuilding: null,
   matchingSeeds: [],
   _isInternalURLUpdate: false,
   sessionStartTime: Date.now(),
@@ -183,14 +184,19 @@ export const useGameStore = create<GameState>((set, get) => ({
   setActiveSlot: (slotId) => {
     set({
       activeSlot: slotId,
-      activeBuildingPanel: !!slotId
+      activeBuildingPanel: !!slotId,
+      previewBuilding: null // Clear preview when opening new modal
     });
   },
   setActiveBuildingPanel: (active) => {
     set({
       activeBuildingPanel: active,
-      activeSlot: active ? get().activeSlot : null
+      activeSlot: active ? get().activeSlot : null,
+      previewBuilding: active ? get().previewBuilding : null
     });
+  },
+  setPreviewBuilding: (building) => {
+    set({ previewBuilding: building });
   },
   getUndoPreview: () => {
     const state = get();

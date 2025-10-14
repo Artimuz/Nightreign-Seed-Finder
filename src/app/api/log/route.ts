@@ -1,33 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
-import { validateLogRequest } from '@/lib/validation/schemas';
-import { sanitizeInput } from '@/lib/config/security';
+import { validateLogRequest, LogRequestZodSchema } from '@/lib/validation/schemas';
+import { sanitizeInput, sanitizeObject } from '@/lib/config/security';
+import { applyRateLimit } from '@/lib/middleware/ratelimit';
+
+const genericError = (message: string = 'Internal server error', status: number = 500) => 
+  NextResponse.json({ success: false, error: message }, { status });
 
 export async function POST(request: NextRequest) {
   try {
+
+    const rateLimitResponse = await applyRateLimit(request);
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
+
     const contentLength = request.headers.get('content-length');
     if (contentLength && parseInt(contentLength) > 1024 * 1024) {
-      return NextResponse.json({ success: false, error: 'Request too large' }, { status: 413 });
+      return genericError('Request too large', 413);
     }
 
     const body = await request.json();
+
+    const zodValidation = LogRequestZodSchema.safeParse(body);
+    if (!zodValidation.success) {
+      console.error('Validation failed:', zodValidation.error.errors);
+      return genericError('Invalid request data', 400);
+    }
+
     const validation = validateLogRequest(body);
-    
     if (!validation.isValid) {
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Validation failed',
-        details: validation.errors 
-      }, { status: 400 });
+      console.error('Legacy validation failed:', validation.errors);
+      return genericError('Validation failed', 400);
     }
 
     const logEntry = {
-      seed_id: sanitizeInput(validation.data!.seed_id, 100),
-      timezone: validation.data!.timezone ? sanitizeInput(validation.data!.timezone, 50) : null,
-      bug_report: validation.data!.bug_report,
-      session_duration: Math.min(validation.data!.session_duration || 0, 86400),
-      additional_info: validation.data!.additional_info,
-      path_taken: validation.data!.path_taken,
+      seed_id: sanitizeInput(zodValidation.data.seed_id, 100),
+      timezone: zodValidation.data.timezone ? sanitizeInput(zodValidation.data.timezone, 50) : null,
+      bug_report: zodValidation.data.bug_report || false,
+      session_duration: Math.min(zodValidation.data.session_duration || 0, 86400),
+      additional_info: zodValidation.data.additional_info ? sanitizeObject(zodValidation.data.additional_info) : null,
+      path_taken: zodValidation.data.path_taken || null,
       created_at: new Date().toISOString(),
     };
 
@@ -36,11 +49,13 @@ export async function POST(request: NextRequest) {
       .insert(logEntry);
 
     if (error) {
-      return NextResponse.json({ success: false, error: 'Database error' }, { status: 500 });
+      console.error('Database error:', error);
+      return genericError('Database operation failed', 500);
     }
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
+    console.error('Unexpected error in log API:', error);
+    return genericError();
   }
 }

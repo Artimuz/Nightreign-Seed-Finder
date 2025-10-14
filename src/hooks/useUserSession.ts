@@ -52,18 +52,28 @@ export const useUserSession = () => {
     }
     const nightlordName = getCurrentNightlord();
     try {
+      const sessionData = {
+        session_id: sessionIdRef.current,
+        page_path: pagePath,
+        last_heartbeat: new Date().toISOString(),
+        is_localhost: isLocalhost(),
+        nightlord: nightlordName
+      };
+      
       await supabase
         .from('user_sessions')
-        .upsert({
-          session_id: sessionIdRef.current,
-          page_path: pagePath,
-          last_heartbeat: new Date().toISOString(),
-          is_localhost: isLocalhost(),
-          nightlord: nightlordName
-        }, {
-          onConflict: 'session_id'
-        });
-    } catch {
+        .delete()
+        .eq('session_id', sessionIdRef.current);
+        
+      const { error } = await supabase
+        .from('user_sessions')
+        .insert(sessionData);
+        
+      if (error) {
+        console.warn('Session insert failed:', error);
+      }
+    } catch (error) {
+      console.warn('Session creation failed:', error);
     }
   }, []);
   const updateHeartbeat = useCallback(async () => {
