@@ -19,7 +19,7 @@ export default function UserCounter() {
       >
         <div className="flex items-center gap-2 bg-black/70 backdrop-blur-sm border border-gray-600/50 rounded-lg px-3 py-2">
           <IconImage
-            src="/Images/viewIcon.webp"
+            src="/Images/UIIcons/viewerIcon.webp"
             alt="Active users"
             size={16}
             priority

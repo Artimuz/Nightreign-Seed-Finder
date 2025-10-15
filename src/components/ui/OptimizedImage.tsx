@@ -30,7 +30,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   sizes,
   fill = false,
   loading = 'lazy',
-  quality = 85,
+  quality = 75,
   placeholder = 'empty',
   blurDataURL,
   onLoad,
@@ -110,7 +110,7 @@ export const GameMapImage: React.FC<{
     height={size}
     priority={priority}
     sizes={`${size}px`}
-    quality={90}
+    quality={75}
     className="object-cover rounded-lg map-shadow"
     placeholder="empty"
   />
@@ -128,7 +128,7 @@ export const CardImage: React.FC<{
     height={700}
     priority={priority}
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 500px"
-    quality={85}
+    quality={75}
     className="map-card-image"
     placeholder="empty"
   />

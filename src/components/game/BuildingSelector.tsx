@@ -4,7 +4,7 @@ import { useGameStore } from '@/lib/state/store';
 import { buildingIcons, buildingIconOrder } from '@/lib/constants/icons';
 import { getValidBuildingsForSlot } from '@/lib/data/validBuildings';
 import { BuildingType } from '@/lib/types/game';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { LazyIcon } from '@/components/ui/LazyIcon';
 import { getCoordinateById } from '@/lib/data/coordinates';
 import { getResponsiveMapSize, getIconScale, MAP_CONFIG } from '@/lib/constants/mapSizing';
 import { useState, useEffect } from 'react';
@@ -219,15 +219,12 @@ export const BuildingSelector: React.FC = () => {
                     whileTap={{ opacity: 0.7 }}
                   >
                     <div className="aspect-square relative w-full h-full flex items-center justify-center">
-                      <OptimizedImage
+                      <LazyIcon
                         src={iconSrc}
                         alt={displayName}
                         width={64}
                         height={64}
                         className="object-contain max-w-full max-h-full"
-                        sizes="64px"
-                        loading="lazy"
-                        placeholder="empty"
                       />
                     </div>
                     {}

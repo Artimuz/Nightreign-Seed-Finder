@@ -103,14 +103,15 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ seedId }) => {
           initial="hidden"
           animate="visible"
         >
-          <Image
+          {/* Use regular img tag for external images to bypass Vercel optimization */}
+          <img
             src={seedImageUrl}
             alt={`Seed ${seed.seed_id} pattern`}
             width={mapSize}
             height={mapSize}
             className="object-cover rounded-lg"
-            sizes={`${mapSize}px`}
-            priority
+            style={{ width: mapSize, height: mapSize }}
+            loading="eager"
           />
             
           {seed.Event && Events[seed.Event] && (
@@ -137,6 +138,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ seedId }) => {
                     height={eventIconSize}
                     className="object-contain drop-shadow-lg"
                     sizes={`${eventIconSize}px`}
+                    quality={75}
                   />
                 </motion.div>
               );

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { preloadCriticalImages } from '@/lib/utils/imagePreloader'
 import '@/styles/background-filters.css'
 import '@/styles/card-scale-controllers.css'
 import { GlobalBackground } from '@/components/backgrounds/GlobalBackground'
@@ -29,6 +30,30 @@ export default function RootLayout({
             <Footer />
           </SessionProvider>
         </PerformanceProvider>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined') {
+                setTimeout(() => {
+                  const criticalImages = [
+                    '/Images/buildingIcons/empty.webp',
+                    '/Images/buildingIcons/church.webp',
+                    '/Images/buildingIcons/fort.webp',
+                    '/Images/mapTypes/map_icon/normalIcon.webp',
+                    '/Images/generalUI/Title_n.webp'
+                  ];
+                  criticalImages.forEach(src => {
+                    const link = document.createElement('link');
+                    link.rel = 'prefetch';
+                    link.as = 'image';
+                    link.href = src;
+                    document.head.appendChild(link);
+                  });
+                }, 1000);
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   )

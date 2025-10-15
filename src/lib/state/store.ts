@@ -162,6 +162,16 @@ export const useGameStore = create<GameState>((set, get) => ({
     const seedPart = `SEED=${seedId}`;
     newArray = newArray.filter(part => !part.startsWith('SEED='));
     newArray.push(seedPart);
+    
+    // Auto-populate nightlord from seed data if not already set
+    if (seedId && !newArray.some(part => part.startsWith('nightlord='))) {
+      const seedData = searchSeeds({ mapType: null, slots: {}, nightlord: null })
+        .find(seed => seed.seed_id === seedId);
+      if (seedData && seedData.nightlord) {
+        newArray.push(`nightlord=${seedData.nightlord}`);
+      }
+    }
+    
     const newHistory = [...state.urlHistory.slice(0, state.urlHistoryIndex + 1), newArray];
     const newObject = arrayToObject(newArray);
     set({
@@ -278,6 +288,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
     const initialArray = originalArray || objectToArray(urlState);
+    
+    // Auto-populate nightlord from seed data if SEED exists but nightlord doesn't
+    if (urlState.foundSeed && !urlState.nightlord) {
+      const seedData = searchSeeds({ mapType: null, slots: {}, nightlord: null })
+        .find(seed => seed.seed_id === urlState.foundSeed);
+      if (seedData && seedData.nightlord) {
+        urlState.nightlord = seedData.nightlord;
+        initialArray.push(`nightlord=${seedData.nightlord}`);
+      }
+    }
+    
     const arrayHistory: string[][] = [[]];
     for (let i = 0; i < initialArray.length; i++) {
       const currentArray = initialArray.slice(0, i + 1);

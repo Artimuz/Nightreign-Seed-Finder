@@ -16,10 +16,15 @@ export const useUserCounter = () => {
   const cleanupOldSessions = async () => {
     await measureAsync('session_cleanup', async () => {
       try {
-
-        await sessionQueries.cleanupExpiredSessions();
+        const success = await sessionQueries.cleanupExpiredSessions();
+        if (!success) {
+          console.log('Session cleanup skipped (development mode or connection unavailable)');
+        }
       } catch (error) {
-        console.error('Session cleanup failed:', error);
+        const errorMessage = error && typeof error === 'object' 
+          ? JSON.stringify(error, null, 2) 
+          : String(error || 'Unknown cleanup error');
+        console.warn('Session cleanup failed:', errorMessage);
       }
     });
   };
