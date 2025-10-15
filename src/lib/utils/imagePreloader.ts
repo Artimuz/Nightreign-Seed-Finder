@@ -8,7 +8,7 @@ export const preloadCriticalImages = () => {
     '/Images/buildingIcons/church.webp',
     '/Images/buildingIcons/fort.webp',
     '/Images/mapTypes/map_icon/normalIcon.webp',
-    '/Images/generalUI/Title_n_.webp'
+    '/Images/Title_n_.webp'
   ];
 
   criticalImages.forEach(src => {

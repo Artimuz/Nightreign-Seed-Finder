@@ -52,7 +52,7 @@ export const MapSelectionCards: React.FC = () => {
           <div className="flex justify-center">
             <div className="w-full max-w-lg mx-auto">
               <img
-                src="/Images/generalUI/Title_n_.webp"
+                src="/Images/Title_n_.webp"
                 alt="NIGHTREIGN"
                 width={400}
                 height={160}
