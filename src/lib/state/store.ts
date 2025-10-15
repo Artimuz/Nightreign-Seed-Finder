@@ -1,7 +1,7 @@
 'use client'
 import { create } from 'zustand';
 import { GameState, URLState, Seed, MapType, NightlordType } from '@/lib/types/game';
-import { searchSeeds } from '@/lib/data/seedSearch';
+import { searchSeeds, findSeedById } from '@/lib/data/seedSearch';
 import { arrayToURL, arrayToObject, objectToArray } from './urlArrayManager';
 export const useGameStore = create<GameState>((set, get) => ({
   mapType: null,
@@ -165,8 +165,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     
     // Auto-populate nightlord from seed data if not already set
     if (seedId && !newArray.some(part => part.startsWith('nightlord='))) {
-      const seedData = searchSeeds({ mapType: null, slots: {}, nightlord: null })
-        .find(seed => seed.seed_id === seedId);
+      const seedData = findSeedById(seedId);
       if (seedData && seedData.nightlord) {
         newArray.push(`nightlord=${seedData.nightlord}`);
       }
@@ -291,8 +290,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     
     // Auto-populate nightlord from seed data if SEED exists but nightlord doesn't
     if (urlState.foundSeed && !urlState.nightlord) {
-      const seedData = searchSeeds({ mapType: null, slots: {}, nightlord: null })
-        .find(seed => seed.seed_id === urlState.foundSeed);
+      const seedData = findSeedById(urlState.foundSeed);
       if (seedData && seedData.nightlord) {
         urlState.nightlord = seedData.nightlord;
         initialArray.push(`nightlord=${seedData.nightlord}`);
