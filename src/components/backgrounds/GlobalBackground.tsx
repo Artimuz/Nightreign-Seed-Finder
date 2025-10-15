@@ -54,12 +54,12 @@ export const GlobalBackground: React.FC = () => {
         loop
         playsInline
       >
-        <source src="/Images/generalUI/Top.BG.webm" type="video/webm" />
+        <source src="/Images/generalUI/Top.BG_.webm" type="video/webm" />
       </video>
       {}
       <div className={`global-background-image bg-image-2 ${imageLoaded ? 'loaded' : 'loading'}`}>
         <Image
-          src="/Images/generalUI/BG2.webp"
+          src="/Images/generalUI/BG2_.webp"
           alt=""
           fill
           priority
