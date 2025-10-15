@@ -51,14 +51,14 @@ export const MapSelectionCards: React.FC = () => {
           {}
           <div className="flex justify-center">
             <div className="w-full max-w-lg mx-auto">
-              <Image
+              <img
                 src="/Images/generalUI/Title_n_.webp"
                 alt="NIGHTREIGN"
                 width={400}
                 height={160}
-                priority
                 className="w-full h-auto object-contain"
-                sizes="(max-width: 768px) 350px, 500px"
+                style={{ maxWidth: '100%', height: 'auto' }}
+                loading="eager"
               />
             </div>
           </div>

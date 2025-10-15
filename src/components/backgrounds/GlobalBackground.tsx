@@ -53,6 +53,7 @@ export const GlobalBackground: React.FC = () => {
         muted
         loop
         playsInline
+        preload="auto"
       >
         <source src="/Images/generalUI/Top.BG_.webm" type="video/webm" />
       </video>
@@ -65,6 +66,8 @@ export const GlobalBackground: React.FC = () => {
           priority
           onLoad={handleImageLoad}
           sizes="100vw"
+          quality={85}
+          unoptimized={false}
           style={{ 
             objectFit: 'cover',
             objectPosition: 'center'
