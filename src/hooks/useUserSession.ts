@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import { isLocalhost, extractNightlordName } from '@/lib/utils/environment';
@@ -15,6 +15,12 @@ export const useUserSession = () => {
   const sessionIdRef = useRef<string | null>(null);
   const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { foundSeed, nightlord } = useGameStore();
+  const [lastPath, setLastPath] = useState<string>('');
+  const [currentHeartbeatInterval, setCurrentHeartbeatInterval] = useState<number>(30000);
+  const pathStableTimeRef = useRef<number>(Date.now());
+  const lastHeartbeatTimeRef = useRef<number>(0);
+  const pendingHeartbeatRef = useRef<NodeJS.Timeout | null>(null);
+  const rateLimitInterval = 10000;
   const generateSessionId = () => {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   };
@@ -76,7 +82,30 @@ export const useUserSession = () => {
       console.warn('Session creation failed:', error);
     }
   }, []);
-  const updateHeartbeat = useCallback(async () => {
+  const calculateAdaptiveInterval = useCallback(() => {
+    const baseInterval = 30000;
+    const maxInterval = 180000;
+    const incrementStep = 15000;
+    
+    if (pathname !== lastPath) {
+      pathStableTimeRef.current = Date.now();
+      setLastPath(pathname);
+      setCurrentHeartbeatInterval(baseInterval);
+      return baseInterval;
+    }
+    
+    const timeStable = Date.now() - pathStableTimeRef.current;
+    const intervals = Math.floor(timeStable / 60000);
+    const newInterval = Math.min(baseInterval + (intervals * incrementStep), maxInterval);
+    
+    if (newInterval !== currentHeartbeatInterval) {
+      setCurrentHeartbeatInterval(newInterval);
+    }
+    
+    return newInterval;
+  }, [pathname, lastPath, currentHeartbeatInterval]);
+
+  const executeHeartbeat = useCallback(async () => {
     if (!sessionIdRef.current) return;
     const nightlordName = getCurrentNightlord();
     try {
@@ -92,9 +121,29 @@ export const useUserSession = () => {
       if (error) {
         await createSession(pathname);
       }
-    } catch {
+      lastHeartbeatTimeRef.current = Date.now();
+    } catch (error) {
     }
   }, [pathname, createSession]);
+
+  const updateHeartbeat = useCallback(() => {
+    const now = Date.now();
+    const timeSinceLastHeartbeat = now - lastHeartbeatTimeRef.current;
+    
+    if (pendingHeartbeatRef.current) {
+      clearTimeout(pendingHeartbeatRef.current);
+    }
+    
+    if (timeSinceLastHeartbeat >= rateLimitInterval) {
+      executeHeartbeat();
+    } else {
+      const waitTime = rateLimitInterval - timeSinceLastHeartbeat;
+      pendingHeartbeatRef.current = setTimeout(() => {
+        executeHeartbeat();
+        pendingHeartbeatRef.current = null;
+      }, waitTime);
+    }
+  }, [executeHeartbeat, rateLimitInterval]);
   const removeSession = useCallback(async () => {
     if (!sessionIdRef.current) return;
     try {
@@ -105,13 +154,31 @@ export const useUserSession = () => {
     } catch {
     }
   }, []);
+  const setupAdaptiveHeartbeat = useCallback(() => {
+    if (heartbeatIntervalRef.current) {
+      clearTimeout(heartbeatIntervalRef.current);
+    }
+    if (pendingHeartbeatRef.current) {
+      clearTimeout(pendingHeartbeatRef.current);
+    }
+    
+    const scheduleNextHeartbeat = () => {
+      const interval = calculateAdaptiveInterval();
+      const nextTime = new Date(Date.now() + interval).toLocaleTimeString();
+      heartbeatIntervalRef.current = setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+          updateHeartbeat();
+        }
+        scheduleNextHeartbeat();
+      }, interval);
+    };
+    
+    scheduleNextHeartbeat();
+  }, [calculateAdaptiveInterval, updateHeartbeat]);
+
   useEffect(() => {
     createSession(pathname);
-    heartbeatIntervalRef.current = setInterval(() => {
-      if (document.visibilityState === 'visible') {
-        updateHeartbeat();
-      }
-    }, 10000);
+    setupAdaptiveHeartbeat();
     const handleBeforeUnload = () => {
       if (sessionIdRef.current) {
         navigator.sendBeacon('/api/cleanup-session', JSON.stringify({
@@ -126,6 +193,7 @@ export const useUserSession = () => {
     };
     const handleFocus = () => {
       updateHeartbeat();
+      setupAdaptiveHeartbeat();
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
     window.addEventListener('pagehide', handleBeforeUnload);
@@ -133,14 +201,17 @@ export const useUserSession = () => {
     window.addEventListener('focus', handleFocus);
     return () => {
       if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
+        clearTimeout(heartbeatIntervalRef.current);
+      }
+      if (pendingHeartbeatRef.current) {
+        clearTimeout(pendingHeartbeatRef.current);
       }
       window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('pagehide', handleBeforeUnload);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
     };
-  }, [pathname, createSession, updateHeartbeat]);
+  }, [pathname, createSession, setupAdaptiveHeartbeat]);
   useEffect(() => {
     if (sessionIdRef.current && nightlord) {
       updateHeartbeat();

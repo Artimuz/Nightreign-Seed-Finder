@@ -2,9 +2,9 @@
 import { supabase } from '@/lib/supabaseClient';
 
 const CACHE_TTL = {
-  SESSION_STATS: 5 * 60 * 1000, // 5 minutes
-  USER_COUNT: 30 * 1000, // 30 seconds
-  LOGS: 10 * 60 * 1000, // 10 minutes
+  SESSION_STATS: 10 * 60 * 1000,
+  USER_COUNT: 120 * 1000,
+  LOGS: 10 * 60 * 1000,
 } as const;
 
 class QueryCache {

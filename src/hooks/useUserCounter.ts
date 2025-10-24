@@ -55,12 +55,12 @@ export const useUserCounter = () => {
     }, 5000);
     const regularInterval = setInterval(() => {
       fetchInitialData();
-    }, 60000);
+    }, 300000);
     const cleanupInterval = setInterval(() => {
       cleanupOldSessions().then(() => {
         fetchInitialData();
       });
-    }, 300000);
+    }, 900000);
     const channel = supabase.channel('user_sessions_changes');
     setIsConnected(false);
     return () => {
