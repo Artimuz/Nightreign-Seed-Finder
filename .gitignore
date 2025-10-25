@@ -92,3 +92,10 @@ temp/
 !public/**/*.svg
 !public/**/*.webp
 !public/**/*.ico
+
+
+AGENTS.md
+AGENTS.local.md
+**/AGENTS.local.md
+
+.gitignore

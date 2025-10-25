@@ -46,19 +46,17 @@ export class SessionService {
           last_heartbeat: new Date().toISOString(),
         };
 
-        // Try update first, then insert if not exists
         const { error: updateError } = await supabase
           .from('user_sessions')
           .update(finalSessionData)
           .eq('session_id', finalSessionData.session_id);
           
         if (updateError) {
-          // If update fails, try insert
           const { error: insertError } = await supabase
             .from('user_sessions')
             .insert(finalSessionData);
             
-          if (insertError && insertError.code !== '23505') { // 23505 = unique constraint violation
+          if (insertError && insertError.code !== '23505') {
             console.warn('Session service insert failed:', insertError);
           }
         }

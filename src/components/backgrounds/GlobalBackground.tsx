@@ -32,7 +32,6 @@ export const GlobalBackground: React.FC = () => {
   }, []);
   
   useEffect(() => {
-    // Force image to show after a short delay regardless of video state
     const timer = setTimeout(() => {
       setImageLoaded(true);
     }, 1000);

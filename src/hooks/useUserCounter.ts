@@ -31,7 +31,6 @@ export const useUserCounter = () => {
   const fetchInitialData = useCallback(async () => {
     await measureAsync('user_counter_fetch', async () => {
       try {
-        // Both functions now call the same API endpoint, so we can optimize this
         const response = await fetch('/api/user-count');
         if (!response.ok) {
           throw new Error(`API failed: ${response.statusText}`);

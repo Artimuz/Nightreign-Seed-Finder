@@ -64,23 +64,23 @@ export const BuildingSelector: React.FC = () => {
     const slotScreenX = (slotCoordinates.x / MAP_CONFIG.ORIGINAL_SIZE) * mapSize;
     const slotScreenY = (slotCoordinates.y / MAP_CONFIG.ORIGINAL_SIZE) * mapSize;
 
-    const iconDistance = iconScale * 0.7; // Much closer to the slot
+    const iconDistance = iconScale * 0.7;
     const shouldPositionAbove = slotCoordinates.y > 500;
 
     const viewportCenterX = window.innerWidth / 2;
-    const viewportCenterY = (window.innerHeight / 2) + 30; // account for header offset
+    const viewportCenterY = (window.innerHeight / 2) + 30;
     
     const modalScreenX = viewportCenterX - (mapSize / 2) + slotScreenX;
     const modalScreenY = viewportCenterY - (mapSize / 2) + slotScreenY;
 
     const mapLeft = viewportCenterX - (mapSize / 2);
     const mapRight = viewportCenterX + (mapSize / 2);
-    const maxModalWidth = 640; // max-w-2xl equivalent
+    const maxModalWidth = 640;
 
     const constrainedX = Math.max(
-      mapLeft + (maxModalWidth / 2) + 20, // Left boundary + padding
+      mapLeft + (maxModalWidth / 2) + 20,
       Math.min(
-        mapRight - (maxModalWidth / 2) - 20, // Right boundary - padding
+        mapRight - (maxModalWidth / 2) - 20,
         modalScreenX
       )
     );
@@ -121,7 +121,7 @@ export const BuildingSelector: React.FC = () => {
     if (count <= 3) return 3;
     if (count <= 6) return Math.min(count, 6);
     if (count <= 12) return 6;
-    return 6; // Maximum 6 columns for 6x3 layout
+    return 6;
   };
 
   const gridCols = getGridCols(availableBuildings.length);
@@ -162,9 +162,9 @@ export const BuildingSelector: React.FC = () => {
         className={`fixed z-50 bg-black/95 rounded-2xl border border-gray-600/50 shadow-2xl w-auto ${shouldLimitHeight ? 'max-h-[400px] overflow-hidden' : ''}`}
         style={{
           ...modalPosition,
-          transform: 'translateX(-50%)', // Center horizontally on the calculated position
-          minWidth: `${Math.max(320, gridCols * 80 + 80)}px`, // Dynamic min width based on columns
-          maxWidth: `${gridCols * 100 + 80}px`, // Dynamic max width
+          transform: 'translateX(-50%)',
+          minWidth: `${Math.max(320, gridCols * 80 + 80)}px`,
+          maxWidth: `${gridCols * 100 + 80}px`,
         }}
         variants={panelVariants}
         initial="hidden"

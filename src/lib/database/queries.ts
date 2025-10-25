@@ -129,14 +129,13 @@ export const sessionQueries = {
       const updates = sessions.map(session => ({
         ...session,
         last_heartbeat: new Date().toISOString(),
-        is_localhost: false, // Assume production for batch updates
+        is_localhost: false,
       }));
 
       const query = supabase.from('user_sessions');
 
       if ('upsert' in query) {
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error } = await (query as any).upsert(updates);
         if (error) throw error;
       }

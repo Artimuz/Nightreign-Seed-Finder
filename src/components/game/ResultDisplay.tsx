@@ -103,7 +103,6 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ seedId }) => {
           initial="hidden"
           animate="visible"
         >
-          {/* Use regular img tag for external images to bypass Vercel optimization */}
           <img
             src={seedImageUrl}
             alt={`Seed ${seed.seed_id} pattern`}

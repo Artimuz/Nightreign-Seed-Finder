@@ -8,7 +8,6 @@ interface PerformanceProviderProps {
 
 export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ children }) => {
   useEffect(() => {
-    // Initialize performance monitoring
     const monitor = PerformanceMonitor.getInstance();
     monitor.initWebVitals();
 

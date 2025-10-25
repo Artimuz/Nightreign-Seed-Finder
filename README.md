@@ -109,6 +109,7 @@ src/
 │       └── hooks/          # Session management hooks
 ├── lib/
 │   ├── config/             # Security and app configuration
+│   ├── database/           # Database queries and schema
 │   ├── services/           # Business logic services
 │   ├── validation/         # Input validation schemas
 │   ├── types/              # TypeScript type definitions

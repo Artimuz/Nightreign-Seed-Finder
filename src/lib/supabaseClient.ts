@@ -1,17 +1,13 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { getEnvironmentConfig } from '@/lib/config/environment';
 
-// Force load environment variables if not already loaded
 if (typeof window === 'undefined' && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
   try {
-    // Dynamic import to avoid require() ESLint error
     import('dotenv').then((dotenv) => {
       dotenv.config({ path: '.env.local' });
     }).catch(() => {
-      // Silent fallback
     });
   } catch {
-    // Silent fallback
   }
 }
 

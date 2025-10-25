@@ -16,19 +16,18 @@ export const useUserSession = () => {
   const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { foundSeed, nightlord } = useGameStore();
   const [currentHeartbeatInterval, setCurrentHeartbeatInterval] = useState<number>(30000);
-  const lastHeartbeatTimeRef = useRef<number>(0); // Single rate limit for ALL heartbeats
-  const lastHeartbeatUrlRef = useRef<string>(''); // Track last heartbeat URL to detect changes
+  const lastHeartbeatTimeRef = useRef<number>(0);
+  const lastHeartbeatUrlRef = useRef<string>('');
   const queuedHeartbeatDataRef = useRef<{
     page_path: string;
     last_heartbeat: string;
     is_localhost: boolean;
     nightlord: string | null;
-  } | null>(null); // Store the most recent heartbeat data
+  } | null>(null);
   const pendingHeartbeatRef = useRef<NodeJS.Timeout | null>(null);
-  const isIdleRef = useRef<boolean>(false); // Track if current state is idle
+  const isIdleRef = useRef<boolean>(false);
   const creatingSessionRef = useRef<boolean>(false);
   const generateSessionId = () => {
-    // Generate 32-character hexadecimal string as expected by validation schema
     const chars = '0123456789abcdef';
     let result = '';
     for (let i = 0; i < 32; i++) {
@@ -38,7 +37,6 @@ export const useUserSession = () => {
   };
   const getCurrentNightlord = (): string | null => {
     
-    // Priority 1: Always check for SEED in pathname first (most reliable source)
     if (pathname && pathname.includes('SEED=')) {
       const seedMatch = pathname.match(/SEED=([^&]+)/);
       if (seedMatch) {
@@ -51,7 +49,6 @@ export const useUserSession = () => {
       }
     }
     
-    // Priority 2: Check foundSeed from store (fallback)
     if (foundSeed) {
       const seed = (seedData as SeedData[]).find((s) => s.seed_id === foundSeed);
       if (seed && seed.nightlord) {
@@ -60,7 +57,6 @@ export const useUserSession = () => {
       }
     }
     
-    // Priority 3: Explicit nightlord parameter in URL
     if (pathname && pathname.includes('nightlord=')) {
       const nightlordMatch = pathname.match(/nightlord=([^&]+)/);
       if (nightlordMatch) {
@@ -69,7 +65,6 @@ export const useUserSession = () => {
       }
     }
     
-    // Priority 4: Store nightlord (lowest priority)
     if (nightlord) {
       const extracted = extractNightlordName(nightlord);
       return extracted;
@@ -78,10 +73,9 @@ export const useUserSession = () => {
     return null;
   };
   const createSession = useCallback(async () => {
-    // 🚨 CRITICAL: Always use actual browser URL, not Next.js pathname (which might be truncated)
+
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
     
-    // Prevent concurrent session creation
     if (creatingSessionRef.current) {
       return;
     }
@@ -92,7 +86,6 @@ export const useUserSession = () => {
         sessionIdRef.current = generateSessionId();
       }
       
-      // Get nightlord - validate against SEED if present
       let nightlordName: string | null = null;
       
       if (currentPath && currentPath.includes('SEED=')) {
@@ -104,14 +97,13 @@ export const useUserSession = () => {
             const expectedNightlord = extractNightlordName(directSeed.nightlord);
             const currentNightlord = getCurrentNightlord();
             
-            // VALIDATION: If they don't match, use the expected nightlord from seed data
             if (currentNightlord !== expectedNightlord) {
-              // Silent correction - use seed data
+
             }
             
             nightlordName = expectedNightlord;
           } else {
-            // Seed not found - abort session creation
+
             creatingSessionRef.current = false;
             return;
           }
@@ -128,7 +120,6 @@ export const useUserSession = () => {
         nightlord: nightlordName
       };
       
-      // Try update first, then insert if not exists (brings back the working 409 approach)
       const { data: updateData, error: updateError } = await supabase
         .from('user_sessions')
         .update(sessionData)
@@ -136,24 +127,23 @@ export const useUserSession = () => {
         .select();
         
       if (updateError || !updateData || updateData.length === 0) {
-        // Update failed or no rows affected, try insert
+
         const { error: insertError } = await supabase
           .from('user_sessions')
           .insert(sessionData);
         
-        // 409 errors (duplicate key) are expected and harmless
         if (insertError && insertError.code !== '23505') {
-          // Silent error handling - real errors only
+
         }
       }
     } catch (error) {
-      // Silent error handling
+
     } finally {
       creatingSessionRef.current = false;
     }
   }, []);
   const getCurrentAdaptiveInterval = useCallback(() => {
-    // Just return the current interval without modifying it
+
     return currentHeartbeatInterval;
   }, [currentHeartbeatInterval]);
 
@@ -161,12 +151,11 @@ export const useUserSession = () => {
     const maxInterval = 180000;
     const incrementStep = 15000;
     
-    // Increment the interval after a successful idle heartbeat
     setCurrentHeartbeatInterval(prevInterval => {
       const newInterval = Math.min(prevInterval + incrementStep, maxInterval);
       return newInterval;
     });
-  }, []); // No dependencies needed with functional update
+  }, []);
 
   const resetAdaptiveInterval = useCallback(() => {
     setCurrentHeartbeatInterval(30000);
@@ -178,20 +167,19 @@ export const useUserSession = () => {
     const now = Date.now();
     const timeSinceLastHeartbeat = now - lastHeartbeatTimeRef.current;
     
-    // SINGLE 20s rate limit for ALL heartbeats
     if (timeSinceLastHeartbeat < 20000) {
-      // Rate limit not met, cannot send any heartbeat
+
       return;
     }
     
     try {
-      // Use queued data if available, otherwise generate fresh data
+
       let heartbeatData;
       if (queuedHeartbeatDataRef.current) {
         heartbeatData = queuedHeartbeatDataRef.current;
-        queuedHeartbeatDataRef.current = null; // Clear the queue
+        queuedHeartbeatDataRef.current = null;
       } else {
-        // Generate fresh heartbeat data (for idle heartbeats)
+
         const currentNightlord = getCurrentNightlord();
         heartbeatData = {
           page_path: typeof window !== 'undefined' ? window.location.pathname : pathname,
@@ -207,23 +195,22 @@ export const useUserSession = () => {
         .eq('session_id', sessionIdRef.current);
         
       if (error) {
-        // Don't create session immediately to avoid bypassing rate limit
+
       } else {
-        // Heartbeat logging removed
+
       }
       lastHeartbeatTimeRef.current = Date.now();
-      lastHeartbeatUrlRef.current = heartbeatData.page_path; // Update last heartbeat URL
+      lastHeartbeatUrlRef.current = heartbeatData.page_path;
       
-      // Handle adaptive interval based on idle state
       if (!isIdleRef.current) {
-        // URL changed - reset to 30s for next idle period
+
         resetAdaptiveInterval();
       } else {
-        // Successfully sent idle heartbeat - increment interval for next time
+
         incrementAdaptiveInterval();
       }
     } catch (error) {
-      // Silent error handling
+
     }
   }, [pathname, createSession]);
 
@@ -232,11 +219,9 @@ export const useUserSession = () => {
     const now = Date.now();
     const timeSinceLastHeartbeat = now - lastHeartbeatTimeRef.current;
     
-    // Determine if this is idle or active navigation
     const urlChanged = lastHeartbeatUrlRef.current !== currentUrl || lastHeartbeatUrlRef.current === '';
     isIdleRef.current = !urlChanged;
     
-    // Always queue the most recent heartbeat data (overwriting any previous queued data)
     const currentNightlord = getCurrentNightlord();
     queuedHeartbeatDataRef.current = {
       page_path: currentUrl,
@@ -245,14 +230,13 @@ export const useUserSession = () => {
       nightlord: currentNightlord
     };
     
-    // Clear any existing pending heartbeat
     if (pendingHeartbeatRef.current) {
       clearTimeout(pendingHeartbeatRef.current);
       pendingHeartbeatRef.current = null;
     }
     
     if (isIdleRef.current) {
-      // IDLE = TRUE: Same URL, use adaptive 30s-180s rule
+
       const adaptiveInterval = getCurrentAdaptiveInterval();
       if (timeSinceLastHeartbeat >= adaptiveInterval) {
         executeHeartbeat();
@@ -264,7 +248,7 @@ export const useUserSession = () => {
         }, waitTime);
       }
     } else {
-      // IDLE = FALSE: URL changed, use 20s rule
+
       if (timeSinceLastHeartbeat >= 20000 || lastHeartbeatTimeRef.current === 0) {
         executeHeartbeat();
       } else {
@@ -287,7 +271,7 @@ export const useUserSession = () => {
     }
   }, []);
   const setupAdaptiveHeartbeat = useCallback(() => {
-    // Clear existing idle heartbeat timer (but NOT pending rate-limited heartbeats)
+
     if (heartbeatIntervalRef.current) {
       clearTimeout(heartbeatIntervalRef.current);
     }
@@ -296,9 +280,9 @@ export const useUserSession = () => {
       const interval = getCurrentAdaptiveInterval();
       heartbeatIntervalRef.current = setTimeout(() => {
         if (document.visibilityState === 'visible') {
-          // Only send idle heartbeat if no queued data exists (user is truly idle)
+
           if (!queuedHeartbeatDataRef.current) {
-            updateHeartbeat(); // Use the main updateHeartbeat logic which handles idle detection
+            updateHeartbeat();
           }
         }
         scheduleNextIdleHeartbeat();
@@ -309,10 +293,9 @@ export const useUserSession = () => {
   }, [getCurrentAdaptiveInterval, updateHeartbeat]);
 
   useEffect(() => {
-    // Delay session creation to allow store to process URL first
-    // This is especially important for URLs with SEED parameters
+
     const delayedSessionCreation = setTimeout(() => {
-      // Create session first (this is what saves to database)
+
       const now = Date.now();
       const timeSinceLastHeartbeat = now - lastHeartbeatTimeRef.current;
       
@@ -321,11 +304,10 @@ export const useUserSession = () => {
         lastHeartbeatTimeRef.current = Date.now();
         lastHeartbeatUrlRef.current = pathname;
       }
-    }, 100); // Small delay to let store process URL
+    }, 100);
     
     setupAdaptiveHeartbeat();
     
-    // Return cleanup function that also clears the timeout
     const originalCleanup = () => {
       clearTimeout(delayedSessionCreation);
     };

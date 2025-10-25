@@ -32,7 +32,6 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
     setMounted(true);
   }, []);
 
-  // Get the map icon path based on mapType
   const getMapIconSrc = (mapType: string) => {
     const iconMap: { [key: string]: string } = {
       'normal': '/Images/mapTypes/map_icon/normalIcon.webp',

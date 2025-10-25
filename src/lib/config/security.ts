@@ -28,9 +28,7 @@ export const sanitizeInput = (input: string, maxLength: number = SECURITY_CONFIG
   
   return input
     .slice(0, maxLength)
-    // Remove script tags completely
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    // Escape HTML characters
     .replace(/[<>'"&]/g, (match) => ({
       '<': '&lt;',
       '>': '&gt;',
@@ -38,7 +36,6 @@ export const sanitizeInput = (input: string, maxLength: number = SECURITY_CONFIG
       "'": '&#x27;',
       '&': '&amp;'
     }[match] || match))
-    // Remove null bytes and other control characters
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
     .trim();
 };
@@ -57,7 +54,7 @@ export const sanitizeObject = (obj: Record<string, unknown>, maxDepth: number = 
       result[sanitizedKey] = value;
     } else if (Array.isArray(value)) {
       result[sanitizedKey] = value
-        .slice(0, 100) // Limit array size
+        .slice(0, 100)
         .map(item => typeof item === 'string' ? sanitizeInput(item) : item);
     } else if (value && typeof value === 'object') {
       result[sanitizedKey] = sanitizeObject(value as Record<string, unknown>, maxDepth - 1);
