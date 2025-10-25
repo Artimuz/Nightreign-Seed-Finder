@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { APP_VERSION } from '@/lib/constants/version';
 export default function Footer() {
   return (
     <motion.footer
@@ -11,7 +12,7 @@ export default function Footer() {
     >
       <div className="relative flex items-center justify-center py-3">
         <span className="absolute left-4 text-sm text-gray-500">
-          v{process.env.NEXT_PUBLIC_APP_VERSION || '1.0.1'}
+          v{process.env.NEXT_PUBLIC_APP_VERSION || APP_VERSION}
         </span>
         <Link
           href="https://github.com/Artimuz/Nightreign-Seed-Finder"

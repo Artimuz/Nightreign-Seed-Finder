@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
+import { APP_VERSION } from '@/lib/constants/version';
 
 export function useVersionCheck() {
-  const currentVersion = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.1';
+  const currentVersion = process.env.NEXT_PUBLIC_APP_VERSION || APP_VERSION;
 
   useEffect(() => {
     // Check version every 30 seconds
@@ -15,19 +16,31 @@ export function useVersionCheck() {
         
         const serverVersion = data.version;
         const storedVersion = localStorage.getItem('app_version');
+
+        // Define minimum required version to force update
+        const minimumRequiredVersion = APP_VERSION;
         
-        // If stored version exists and differs from server version, refresh
-        if (storedVersion && storedVersion !== serverVersion) {
-          // Silent refresh - URL is preserved, no progress lost
+        // If no stored version, check if we've already tried to update this session
+        if (!storedVersion) {
+          const hasTriedUpdate = sessionStorage.getItem('version_update_attempted');
+          if (!hasTriedUpdate && serverVersion === minimumRequiredVersion) {
+            sessionStorage.setItem('version_update_attempted', 'true');
+            localStorage.setItem('app_version', serverVersion);
+            // Give a small delay to ensure storage is written
+            setTimeout(() => {
+              window.location.reload();
+            }, 100);
+          } else {
+            // Either already tried update this session, or server version doesn't require force update
+            localStorage.setItem('app_version', serverVersion);
+          }
+        } else if (storedVersion !== serverVersion) {
+          // Version mismatch detected, refresh
           localStorage.setItem('app_version', serverVersion);
           window.location.reload();
-        } else if (!storedVersion) {
-          // First time, just store the version
-          localStorage.setItem('app_version', serverVersion);
         }
-      } catch (error) {
+      } catch {
         // Silent fail - don't disrupt user experience
-        console.warn('Version check failed:', error);
       }
     };
 

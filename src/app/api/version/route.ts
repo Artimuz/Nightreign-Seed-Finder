@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import packageJson from '../../../../package.json';
 
 export async function GET() {
   // Get version from environment or package.json
-  const version = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0';
+  const version = process.env.NEXT_PUBLIC_APP_VERSION || packageJson.version;
   
   return NextResponse.json(
     { 
