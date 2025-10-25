@@ -28,11 +28,12 @@ export const validateEnvironment = () => {
 
 export const getEnvironmentConfig = () => {
   try {
-    return validateEnvironment();
+    const config = validateEnvironment();
+    return config;
   } catch (error) {
-    console.error('Environment validation failed:', error);
+    console.error('❌ Environment validation failed:', error);
     if (process.env.NODE_ENV === 'development') {
-      console.warn('Continuing in development mode with missing environment variables');
+      console.warn('⚠️ Continuing in development mode with missing environment variables');
       return {
         ...requiredEnvVars,
         ...optionalEnvVars,

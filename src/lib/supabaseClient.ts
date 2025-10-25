@@ -1,6 +1,20 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { getEnvironmentConfig } from '@/lib/config/environment';
 
+// Force load environment variables if not already loaded
+if (typeof window === 'undefined' && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  try {
+    // Dynamic import to avoid require() ESLint error
+    import('dotenv').then((dotenv) => {
+      dotenv.config({ path: '.env.local' });
+    }).catch(() => {
+      // Silent fallback
+    });
+  } catch {
+    // Silent fallback
+  }
+}
+
 interface MockQueryBuilder {
   upsert: (data: Record<string, unknown>, options?: Record<string, unknown>) => Promise<{ data: null; error: null }>;
   insert: (data: Record<string, unknown>) => Promise<{ data: null; error: null }>;
@@ -38,44 +52,15 @@ try {
       auth: {
         persistSession: false,
         autoRefreshToken: false,
-      },
-      global: {
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`,
-          'X-Client-Info': 'nightreign-seed-finder@1.0.0',
-        },
-        fetch: (url, options = {}) => {
-          return fetch(url, {
-            ...options,
-            mode: 'cors',
-            credentials: 'omit',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': supabaseAnonKey,
-              'Authorization': `Bearer ${supabaseAnonKey}`,
-              'X-Client-Info': 'nightreign-seed-finder@1.0.0',
-              'Prefer': 'return=minimal',
-              ...options.headers,
-            },
-          });
-        },
-      },
-      db: {
-        schema: 'public',
-      },
-      realtime: {
-        params: {
-          eventsPerSecond: 10,
-        },
-      },
+      }
     });
   } else {
     throw new Error('Supabase configuration missing or using placeholder values');
   }
 } catch (error) {
-  console.warn('Supabase client initialization failed, using mock client:', error);
+  console.error('🚨 SUPABASE CLIENT INITIALIZATION FAILED, USING MOCK CLIENT:', error);
+  console.error('🚨 THIS MEANS HEARTBEATS WILL NOT BE SAVED TO DATABASE!');
+  console.error('🚨 Check your environment variables in .env.local');
   const mockQueryBuilder: MockQueryBuilder = {
     upsert: () => Promise.resolve({ data: null, error: null }),
     insert: () => Promise.resolve({ data: null, error: null }),

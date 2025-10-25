@@ -288,12 +288,27 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     const initialArray = originalArray || objectToArray(urlState);
     
-    // Auto-populate nightlord from seed data if SEED exists but nightlord doesn't
-    if (urlState.foundSeed && !urlState.nightlord) {
+    // Auto-populate or correct nightlord from seed data if SEED exists
+    if (urlState.foundSeed) {
       const seedData = findSeedById(urlState.foundSeed);
       if (seedData && seedData.nightlord) {
-        urlState.nightlord = seedData.nightlord;
-        initialArray.push(`nightlord=${seedData.nightlord}`);
+        // If no nightlord is set, add it
+        if (!urlState.nightlord) {
+          urlState.nightlord = seedData.nightlord;
+          initialArray.push(`nightlord=${seedData.nightlord}`);
+        }
+        // If nightlord is set but doesn't match seed data, correct it
+        else if (urlState.nightlord !== seedData.nightlord) {
+          console.warn(`🚨 Nightlord mismatch for seed ${urlState.foundSeed}! URL has "${urlState.nightlord}" but seed data has "${seedData.nightlord}". Correcting to seed data.`);
+          urlState.nightlord = seedData.nightlord;
+          // Update the initialArray to reflect the correction
+          const nightlordIndex = initialArray.findIndex(part => part.startsWith('nightlord='));
+          if (nightlordIndex !== -1) {
+            initialArray[nightlordIndex] = `nightlord=${seedData.nightlord}`;
+          } else {
+            initialArray.push(`nightlord=${seedData.nightlord}`);
+          }
+        }
       }
     }
     
