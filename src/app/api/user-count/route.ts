@@ -1,58 +1,84 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
-export async function GET() {
+interface UserSession {
+  session_id: string;
+  nightlord: string | null;
+}
+
+interface UserCountResponse {
+  totalUsers: number;
+  usersByNightlord: Record<string, number>;
+}
+
+interface NightlordCounts {
+  [nightlord: string]: number;
+}
+
+function calculateActiveCutoffTime(): string {
+  const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+  return new Date(fiveMinutesAgo).toISOString();
+}
+
+function processNightlordDistribution(sessions: UserSession[]): NightlordCounts {
+  const nightlordCounts: NightlordCounts = {};
+  
+  sessions.forEach(session => {
+    if (session.nightlord && typeof session.nightlord === 'string') {
+      nightlordCounts[session.nightlord] = (nightlordCounts[session.nightlord] || 0) + 1;
+    }
+  });
+  
+  return nightlordCounts;
+}
+
+function createFallbackResponse(): UserCountResponse {
+  return { totalUsers: 0, usersByNightlord: {} };
+}
+
+function createCacheHeaders(): Record<string, string> {
+  return {
+    'Cache-Control': 'public, max-age=30, s-maxage=30, stale-while-revalidate=60'
+  };
+}
+
+export async function GET(): Promise<NextResponse<UserCountResponse>> {
   try {
-    const cutoffTime = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    const activeCutoffTime = calculateActiveCutoffTime();
     
-    // Get total user count
-    const userCountQuery = supabase
+    const { data: activeUserSessions, error: databaseError } = await supabase
       .from('user_sessions')
-      .select('session_id')
-      .gt('last_heartbeat', cutoffTime);
-    
-    const { data: userCountData, error: userCountError } = await userCountQuery;
+      .select('session_id, nightlord')
+      .gt('last_heartbeat', activeCutoffTime);
 
-    if (userCountError) {
-      console.warn('Supabase user count query failed:', userCountError);
-      return NextResponse.json({ totalUsers: 0, usersByNightlord: {} });
+    if (databaseError) {
+      console.warn('Supabase active users query failed:', databaseError);
+      return NextResponse.json(createFallbackResponse());
     }
 
-    // Get users by nightlord
-    const nightlordQuery = supabase
-      .from('user_sessions')
-      .select('nightlord')
-      .gt('last_heartbeat', cutoffTime);
-    
-    const { data: nightlordData, error: nightlordError } = await nightlordQuery;
-
-    if (nightlordError) {
-      console.warn('Supabase nightlord query failed:', nightlordError);
-      return NextResponse.json({ 
-        totalUsers: Array.isArray(userCountData) ? userCountData.length : 0, 
-        usersByNightlord: {} 
-      });
+    if (!Array.isArray(activeUserSessions)) {
+      return NextResponse.json(createFallbackResponse());
     }
 
-    // Process nightlord counts
-    const nightlordCounts: Record<string, number> = {};
-    if (Array.isArray(nightlordData)) {
-      nightlordData.forEach(session => {
-        if (session.nightlord && typeof session.nightlord === 'string') {
-          nightlordCounts[session.nightlord] = (nightlordCounts[session.nightlord] || 0) + 1;
-        }
-      });
-    }
+    const validUserSessions = activeUserSessions as UserSession[];
+    const totalActiveUsers = validUserSessions.length;
+    const nightlordDistribution = processNightlordDistribution(validUserSessions);
 
-    return NextResponse.json({
-      totalUsers: Array.isArray(userCountData) ? userCountData.length : 0,
-      usersByNightlord: nightlordCounts,
+    const responseData: UserCountResponse = {
+      totalUsers: totalActiveUsers,
+      usersByNightlord: nightlordDistribution,
+    };
+
+    const cacheHeaders = createCacheHeaders();
+
+    return NextResponse.json(responseData, {
+      headers: cacheHeaders
     });
 
-  } catch (error) {
-    console.error('Error in user-count API:', error);
+  } catch (unexpectedError) {
+    console.error('Error in user-count API:', unexpectedError);
     return NextResponse.json(
-      { totalUsers: 0, usersByNightlord: {} },
+      createFallbackResponse(),
       { status: 500 }
     );
   }
