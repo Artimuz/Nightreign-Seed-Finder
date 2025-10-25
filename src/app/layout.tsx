@@ -9,6 +9,7 @@ import SessionProvider from '@/components/providers/SessionProvider'
 import UserCounter from '@/components/ui/UserCounter'
 import Footer from '@/components/ui/Footer'
 import { PerformanceProvider } from '@/components/providers/PerformanceProvider'
+import { VersionProvider } from '@/components/providers/VersionProvider'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Nightreign Seed Finder',
@@ -23,12 +24,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <PerformanceProvider>
-          <GlobalBackground />
-          <SessionProvider>
-            {children}
-            <UserCounter />
-            <Footer />
-          </SessionProvider>
+          <VersionProvider>
+            <GlobalBackground />
+            <SessionProvider>
+              {children}
+              <UserCounter />
+              <Footer />
+            </SessionProvider>
+          </VersionProvider>
         </PerformanceProvider>
         <script
           dangerouslySetInnerHTML={{
