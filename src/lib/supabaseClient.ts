@@ -20,10 +20,11 @@ interface MockQueryBuilder {
   insert: (data: Record<string, unknown>) => Promise<{ data: null; error: null }>;
   update: (data: Record<string, unknown>) => MockQueryBuilder;
   delete: () => MockQueryBuilder;
-  select: (columns?: string) => Promise<{ data: Record<string, unknown>[]; error: null }>;
+  select: (columns?: string) => MockQueryBuilder;
   eq: (column: string, value: unknown) => MockQueryBuilder;
   lt: (column: string, value: unknown) => MockQueryBuilder;
-  then: (resolve: (value: { data: null; error: null }) => void) => void;
+  gt: (column: string, value: unknown) => MockQueryBuilder;
+  then: (resolve: (value: { data: Record<string, unknown>[] | null; error: null }) => void) => void;
 }
 
 interface MockSupabaseClient {
@@ -66,10 +67,11 @@ try {
     insert: () => Promise.resolve({ data: null, error: null }),
     update: function() { return this; },
     delete: function() { return this; },
-    select: () => Promise.resolve({ data: [], error: null }),
+    select: function() { return this; },
     eq: function() { return this; },
     lt: function() { return this; },
-    then: (resolve) => resolve({ data: null, error: null })
+    gt: function() { return this; },
+    then: (resolve) => resolve({ data: [], error: null })
   };
   
   supabase = {

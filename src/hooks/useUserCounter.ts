@@ -31,14 +31,15 @@ export const useUserCounter = () => {
   const fetchInitialData = useCallback(async () => {
     await measureAsync('user_counter_fetch', async () => {
       try {
+        // Both functions now call the same API endpoint, so we can optimize this
+        const response = await fetch('/api/user-count');
+        if (!response.ok) {
+          throw new Error(`API failed: ${response.statusText}`);
+        }
 
-        const [totalUsers, usersByNightlord] = await Promise.all([
-          sessionQueries.getUserCount(),
-          sessionQueries.getUsersByNightlord(),
-        ]);
-
-        setTotalUsers(totalUsers);
-        setUsersByNightlord(usersByNightlord);
+        const data = await response.json();
+        setTotalUsers(data.totalUsers || 0);
+        setUsersByNightlord(data.usersByNightlord || {});
         setIsConnected(true);
       } catch (error) {
         console.error('Failed to fetch user data:', error);

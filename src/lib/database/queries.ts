@@ -57,24 +57,16 @@ export const sessionQueries = {
     if (cached !== null && typeof cached === 'number') return cached;
 
     try {
-      const cutoffTime = new Date(Date.now() - 5 * 60 * 1000).toISOString();
-      const query = supabase.from('user_sessions').select('session_id');
-
-      if ('gt' in query) {
-        const { data, error } = await query.gt('last_heartbeat', cutoffTime);
-        if (error) {
-          console.warn('Supabase query failed, using fallback:', error);
-          return 0;
-        }
-        const count = Array.isArray(data) ? data.length : 0;
-        queryCache.set(cacheKey, count, CACHE_TTL.USER_COUNT);
-        return count;
-      } else {
-
-        const count = 0;
-        queryCache.set(cacheKey, count, CACHE_TTL.USER_COUNT);
-        return count;
+      const response = await fetch('/api/user-count');
+      if (!response.ok) {
+        console.warn('User count API failed:', response.statusText);
+        return 0;
       }
+
+      const data = await response.json();
+      const count = data.totalUsers || 0;
+      queryCache.set(cacheKey, count, CACHE_TTL.USER_COUNT);
+      return count;
     } catch (error) {
       console.warn('Error fetching user count, using fallback:', error);
       return 0;
@@ -87,33 +79,16 @@ export const sessionQueries = {
     if (cached !== null && typeof cached === 'object') return cached as Record<string, number>;
 
     try {
-      const cutoffTime = new Date(Date.now() - 5 * 60 * 1000).toISOString();
-      const query = supabase.from('user_sessions').select('nightlord');
-
-      if ('gt' in query) {
-        const { data, error } = await query.gt('last_heartbeat', cutoffTime);
-        if (error) {
-          console.warn('Supabase nightlord query failed, using fallback:', error);
-          return {};
-        }
-
-        const nightlordCounts: Record<string, number> = {};
-        if (Array.isArray(data)) {
-          data.forEach(session => {
-            if (session.nightlord && typeof session.nightlord === 'string') {
-              nightlordCounts[session.nightlord] = (nightlordCounts[session.nightlord] || 0) + 1;
-            }
-          });
-        }
-
-        queryCache.set(cacheKey, nightlordCounts, CACHE_TTL.USER_COUNT);
-        return nightlordCounts;
-      } else {
-
-        const nightlordCounts: Record<string, number> = {};
-        queryCache.set(cacheKey, nightlordCounts, CACHE_TTL.USER_COUNT);
-        return nightlordCounts;
+      const response = await fetch('/api/user-count');
+      if (!response.ok) {
+        console.warn('Users by nightlord API failed:', response.statusText);
+        return {};
       }
+
+      const data = await response.json();
+      const nightlordCounts = data.usersByNightlord || {};
+      queryCache.set(cacheKey, nightlordCounts, CACHE_TTL.USER_COUNT);
+      return nightlordCounts;
     } catch (error) {
       console.warn('Error fetching users by nightlord, using fallback:', error);
       return {};
@@ -122,33 +97,25 @@ export const sessionQueries = {
 
   async cleanupExpiredSessions(): Promise<boolean> {
     try {
-      const cutoffTime = new Date(Date.now() - 90 * 60 * 1000); // 90 minutes ago
-      
-      const query = supabase.from('user_sessions').delete();
-      
-      // Check if the delete method supports the lt filter
-      if ('lt' in query) {
-        const { error } = await query.lt('last_heartbeat', cutoffTime.toISOString());
-        
-        if (error) {
-          console.warn('Supabase cleanup failed, this is expected in development:', error);
-          return false;
-        }
-      } else {
-        // Fallback for mock/development environment
-        console.log('Session cleanup skipped - running in development mode');
-        return true;
+      const response = await fetch('/api/cleanup-old-sessions', {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        console.warn('Session cleanup API failed:', response.statusText);
+        return false;
       }
 
-      queryCache.clear();
-      return true;
+      const data = await response.json();
+      if (data.success) {
+        queryCache.clear();
+        return true;
+      } else {
+        console.warn('Session cleanup failed:', data.error);
+        return false;
+      }
     } catch (error) {
-      // Improve error logging to handle empty or undefined errors
-      const errorMessage = error && typeof error === 'object' 
-        ? JSON.stringify(error, null, 2) 
-        : String(error || 'Unknown error');
-      
-      console.warn('Session cleanup failed (this is normal in development):', errorMessage);
+      console.warn('Session cleanup failed (this is normal in development):', error);
       return false;
     }
   },

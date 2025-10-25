@@ -1,6 +1,6 @@
 # Nightreign Seed Finder
 
-A secure, modern interactive seed finder for Nightreign with advanced URL state management and enterprise-grade architecture
+A secure, modern interactive seed finder for Nightreign with advanced URL state management, server-side API architecture, and enterprise-grade security
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black.svg)
@@ -21,6 +21,7 @@ A secure, modern interactive seed finder for Nightreign with advanced URL state 
 - **Type-Safe Architecture**: Comprehensive TypeScript implementation with zero `any` types
 - **Input Validation**: Multi-layer validation with sanitization and schema enforcement
 - **Secure Session Management**: Cryptographically secure session IDs using Web Crypto API
+- **Server-Side API Routes**: CORS-free database operations through Next.js API endpoints
 - **Request Security**: Size limits, rate limiting preparation, and secure error handling
 - **Performance Optimized**: Debouncing, throttling, and memoization utilities
 
@@ -69,6 +70,8 @@ The application implements enterprise-grade security practices:
 - **Cryptographic Security**: Secure session ID generation using `crypto.getRandomValues()`
 - **Input Sanitization**: All user inputs are validated and sanitized before processing
 - **Type Safety**: Comprehensive TypeScript coverage with strict type checking
+- **Server-Side Database Operations**: All database queries handled through secure API routes
+- **CORS Protection**: Eliminates cross-origin request issues through server-side architecture
 - **API Security**: Request validation, size limits, and secure error responses
 
 ### URL State Pattern
@@ -89,7 +92,10 @@ src/
 │   ├── page.tsx            # Main page
 │   ├── globals.css         # Global styles
 │   ├── [...state]/         # Dynamic URL state handling
-│   └── api/                # API routes with security
+│   └── api/                # Server-side API routes
+│       ├── user-count/     # User analytics endpoint
+│       ├── cleanup-old-sessions/ # Session cleanup endpoint
+│       └── ...             # Other secure API endpoints
 ├── components/
 │   ├── common/             # Reusable components
 │   ├── ui/                 # Base UI components
@@ -142,18 +148,21 @@ Choose from 5 available map types using the cards menu:
 ## Technical Details
 
 ### Technologies Used
-- **Next.js 15.5.3**: React framework with App Router
+- **Next.js 15.5.3**: React framework with App Router and API routes
 - **TypeScript**: Type-safe development with strict configuration
 - **Tailwind CSS**: Utility-first styling
 - **Framer Motion**: Animation library
 - **Zustand**: Lightweight state management
-- **Supabase**: Database and real-time features
+- **Supabase**: Database with server-side query architecture
 - **Web Crypto API**: Secure session management
+- **Next.js API Routes**: Server-side database operations and CORS protection
 
 ### Security Features
 - **Input Validation**: Comprehensive schema validation for all inputs
 - **Session Security**: Cryptographically secure session IDs
 - **Type Safety**: Zero `any` types, comprehensive interface coverage
+- **Server-Side Database Access**: All database operations through secure API routes
+- **CORS Elimination**: No cross-origin requests to external databases
 - **Request Protection**: Size limits and validation on all API endpoints
 - **Error Handling**: Secure error responses without information leakage
 
@@ -262,9 +271,11 @@ This project is for educational and community use. All Nightreign assets and dat
 
 ### Architecture Improvements
 - **Feature-Based Structure**: Modular architecture with clear separation of concerns
+- **Server-Side API Layer**: Secure database operations through Next.js API routes
 - **Service Layer**: Dedicated business logic services
 - **Validation Layer**: Comprehensive input validation and sanitization
 - **Performance Layer**: Debouncing, throttling, and memoization utilities
+- **CORS-Free Architecture**: Eliminates cross-origin request issues
 
 ### Code Quality
 - **Zero Console Logs**: Production-ready codebase with no debug artifacts
