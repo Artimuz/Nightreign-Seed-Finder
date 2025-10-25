@@ -136,7 +136,7 @@ export const sessionQueries = {
 
       if ('upsert' in query) {
 
-        const { error } = await (query as any).upsert(updates);
+        const { error } = await (query as { upsert: (data: unknown) => Promise<{ error: unknown }> }).upsert(updates);
         if (error) throw error;
       }
 

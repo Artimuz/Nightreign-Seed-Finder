@@ -94,8 +94,9 @@ temp/
 !public/**/*.ico
 
 
+.gitignore
+
 AGENTS.md
 AGENTS.local.md
 **/AGENTS.local.md
 
-.gitignore
