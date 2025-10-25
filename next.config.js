@@ -2,7 +2,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+// Automatically inject package.json version
+const packageJson = require('./package.json');
+
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_APP_VERSION: packageJson.version,
+  },
   images: {
     remotePatterns: [
       {

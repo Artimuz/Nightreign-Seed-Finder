@@ -9,7 +9,10 @@ export default function Footer() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.5 }}
     >
-      <div className="flex items-center justify-center py-3">
+      <div className="relative flex items-center justify-center py-3">
+        <span className="absolute left-4 text-sm text-gray-500">
+          v{process.env.NEXT_PUBLIC_APP_VERSION || '1.0.1'}
+        </span>
         <Link
           href="https://github.com/Artimuz/Nightreign-Seed-Finder"
           target="_blank"
