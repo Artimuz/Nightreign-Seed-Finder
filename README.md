@@ -289,20 +289,8 @@ This project is for educational and community use. All Nightreign assets and dat
 - **Developer Tools**: Advanced debugging and development utilities
 - **Documentation**: Comprehensive documentation and examples
 
-## Version 1.0.5 - Performance Optimization Release
+## Recent Updates
 
-### Critical CPU Usage Optimizations
-This release addresses high Vercel CPU usage through aggressive caching and database query optimization:
-
-**API Performance Improvements:**
-- **Version API**: Implemented 5-minute aggressive caching with CDN optimization (94% CPU reduction)
-- **User Counter API**: Combined dual database queries into single efficient query with intelligent caching (70% CPU reduction)
-- **Overall Impact**: Expected 84% reduction in total CPU usage, protecting Vercel free plan limits
-
-**Technical Enhancements:**
-- Multi-layer caching strategy with stale-while-revalidate for optimal performance
-- Reduced database load through query consolidation
-- Enhanced TypeScript typing with self-explanatory function names
-- Vercel edge caching integration for global performance
+See [patchNotes.md](./patchNotes.md) for detailed version history and technical changes.
 
 **Ready to find your perfect Nightreign seed with enterprise-grade security and performance.**

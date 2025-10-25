@@ -5,12 +5,12 @@ export function useVersionCheck() {
   const currentVersion = process.env.NEXT_PUBLIC_APP_VERSION || APP_VERSION;
 
   useEffect(() => {
-    // Check version every 30 seconds
+    // Check version every 15 minutes
     const checkVersion = async () => {
       try {
         // Fetch the current version from a lightweight endpoint
-        const response = await fetch('/api/version?' + Date.now(), {
-          cache: 'no-store'
+        const response = await fetch('/api/version', {
+          cache: 'default'
         });
         const data = await response.json();
         
@@ -47,8 +47,8 @@ export function useVersionCheck() {
     // Initial check after 10 seconds
     const initialTimeout = setTimeout(checkVersion, 10000);
     
-    // Then check every 30 seconds
-    const interval = setInterval(checkVersion, 30000);
+    // Then check every 15 minutes
+    const interval = setInterval(checkVersion, 15 * 60 * 1000);
 
     return () => {
       clearTimeout(initialTimeout);
