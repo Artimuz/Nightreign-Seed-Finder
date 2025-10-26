@@ -38,7 +38,7 @@ function createFallbackResponse(): UserCountResponse {
 
 function createCacheHeaders(): Record<string, string> {
   return {
-    'Cache-Control': 'public, max-age=30, s-maxage=30, stale-while-revalidate=60'
+    'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=120'
   };
 }
 

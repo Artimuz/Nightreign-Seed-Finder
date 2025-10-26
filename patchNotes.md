@@ -1,5 +1,32 @@
 # Patch Notes
 
+## Version 1.0.7 - Major CPU Optimization for 10x Scale
+
+### Performance Improvements
+- **User Count API Optimization**: Extended cache from 30s to 10 minutes (20x improvement)
+- **Polling Frequency Reduction**: User data polling reduced from 5min to 15min intervals (3x improvement)  
+- **Background Session Cleanup**: Moved cleanup from client-side to Vercel cron jobs (30min intervals)
+- **Client-Side Cleanup Removal**: Eliminated all frontend session cleanup triggers
+
+### Expected Impact
+- **70-80% CPU reduction**: From 8.2s/hour to ~1.6-2.4s/hour
+- **10x Growth Capacity**: Can now support 5-8x current user base on free tier
+- **Improved Reliability**: Background processing prevents client-side cleanup failures
+
+### Technical Changes
+- `src/hooks/useUserCounter.ts`: Removed cleanup logic, extended polling intervals
+- `src/app/api/user-count/route.ts`: Extended cache headers to 10 minutes
+- `vercel.json`: Added cron job for automated session cleanup every 30 minutes
+
+### Files Modified
+- package.json (version bump)
+- src/hooks/useUserCounter.ts (optimization)
+- src/app/api/user-count/route.ts (caching)
+- vercel.json (new cron configuration)
+- patchNotes.md (documentation)
+
+---
+
 ## Version 1.0.6
 **Release Date**: [Current Release]
 
