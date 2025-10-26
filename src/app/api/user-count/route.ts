@@ -42,9 +42,30 @@ function createCacheHeaders(): Record<string, string> {
   };
 }
 
+async function performOpportunisticCleanup(): Promise<void> {
+  try {
+    const shouldCleanup = Math.random() < 0.1; // 10% chance on each call
+    if (!shouldCleanup) return;
+
+    const cutoffTime = new Date(Date.now() - 90 * 60 * 1000); // 90 minutes ago
+    
+    await supabase
+      .from('user_sessions')
+      .delete()
+      .lt('last_heartbeat', cutoffTime.toISOString());
+      
+  } catch (error) {
+    // Silent failure - cleanup is opportunistic
+    console.warn('Opportunistic cleanup failed:', error);
+  }
+}
+
 export async function GET(): Promise<NextResponse<UserCountResponse>> {
   try {
     const activeCutoffTime = calculateActiveCutoffTime();
+    
+    // Opportunistic cleanup - runs randomly to spread load
+    performOpportunisticCleanup().catch(() => {}); // Fire and forget
     
     const { data: activeUserSessions, error: databaseError } = await supabase
       .from('user_sessions')
