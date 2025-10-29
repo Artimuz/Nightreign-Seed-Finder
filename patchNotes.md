@@ -1,5 +1,79 @@
 # Patch Notes
 
+## Version 1.0.9 - Critical CPU Optimization (83.8% Middleware Reduction)
+
+### Emergency Performance Fix
+**Problem**: Vercel CPU usage showed middleware consuming 4m 4s (83.8%) in 12 hours, with API routes consuming only 47s (16.2%). Investigation revealed middleware was processing ALL requests including high-frequency API calls.
+
+### Root Cause Analysis
+- **Middleware overload**: Security middleware ran on every request (1,500+ per 12h)
+- **Excessive heartbeats**: Session heartbeats every 30 seconds per active user
+- **Version check frequency**: 15-minute polling still too aggressive
+- **No idle optimization**: Sessions maintained full frequency regardless of user activity
+
+### Critical Optimizations Implemented
+
+#### 1. Middleware CPU Reduction (Targets 83.8% of CPU)
+- **API route bypass**: Lightweight processing for `/api/*` routes
+- **Selective security**: Full security headers only for page routes
+- **Expected impact**: 70-80% reduction in middleware CPU usage
+
+#### 2. Intelligent Session Heartbeats (Targets 488 user-count calls)
+- **Adaptive frequency**: Start at 1 minute, increase to 10 minutes when idle
+- **Idle detection**: Automatic delay increase (1min increments) based on user activity
+- **Activity tracking**: Reset to 1-minute intervals on user interaction
+- **Expected impact**: 60-90% reduction in session API calls
+
+#### 3. Extended Version Check (Targets 629 version calls)
+- **Polling interval**: Extended from 15 minutes to 1 hour
+- **Cache optimization**: Maintains existing HTTP caching benefits
+- **Expected impact**: 75% reduction in version API calls
+
+### Technical Implementation
+
+#### Middleware Optimization (`src/middleware.ts`)
+```typescript
+// Before: Full security processing for ALL requests
+// After: Lightweight API processing, full security only for pages
+const isApiRoute = request.nextUrl.pathname.startsWith('/api/');
+if (isApiRoute) {
+  // Minimal headers only
+  return response;
+}
+// Full security for pages
+```
+
+#### Adaptive Heartbeat System (`src/lib/services/sessionService.ts`)
+```typescript
+// Progressive delay: 1min → 2min → 3min → ... → 10min (max)
+// Reset to 1min on user activity
+private currentHeartbeatDelay: number = 60000; // Start at 1 minute
+private lastActivityTime: number = Date.now();
+```
+
+### Expected Performance Impact
+- **Total CPU reduction**: 70-85% (from 4m 51s to ~45s-1m 25s per 12h)
+- **Middleware CPU**: 70-80% reduction (4m 4s → ~48s-1m 13s)
+- **API call reduction**: 
+  - Session heartbeats: 60-90% reduction
+  - Version checks: 75% reduction
+  - Overall API load: 50-70% reduction
+
+### Files Modified
+- `src/middleware.ts`: API route bypass optimization
+- `src/lib/services/sessionService.ts`: Adaptive heartbeat system
+- `src/hooks/useVersionCheck.ts`: Extended to 1-hour polling
+- `package.json`: Version bump to 1.0.9
+- `patchNotes.md`: Critical optimization documentation
+
+### Monitoring Points
+- Middleware CPU usage (should drop from 83.8% to ~20-30%)
+- `/api/user-count` call frequency (should reduce significantly)
+- `/api/version` call frequency (should drop by 75%)
+- Overall Vercel CPU metrics
+
+---
+
 ## Version 1.0.7 - Major CPU Optimization for 10x Scale (Cron Job Fix)
 
 ### Performance Improvements

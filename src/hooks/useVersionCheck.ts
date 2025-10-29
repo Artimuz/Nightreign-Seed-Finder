@@ -37,7 +37,7 @@ export function useVersionCheck() {
 
     const initialTimeout = setTimeout(checkVersion, 10000);
     
-    const interval = setInterval(checkVersion, 15 * 60 * 1000);
+    const interval = setInterval(checkVersion, 60 * 60 * 1000); // 1 hour
 
     return () => {
       clearTimeout(initialTimeout);

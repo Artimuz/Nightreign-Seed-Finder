@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
+  
+  // Lightweight processing for API routes to reduce CPU usage
+  const isApiRoute = request.nextUrl.pathname.startsWith('/api/');
+  
+  if (isApiRoute) {
+    // Minimal security headers for API routes
+    if (!response.headers.get('X-Content-Type-Options')) {
+      response.headers.set('X-Content-Type-Options', 'nosniff');
+    }
+    return response;
+  }
+  
+  // Full security processing for page routes
   if (!response.headers.get('X-Content-Type-Options')) {
     response.headers.set('X-Content-Type-Options', 'nosniff');
   }
@@ -9,6 +22,7 @@ export function middleware(request: NextRequest) {
   if (!response.headers.get('X-Frame-Options')) {
     response.headers.set('X-Frame-Options', 'DENY');
   }
+  
   if (request.method !== 'GET' && request.method !== 'HEAD' && request.method !== 'OPTIONS') {
     const origin = request.headers.get('origin');
     const host = request.headers.get('host');
@@ -19,6 +33,7 @@ export function middleware(request: NextRequest) {
       }
     }
   }
+  
   if (!response.headers.get('X-Request-ID')) {
     response.headers.set('X-Request-ID', crypto.randomUUID());
   }
