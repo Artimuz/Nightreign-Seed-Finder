@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { applyStatePageRateLimit } from '@/lib/middleware/ratelimit';
 
 export async function middleware(request: NextRequest) {
-  // Apply 30-second rate limit for state pages
-  const isStatePage = request.nextUrl.pathname !== '/' && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/');
-  if (isStatePage) {
+  // Apply 30-second rate limit only for seed result pages (contains "SEED=")
+  const isSeedResultPage = request.nextUrl.pathname.includes('SEED=');
+  if (isSeedResultPage) {
     const stateRateLimitResponse = await applyStatePageRateLimit(request);
     if (stateRateLimitResponse) {
       return stateRateLimitResponse;

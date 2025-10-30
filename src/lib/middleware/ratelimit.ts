@@ -8,6 +8,27 @@ let ratelimit: Ratelimit | null = null;
 let statePagesRatelimit: Ratelimit | null = null;
 let logApiRatelimit: Ratelimit | null = null;
 
+// Fallback in-memory rate limiting when Redis is not available
+const inMemoryLimits = new Map<string, number>();
+
+const isRateLimited = (key: string, windowMs: number): boolean => {
+  const now = Date.now();
+  const lastRequest = inMemoryLimits.get(key);
+  
+  if (!lastRequest || now - lastRequest >= windowMs) {
+    inMemoryLimits.set(key, now);
+    // Clean up old entries every 100 requests
+    if (inMemoryLimits.size > 100) {
+      const cutoff = now - windowMs * 2;
+      for (const [k, v] of inMemoryLimits.entries()) {
+        if (v < cutoff) inMemoryLimits.delete(k);
+      }
+    }
+    return false;
+  }
+  return true;
+};
+
 try {
   if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
     redis = new Redis({
@@ -46,7 +67,7 @@ try {
 }
 
 export const applyRateLimit = async (request: NextRequest, identifier?: string): Promise<NextResponse | null> => {
-  if (!ratelimit || process.env.NODE_ENV === 'development') {
+  if (!ratelimit) {
     return null;
   }
 
@@ -104,7 +125,24 @@ const getClientIP = (request: NextRequest): string => {
 
 // 30-second rate limit for state pages
 export const applyStatePageRateLimit = async (request: NextRequest, identifier?: string): Promise<NextResponse | null> => {
-  if (!statePagesRatelimit || process.env.NODE_ENV === 'development') {
+  const id = identifier || getClientIP(request);
+  
+  // Fallback to in-memory rate limiting if Redis is not available
+  if (!statePagesRatelimit) {
+    const isLimited = isRateLimited(`state_${id}`, 30000); // 30 seconds
+    if (isLimited) {
+      return new NextResponse(
+        'Rate limit exceeded. Please wait 30 seconds before accessing state pages again.',
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '1',
+            'X-RateLimit-Remaining': '0',
+            'Retry-After': '30',
+          },
+        }
+      );
+    }
     return null;
   }
 
@@ -136,7 +174,29 @@ export const applyStatePageRateLimit = async (request: NextRequest, identifier?:
 
 // 30-second rate limit for log API
 export const applyLogApiRateLimit = async (request: NextRequest, identifier?: string): Promise<NextResponse | null> => {
-  if (!logApiRatelimit || process.env.NODE_ENV === 'development') {
+  const id = identifier || getClientIP(request);
+  
+  // Fallback to in-memory rate limiting if Redis is not available
+  if (!logApiRatelimit) {
+    const isLimited = isRateLimited(`log_${id}`, 30000); // 30 seconds
+    if (isLimited) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Rate limit exceeded. Please wait 30 seconds before submitting logs again.',
+          limit: 1,
+          remaining: 0,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '1',
+            'X-RateLimit-Remaining': '0',
+            'Retry-After': '30',
+          },
+        }
+      );
+    }
     return null;
   }
 

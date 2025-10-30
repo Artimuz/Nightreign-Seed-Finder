@@ -39,6 +39,7 @@ export interface GameState {
   _isInternalURLUpdate: boolean;
   sessionStartTime: number;
   loggedSeeds: string[];
+  lastLogSubmission: number;
   
   arrayToObject: (urlArray: string[]) => URLState;
   objectToArray: (urlState: URLState) => string[];

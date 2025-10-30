@@ -19,6 +19,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   _isInternalURLUpdate: false,
   sessionStartTime: Date.now(),
   loggedSeeds: [],
+  lastLogSubmission: 0,
   arrayToObject: (urlArray) => {
     return arrayToObject(urlArray);
   },
@@ -356,8 +357,21 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (state.loggedSeeds.includes(seedId)) {
       return;
     }
-    set({ loggedSeeds: [...state.loggedSeeds, seedId] });
-    const sessionDuration = Math.floor((Date.now() - state.sessionStartTime) / 1000);
+
+    // Client-side rate limiting: 30 seconds between log submissions
+    const now = Date.now();
+    const timeSinceLastLog = now - state.lastLogSubmission;
+    if (timeSinceLastLog < 30000) { // 30 seconds
+      console.warn(`Rate limited: Please wait ${Math.ceil((30000 - timeSinceLastLog) / 1000)} more seconds before submitting another log.`);
+      return;
+    }
+
+    set({ 
+      loggedSeeds: [...state.loggedSeeds, seedId],
+      lastLogSubmission: now
+    });
+    
+    const sessionDuration = Math.floor((now - state.sessionStartTime) / 1000);
     const pathTaken = state.urlHistory.slice(0, state.urlHistoryIndex + 1);
     const logData = {
       seed_id: seedId,
@@ -372,6 +386,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(logData),
     }).catch(() => {});
-    set({ sessionStartTime: Date.now() });
+    set({ sessionStartTime: now });
   }
 }));

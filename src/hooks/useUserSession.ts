@@ -120,22 +120,7 @@ export const useUserSession = () => {
         nightlord: nightlordName
       };
       
-      const { data: updateData, error: updateError } = await supabase
-        .from('user_sessions')
-        .update(sessionData)
-        .eq('session_id', sessionIdRef.current)
-        .select();
-        
-      if (updateError || !updateData || updateData.length === 0) {
-
-        const { error: insertError } = await supabase
-          .from('user_sessions')
-          .insert(sessionData);
-        
-        if (insertError && insertError.code !== '23505') {
-
-        }
-      }
+      // User session database operations disabled for performance optimization
     } catch (error) {
 
     } finally {
@@ -189,10 +174,8 @@ export const useUserSession = () => {
         };
       }
       
-      const { error } = await supabase
-        .from('user_sessions')
-        .update(heartbeatData)
-        .eq('session_id', sessionIdRef.current);
+      // Heartbeat database operations disabled for performance optimization
+      const error = null;
         
       if (error) {
 
@@ -263,10 +246,7 @@ export const useUserSession = () => {
   const removeSession = useCallback(async () => {
     if (!sessionIdRef.current) return;
     try {
-      await supabase
-        .from('user_sessions')
-        .delete()
-        .eq('session_id', sessionIdRef.current);
+      // Session cleanup database operations disabled for performance optimization
     } catch {
     }
   }, []);

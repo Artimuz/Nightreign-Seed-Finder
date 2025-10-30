@@ -19,102 +19,22 @@ export class SessionService {
   }
 
   async createSession(pagePath: string, nightlord?: string | null): Promise<boolean> {
-    return measureAsync('session_create', async () => {
-      try {
-        if (!this.sessionId) {
-          this.sessionId = generateSecureSessionId();
-        }
-
-        const sessionData = {
-          session_id: this.sessionId,
-          page_path: pagePath,
-          is_localhost: isLocalhost(),
-          nightlord: nightlord ? extractNightlordName(nightlord) : null,
-        };
-
-        const zodValidation = SessionZodSchema.safeParse(sessionData);
-        if (!zodValidation.success) {
-          console.error('Session validation failed:', zodValidation.error.errors);
-          return false;
-        }
-
-        const validation = validateSessionData(sessionData);
-        if (!validation.isValid) {
-          return false;
-        }
-
-        const finalSessionData = {
-          ...validation.data,
-          last_heartbeat: new Date().toISOString(),
-        };
-
-        const { error: updateError } = await supabase
-          .from('user_sessions')
-          .update(finalSessionData)
-          .eq('session_id', finalSessionData.session_id);
-          
-        if (updateError) {
-          const { error: insertError } = await supabase
-            .from('user_sessions')
-            .insert(finalSessionData);
-            
-          if (insertError && insertError.code !== '23505') {
-            console.warn('Session service insert failed:', insertError);
-          }
-        }
-
-        return !updateError || updateError.code === '23505';
-      } catch (error) {
-        console.error('Session creation error:', error);
-        return false;
-      }
-    });
+    // Session tracking disabled for performance optimization
+    if (!this.sessionId) {
+      this.sessionId = generateSecureSessionId();
+    }
+    return true;
   }
 
   async updateHeartbeat(pagePath: string, nightlord?: string | null): Promise<boolean> {
-    if (!this.sessionId) return false;
-
-    return measureAsync('session_heartbeat', async () => {
-      try {
-        const updateData = {
-          page_path: pagePath,
-          last_heartbeat: new Date().toISOString(),
-          is_localhost: isLocalhost(),
-          nightlord: nightlord ? extractNightlordName(nightlord) : null,
-        };
-
-        const { error } = await supabase
-          .from('user_sessions')
-          .update(updateData)
-          .eq('session_id', this.sessionId);
-
-        if (error) {
-          console.warn('Heartbeat update failed, creating new session:', error);
-          return await this.createSession(pagePath, nightlord);
-        }
-
-        return true;
-      } catch (error) {
-        console.error('Heartbeat error:', error);
-        return false;
-      }
-    });
+    // Heartbeat tracking disabled for performance optimization
+    return true;
   }
 
   async removeSession(): Promise<boolean> {
-    if (!this.sessionId) return true;
-
-    try {
-      await supabase
-        .from('user_sessions')
-        .delete()
-        .eq('session_id', this.sessionId);
-
-      this.sessionId = null;
-      return true;
-    } catch {
-      return false;
-    }
+    // Session removal disabled for performance optimization
+    this.sessionId = null;
+    return true;
   }
 
   startHeartbeat(pagePath: string, nightlord?: string | null): void {
