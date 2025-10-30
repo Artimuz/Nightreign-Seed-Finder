@@ -314,9 +314,6 @@ export const useUserSession = () => {
     
     const handleBeforeUnload = () => {
       if (sessionIdRef.current) {
-        navigator.sendBeacon('/api/cleanup-session', JSON.stringify({
-          session_id: sessionIdRef.current
-        }));
       }
     };
     const handleVisibilityChange = () => {

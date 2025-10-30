@@ -6,7 +6,6 @@ import '@/styles/background-filters.css'
 import '@/styles/card-scale-controllers.css'
 import { GlobalBackground } from '@/components/backgrounds/GlobalBackground'
 import SessionProvider from '@/components/providers/SessionProvider'
-import UserCounter from '@/components/ui/UserCounter'
 import Footer from '@/components/ui/Footer'
 import { PerformanceProvider } from '@/components/providers/PerformanceProvider'
 import { VersionProvider } from '@/components/providers/VersionProvider'
@@ -22,17 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3952409900980393"
-     crossOrigin="anonymous"></script>
-      </head>
       <body className={inter.className}>
         <PerformanceProvider>
           <VersionProvider>
             <GlobalBackground />
             <SessionProvider>
               {children}
-              <UserCounter />
               <Footer />
             </SessionProvider>
           </VersionProvider>

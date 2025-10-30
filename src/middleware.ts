@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { applyStatePageRateLimit } from '@/lib/middleware/ratelimit';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  // Apply 30-second rate limit for state pages
+  const isStatePage = request.nextUrl.pathname !== '/' && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/');
+  if (isStatePage) {
+    const stateRateLimitResponse = await applyStatePageRateLimit(request);
+    if (stateRateLimitResponse) {
+      return stateRateLimitResponse;
+    }
+  }
+
   const response = NextResponse.next();
   
   // Lightweight processing for API routes to reduce CPU usage

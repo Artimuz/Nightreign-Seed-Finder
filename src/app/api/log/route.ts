@@ -2,14 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { validateLogRequest, LogRequestZodSchema } from '@/lib/validation/schemas';
 import { sanitizeInput, sanitizeObject } from '@/lib/config/security';
-import { applyRateLimit } from '@/lib/middleware/ratelimit';
+import { applyRateLimit, applyLogApiRateLimit } from '@/lib/middleware/ratelimit';
 
 const genericError = (message: string = 'Internal server error', status: number = 500) => 
   NextResponse.json({ success: false, error: message }, { status });
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply 30-second rate limit for log API
+    const logRateLimitResponse = await applyLogApiRateLimit(request);
+    if (logRateLimitResponse) {
+      return logRateLimitResponse;
+    }
 
+    // Apply general rate limit as secondary protection
     const rateLimitResponse = await applyRateLimit(request);
     if (rateLimitResponse) {
       return rateLimitResponse;

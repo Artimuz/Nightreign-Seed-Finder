@@ -3,7 +3,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useGameStore } from '@/lib/state/store';
 import { ArrowLeftIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
-import UserCounter from '@/components/ui/UserCounter';
 export const Controls: React.FC = () => {
   const { undo, restart, getUndoPreview, urlHistory, urlHistoryIndex, currentPhase, mapType } = useGameStore();
   const canUndo = urlHistoryIndex > 0;

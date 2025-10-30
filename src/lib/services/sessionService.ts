@@ -174,10 +174,5 @@ export class SessionService {
 
   cleanup(): void {
     this.stopHeartbeat();
-    if (this.sessionId) {
-      navigator.sendBeacon('/api/cleanup-session', JSON.stringify({
-        session_id: this.sessionId
-      }));
-    }
   }
 }

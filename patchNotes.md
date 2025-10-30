@@ -1,5 +1,59 @@
 # Patch Notes
 
+## Version 1.0.10 - User Counter Removal (Major CPU Reduction)
+
+### Performance Emergency Fix
+**Problem**: Despite previous optimizations, CPU usage remained too high due to user counter system:
+- `/api/user-count`: 433 calls consuming 11s CPU in 12 hours
+- `/api/cleanup-session`: 171 calls consuming 3.85s CPU
+- `/api/cleanup-sessions`: 1 call consuming 50ms CPU
+- Session tracking overhead affecting overall performance
+
+### Solution: Complete User Counter System Removal
+**Decision**: Remove entire user analytics feature to eliminate CPU-intensive operations:
+- **User Counter UI**: Removed visual user count display from bottom-right corner
+- **Session Tracking**: Eliminated user session database operations
+- **Cleanup APIs**: Removed all session cleanup endpoints
+- **Polling Logic**: Eliminated user count polling and heartbeat systems
+
+### Expected Performance Impact
+- **API Call Elimination**: ~604 fewer API calls per 12 hours (433 + 171)
+- **CPU Reduction**: ~14.85s less CPU usage per 12 hours (11s + 3.85s)
+- **Database Load**: Significant reduction in user_sessions table operations
+- **Memory Usage**: Lower memory footprint without session tracking
+
+### Files Removed
+- `src/components/ui/UserCounter.tsx`: User counter display component
+- `src/hooks/useUserCounter.ts`: User counter polling logic
+- `src/app/api/user-count/route.ts`: User count API endpoint
+- `src/app/api/cleanup-session/route.ts`: Individual session cleanup
+- `src/app/api/cleanup-sessions/route.ts`: Bulk session cleanup
+
+### Additional Security Enhancement: 30-Second Rate Limiting
+**Added Enhanced Rate Limiting** for high-traffic routes:
+- **State Pages (`/[...state]`)**: 1 request per 30 seconds per IP
+- **Log API (`/api/log`)**: 1 request per 30 seconds per IP
+- **Dual Protection**: Log API has both 30s specific limit + general API rate limit
+- **Frontend & Backend**: Rate limiting applied at middleware level for comprehensive protection
+
+### Files Modified
+- `src/app/layout.tsx`: Removed UserCounter component import and usage
+- `src/components/navigation/Controls.tsx`: Removed UserCounter import
+- `src/lib/services/sessionService.ts`: Removed cleanup API calls
+- `src/hooks/useUserSession.ts`: Removed cleanup beacon calls
+- `src/lib/database/queries.ts`: Disabled user count API calls
+- `src/lib/middleware/ratelimit.ts`: Added 30-second rate limiters for state pages and log API
+- `src/middleware.ts`: Added state page rate limiting to middleware
+- `src/app/api/log/route.ts`: Added 30-second rate limit before general rate limit
+- `package.json`: Version bump to 1.0.10
+
+### Trade-offs
+- **Lost Feature**: No longer displays active user count to visitors
+- **Gained Performance**: Significant CPU and database load reduction
+- **Monitoring**: Can still track usage through Vercel analytics if needed
+
+---
+
 ## Version 1.0.9 - Critical CPU Optimization (83.8% Middleware Reduction)
 
 ### Emergency Performance Fix
@@ -59,10 +113,16 @@ private lastActivityTime: number = Date.now();
   - Version checks: 75% reduction
   - Overall API load: 50-70% reduction
 
+#### 4. CSP Policy Update for Google Ads
+- **Added Google Ads domains**: `pagead2.googlesyndication.com`, `googleads.g.doubleclick.net`, `tpc.googlesyndication.com`
+- **Extended connect-src**: Added `*.google.com`, `*.googlesyndication.com`, `*.doubleclick.net`
+- **Fixed**: CSP script blocking errors for Google AdSense
+
 ### Files Modified
 - `src/middleware.ts`: API route bypass optimization
 - `src/lib/services/sessionService.ts`: Adaptive heartbeat system
 - `src/hooks/useVersionCheck.ts`: Extended to 1-hour polling
+- `next.config.js`: Enhanced CSP for Google Ads compatibility
 - `package.json`: Version bump to 1.0.9
 - `patchNotes.md`: Critical optimization documentation
 

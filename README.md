@@ -93,7 +93,6 @@ src/
 │   ├── globals.css         # Global styles
 │   ├── [...state]/         # Dynamic URL state handling
 │   └── api/                # Server-side API routes
-│       ├── user-count/     # User analytics endpoint
 │       ├── cleanup-old-sessions/ # Session cleanup endpoint
 │       └── ...             # Other secure API endpoints
 ├── components/
