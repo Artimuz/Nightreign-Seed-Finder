@@ -7,6 +7,7 @@ export interface LogRequestSchema {
   session_duration?: number;
   additional_info?: Record<string, unknown>;
   path_taken?: Array<string[]>;
+  Nightlord?: string;
 }
 
 export const LogRequestZodSchema = z.object({
@@ -31,6 +32,10 @@ export const LogRequestZodSchema = z.object({
     .optional(),
   path_taken: z.array(z.array(z.string().max(200)))
     .max(1000, 'Path taken too large')
+    .optional(),
+  Nightlord: z.string()
+    .max(50, 'Nightlord name too long')
+    .regex(/^[a-zA-Z]+$/, 'Invalid Nightlord name format')
     .optional(),
 });
 
@@ -98,6 +103,7 @@ export const validateLogRequest = (data: unknown): { isValid: boolean; errors: s
       session_duration: obj.session_duration as number || 0,
       additional_info: (obj.additional_info as Record<string, unknown>) || null,
       path_taken: (obj.path_taken as Array<string[]>) || null,
+      Nightlord: obj.Nightlord as string,
     }
   };
 };

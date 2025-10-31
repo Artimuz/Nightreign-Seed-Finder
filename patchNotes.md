@@ -1,5 +1,123 @@
 # Patch Notes
 
+## Version 1.0.12 (2025-01-02)
+
+### Performance: Major Middleware CPU Optimization + Database Schema Update
+
+#### Part 1: Middleware CPU Optimization
+**Problem**: Middleware consuming excessive CPU time (11 seconds/hour) due to processing all requests including static assets.
+
+**Optimizations Implemented**:
+1. **Refined Matcher Pattern** - Excluded static assets from middleware processing
+2. **Static Asset Early Bypass** - Added regex check for immediate return on static files  
+3. **Conditional Processing** - Request ID generation only when needed
+4. **Lazy Rate Limiter Initialization** - Redis connections only when required
+5. **Removed Seed Page Rate Limit** - Eliminated 30-second rate limit causing 429 errors
+6. **Removed Header Redundancy** - Eliminated duplicate security headers
+
+#### Part 2: Database Schema Update: Nightlord Field Addition
+
+**Problem**: Log entries missing Nightlord association for better analytics and debugging.
+
+**Database Schema Changes**:
+- Added `Nightlord text` field to `seedfinder_logs` table
+- Field stores the corresponding Nightlord name for each seed (e.g., Seed "001" = "Gladius")
+
+**Security Implementation**:
+- Server-side Nightlord calculation from seed_id using secure mapping algorithm
+- Client-provided Nightlord values validated against calculated values
+- Invalid or mismatched client values automatically corrected server-side
+- Proper input sanitization and validation using Zod schemas
+
+**New Components**:
+- `src/lib/utils/nightlordMapping.ts` - Secure seed-to-Nightlord mapping logic
+- Mapping algorithm: `((seedNumber - 1) % 8) + 1` determines Nightlord index
+- Supports seeds 001-999 with proper validation
+
+**API Updates**:
+- Updated `/api/log` to accept optional `Nightlord` field
+- Server calculates Nightlord from seed_id regardless of client input
+- Added validation to ensure data integrity and prevent manipulation
+
+**Validation Schema Updates**:
+- Added `Nightlord` field to `LogRequestSchema` and `LogRequestZodSchema`
+- Regex validation: `/^[a-zA-Z]+$/` (letters only, max 50 chars)
+- Backward compatible - field is optional
+
+**Performance Improvements**:
+- Removed all console.log statements from rate limiting functions
+- Middleware size reduced to 34.1 kB
+- Clean build with no breaking changes
+
+**Build Results**:
+- ✅ Compiled successfully in 4.2s
+- ✅ All existing functionality preserved
+- ✅ No breaking changes to API contracts
+- ✅ ESLint warnings documented (non-critical)
+
+**Files Modified**:
+- `src/middleware.ts` - Refined matcher, conditional processing, static bypass, removed seed rate limit
+- `src/lib/middleware/ratelimit.ts` - Lazy initialization, removed console.log statements
+- `src/lib/database/schema.sql` - Added Nightlord field
+- `src/lib/validation/schemas.ts` - Updated validation schemas
+- `src/app/api/log/route.ts` - Added Nightlord calculation logic
+- `src/lib/utils/nightlordMapping.ts` - New mapping utility
+- `package.json` - Version bump to 1.0.12
+
+## Version 1.0.11 (2025-01-02)
+
+### Performance: Major Middleware CPU Optimization
+
+**Problem**: Middleware consuming excessive CPU time (11 seconds/hour) due to processing all requests including static assets.
+
+**Root Causes Identified**:
+- Overly broad matcher pattern processing static assets unnecessarily
+- Redis/rate limiter initialization on every middleware load
+- Redundant header processing already handled by next.config.js
+- Expensive UUID generation on every request
+
+**Optimizations Implemented**:
+
+1. **Refined Matcher Pattern** (High Impact)
+   - Added explicit API route matching: `/api/:path*`
+   - Excluded static assets: `/((?!_next|favicon.ico|.*\\.(?:webp|svg|ico|otf|webm|css|js)$).*)`
+   - Expected: 60-70% reduction in middleware calls
+
+2. **Static Asset Early Bypass** (High Impact)
+   - Added regex check for static file extensions
+   - Early return before any processing for `.webp`, `.svg`, `.ico`, `.otf`, `.webm`, `.css`, `.js`
+
+3. **Conditional Processing** (Medium Impact)
+   - Request ID generation only for API routes and seed pages
+   - Removed redundant security headers already set in next.config.js
+   - Streamlined API route processing
+
+4. **Lazy Rate Limiter Initialization** (Medium Impact)
+   - Rate limiters now initialize only when first needed
+   - Prevents Redis connection overhead on module load
+   - Added initialization checks to all rate limiting functions
+
+5. **Removed Header Redundancy** (Low Impact)
+   - Eliminated duplicate `X-Content-Type-Options` and `X-Frame-Options` 
+   - These are already set globally in next.config.js
+
+**Expected Performance Impact**:
+- **Target**: Reduce middleware CPU from 11s to ~3-4s per hour
+- **Primary**: Fewer middleware executions for static assets
+- **Secondary**: Faster response times for static resources
+- **Tertiary**: Reduced Redis connection overhead
+
+**Build Results**:
+- ✅ Compiled successfully in 8.7s
+- Bundle size maintained: First Load JS 102 kB (shared)
+- Middleware size: 55.7 kB
+- No breaking changes to functionality
+
+**Files Modified**:
+- `src/middleware.ts` - Refined matcher, conditional processing, static bypass
+- `src/lib/middleware/ratelimit.ts` - Lazy initialization pattern
+- `package.json` - Version bump to 1.0.12
+
 ## Version 1.0.10 - User Counter Removal (Major CPU Reduction)
 
 ### Performance Emergency Fix

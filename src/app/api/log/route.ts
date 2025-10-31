@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { validateLogRequest, LogRequestZodSchema } from '@/lib/validation/schemas';
 import { sanitizeInput, sanitizeObject } from '@/lib/config/security';
 import { applyRateLimit, applyLogApiRateLimit } from '@/lib/middleware/ratelimit';
+import { getSeedNightlord, isValidNightlord } from '@/lib/utils/nightlordMapping';
 
 const genericError = (message: string = 'Internal server error', status: number = 500) => 
   NextResponse.json({ success: false, error: message }, { status });
@@ -40,6 +41,24 @@ export async function POST(request: NextRequest) {
       return genericError('Validation failed', 400);
     }
 
+    // Calculate Nightlord from seed_id with security validation
+    const calculatedNightlord = getSeedNightlord(zodValidation.data.seed_id);
+    let finalNightlord: string | null = null;
+
+    // If client provided Nightlord, validate it matches the calculated one
+    if (zodValidation.data.Nightlord) {
+      const clientNightlord = sanitizeInput(zodValidation.data.Nightlord, 50);
+      if (isValidNightlord(clientNightlord) && clientNightlord === calculatedNightlord) {
+        finalNightlord = clientNightlord;
+      } else {
+        // Use calculated Nightlord if client-provided one is invalid or doesn't match
+        finalNightlord = calculatedNightlord;
+      }
+    } else {
+      // Use calculated Nightlord if none provided
+      finalNightlord = calculatedNightlord;
+    }
+
     const logEntry = {
       seed_id: sanitizeInput(zodValidation.data.seed_id, 100),
       timezone: zodValidation.data.timezone ? sanitizeInput(zodValidation.data.timezone, 50) : null,
@@ -47,6 +66,7 @@ export async function POST(request: NextRequest) {
       session_duration: Math.min(zodValidation.data.session_duration || 0, 86400),
       additional_info: zodValidation.data.additional_info ? sanitizeObject(zodValidation.data.additional_info) : null,
       path_taken: zodValidation.data.path_taken || null,
+      Nightlord: finalNightlord,
       created_at: new Date().toISOString(),
     };
 

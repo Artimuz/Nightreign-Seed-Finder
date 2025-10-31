@@ -7,6 +7,7 @@ let redis: Redis | null = null;
 let ratelimit: Ratelimit | null = null;
 let statePagesRatelimit: Ratelimit | null = null;
 let logApiRatelimit: Ratelimit | null = null;
+let rateLimitersInitialized = false;
 
 // Fallback in-memory rate limiting when Redis is not available
 const inMemoryLimits = new Map<string, number>();
@@ -29,44 +30,52 @@ const isRateLimited = (key: string, windowMs: number): boolean => {
   return true;
 };
 
-try {
-  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    });
+// Lazy initialization of rate limiters
+const initializeRateLimiters = () => {
+  if (rateLimitersInitialized) return;
+  
+  try {
+    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+      redis = new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      });
 
-    ratelimit = new Ratelimit({
-      redis: redis,
-      limiter: Ratelimit.slidingWindow(
-        SECURITY_CONFIG.API.RATE_LIMIT.MAX_REQUESTS,
-        `${SECURITY_CONFIG.API.RATE_LIMIT.WINDOW_MS} ms`
-      ),
-      analytics: true,
-      prefix: 'nightreign_api',
-    });
+      ratelimit = new Ratelimit({
+        redis: redis,
+        limiter: Ratelimit.slidingWindow(
+          SECURITY_CONFIG.API.RATE_LIMIT.MAX_REQUESTS,
+          `${SECURITY_CONFIG.API.RATE_LIMIT.WINDOW_MS} ms`
+        ),
+        analytics: true,
+        prefix: 'nightreign_api',
+      });
 
-    // 30-second rate limit for state pages (1 request per 30 seconds)
-    statePagesRatelimit = new Ratelimit({
-      redis: redis,
-      limiter: Ratelimit.slidingWindow(1, '30 s'),
-      analytics: true,
-      prefix: 'nightreign_state',
-    });
+      // 30-second rate limit for state pages (1 request per 30 seconds)
+      statePagesRatelimit = new Ratelimit({
+        redis: redis,
+        limiter: Ratelimit.slidingWindow(1, '30 s'),
+        analytics: true,
+        prefix: 'nightreign_state',
+      });
 
-    // 30-second rate limit for log API (1 request per 30 seconds)
-    logApiRatelimit = new Ratelimit({
-      redis: redis,
-      limiter: Ratelimit.slidingWindow(1, '30 s'),
-      analytics: true,
-      prefix: 'nightreign_log',
-    });
+      // 30-second rate limit for log API (1 request per 30 seconds)
+      logApiRatelimit = new Ratelimit({
+        redis: redis,
+        limiter: Ratelimit.slidingWindow(1, '30 s'),
+        analytics: true,
+        prefix: 'nightreign_log',
+      });
+    }
+    rateLimitersInitialized = true;
+  } catch (error) {
+    console.warn('Rate limiting not available:', error);
+    rateLimitersInitialized = true;
   }
-} catch (error) {
-  console.warn('Rate limiting not available:', error);
-}
+};
 
 export const applyRateLimit = async (request: NextRequest, identifier?: string): Promise<NextResponse | null> => {
+  initializeRateLimiters();
   if (!ratelimit) {
     return null;
   }
@@ -125,6 +134,7 @@ const getClientIP = (request: NextRequest): string => {
 
 // 30-second rate limit for state pages
 export const applyStatePageRateLimit = async (request: NextRequest, identifier?: string): Promise<NextResponse | null> => {
+  initializeRateLimiters();
   const id = identifier || getClientIP(request);
   
   // Fallback to in-memory rate limiting if Redis is not available
@@ -174,6 +184,7 @@ export const applyStatePageRateLimit = async (request: NextRequest, identifier?:
 
 // 30-second rate limit for log API
 export const applyLogApiRateLimit = async (request: NextRequest, identifier?: string): Promise<NextResponse | null> => {
+  initializeRateLimiters();
   const id = identifier || getClientIP(request);
   
   // Fallback to in-memory rate limiting if Redis is not available

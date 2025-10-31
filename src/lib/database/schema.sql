@@ -10,6 +10,7 @@ CREATE TABLE public.seedfinder_logs (
   additional_info jsonb,
   session_duration integer,
   created_at timestamp with time zone DEFAULT now(),
+  Nightlord text,
   CONSTRAINT seedfinder_logs_pkey PRIMARY KEY (id)
 );
 

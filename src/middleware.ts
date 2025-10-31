@@ -1,38 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { applyStatePageRateLimit } from '@/lib/middleware/ratelimit';
 
 export async function middleware(request: NextRequest) {
-  // Apply 30-second rate limit only for seed result pages (contains "SEED=")
-  const isSeedResultPage = request.nextUrl.pathname.includes('SEED=');
-  if (isSeedResultPage) {
-    const stateRateLimitResponse = await applyStatePageRateLimit(request);
-    if (stateRateLimitResponse) {
-      return stateRateLimitResponse;
-    }
+  // Early return for static assets
+  if (request.nextUrl.pathname.match(/\.(webp|svg|ico|otf|webm|css|js)$/)) {
+    return NextResponse.next();
   }
+
+  const isApiRoute = request.nextUrl.pathname.startsWith('/api/');
+  const isSeedResultPage = request.nextUrl.pathname.includes('SEED=');
 
   const response = NextResponse.next();
   
   // Lightweight processing for API routes to reduce CPU usage
-  const isApiRoute = request.nextUrl.pathname.startsWith('/api/');
-  
   if (isApiRoute) {
-    // Minimal security headers for API routes
-    if (!response.headers.get('X-Content-Type-Options')) {
-      response.headers.set('X-Content-Type-Options', 'nosniff');
-    }
+    // Only set headers that aren't already in next.config.js
     return response;
   }
   
   // Full security processing for page routes
-  if (!response.headers.get('X-Content-Type-Options')) {
-    response.headers.set('X-Content-Type-Options', 'nosniff');
-  }
+  // Skip redundant headers already set in next.config.js
   
-  if (!response.headers.get('X-Frame-Options')) {
-    response.headers.set('X-Frame-Options', 'DENY');
-  }
-  
+  // CSRF protection for non-safe methods
   if (request.method !== 'GET' && request.method !== 'HEAD' && request.method !== 'OPTIONS') {
     const origin = request.headers.get('origin');
     const host = request.headers.get('host');
@@ -44,8 +32,11 @@ export async function middleware(request: NextRequest) {
     }
   }
   
-  if (!response.headers.get('X-Request-ID')) {
-    response.headers.set('X-Request-ID', crypto.randomUUID());
+  // Only generate request ID for API routes or seed pages
+  if (isApiRoute || isSeedResultPage) {
+    if (!response.headers.get('X-Request-ID')) {
+      response.headers.set('X-Request-ID', crypto.randomUUID());
+    }
   }
   
   return response;
@@ -53,6 +44,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/api/:path*',
+    '/((?!_next|favicon.ico|.*\\.(?:webp|svg|ico|otf|webm|css|js)$).*)',
   ],
 };
