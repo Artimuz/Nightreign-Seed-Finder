@@ -168,29 +168,6 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-@media (max-width: 768px) {
-  .desktop-map-cards-container {
-    flex-direction: column;
-    gap: var(--card-gap-tablet, 8px);
-    padding: 5px 0;
-    width: auto;
-  }
-  .map-card-image-container {
-    width: var(--card-width-tablet, 200px);
-    height: var(--card-height-tablet, 350px);
-  }
-  .map-card-image-wrapper {
-    width: var(--card-expanded-width-tablet-scaled, 250px);
-    height: var(--card-height-tablet, 350px);
-  }
-  .map-selection-card:hover .map-card-image-container {
-    width: var(--card-expanded-width-tablet-scaled, 250px);
-    height: var(--card-height-tablet, 350px);
-  }
-  .map-selection-card:hover .map-card-image-wrapper {
-    transform: translateX(calc(-1 * var(--card-expanded-width-tablet-scaled, 250px) / 2));
-  }
-}
 @media (max-width: 480px) {
   .map-card-image-container {
     width: var(--card-width-mobile, 160px);
