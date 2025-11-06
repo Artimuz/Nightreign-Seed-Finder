@@ -32,17 +32,27 @@
 }
 
 .desktop-map-cards-container {
-  display: flex;
+  display: flex !important;
   flex-direction: row !important;
-  justify-content: center;
-  align-items: center;
-  gap: var(--card-gap-desktop, 2px);
-  flex-wrap: nowrap;
-  overflow-x: hidden;
-  padding: 10px 0;
-  width: 100%;
-  max-width: 95vw;
-  margin: 0 auto;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: var(--card-gap-desktop, 2px) !important;
+  flex-wrap: nowrap !important;
+  overflow-x: hidden !important;
+  padding: 10px 0 !important;
+  width: 100% !important;
+  max-width: 95vw !important;
+  margin: 0 auto !important;
+}
+
+.desktop-map-cards-container > * {
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+
+.desktop-map-cards-container .map-selection-card {
+  display: inline-block !important;
+  vertical-align: top !important;
 }
 .map-selection-card {
   position: relative;
@@ -121,7 +131,15 @@
 /* Hide desktop container on mobile */
 @media (max-width: 767px) {
   .desktop-map-cards-container {
-    display: none;
+    display: none !important;
+  }
+}
+
+/* Ensure desktop container shows as flex on larger screens */
+@media (min-width: 768px) {
+  .desktop-map-cards-container {
+    display: flex !important;
+    flex-direction: row !important;
   }
 }
 

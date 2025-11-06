@@ -86,11 +86,7 @@ export const MapSelectionCards: React.FC = () => {
         </motion.div>
         
         {}
-        <motion.div
-          className="desktop-map-cards-container hidden md:block"
-          initial="hidden"
-          animate="visible"
-        >
+        <div className="desktop-map-cards-container hidden md:flex">
           {(() => {
             const delayMap = {
               'mountaintop': 0.4,
@@ -117,16 +113,15 @@ export const MapSelectionCards: React.FC = () => {
               );
             });
           })()}
-        </motion.div>
+        </div>
 
-        {}
         <motion.div
           ref={mobileContainerRef}
           className="mobile-map-icons-container block md:hidden"
+          variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {}
           <div className="mobile-icons-row mobile-icons-first">
             {MAP_TYPES.slice(0, 3).map((mapData, index) => (
               <motion.a
@@ -148,7 +143,6 @@ export const MapSelectionCards: React.FC = () => {
             ))}
           </div>
           
-          {}
           <div className="mobile-icons-row mobile-icons-second">
             {MAP_TYPES.slice(3, 5).map((mapData, index) => (
               <motion.a
