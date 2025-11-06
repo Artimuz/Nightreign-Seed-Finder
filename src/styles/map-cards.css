@@ -33,6 +33,7 @@
 
 .desktop-map-cards-container {
   display: flex;
+  flex-direction: row !important;
   justify-content: center;
   align-items: center;
   gap: var(--card-gap-desktop, 2px);

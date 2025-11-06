@@ -568,10 +568,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
             }
           })
           
-          marker.bindTooltip(tooltipText, {
-            permanent: false,
-            direction: 'top'
-          })
           
           marker.on('click', () => {
             handleSlotClick(coord.id)

@@ -160,7 +160,7 @@ export default function SlotSelectionModal({
           <div className="flex justify-between items-center">
             <div>
               <h3 className="text-xl font-bold text-white">
-                Select Building for Slot {slotId}
+                Make your choice
               </h3>
             </div>
             <button
@@ -220,9 +220,6 @@ export default function SlotSelectionModal({
         
         {}
         <div className="p-4 border-t border-gray-700/50 bg-black/30">
-          <p className="text-gray-400 text-sm text-center">
-            Click a building to place it, or click outside to cancel
-          </p>
         </div>
       </div>
     </div>
