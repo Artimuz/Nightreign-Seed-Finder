@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
+import packageJson from '../../../../package.json'
 export const runtime = 'edge'
-const APP_VERSION = '1.0.15'
+const APP_VERSION = packageJson.version
 const VERSION_HISTORY = [
+  { version: '1.1.0', released: '2024-01-20', features: ['Vercel deployment fixes', 'Runtime configuration updates'] },
   { version: '1.0.15', released: '2024-01-20', features: ['Hourly version checking', 'Update notifications', 'Admin dashboard'] },
   { version: '1.0.14', released: '2024-01-20', features: ['Comment cleanup', 'Code optimization'] },
   { version: '1.0.13', released: '2024-01-19', features: ['Vercel optimization', 'Edge runtime'] },
