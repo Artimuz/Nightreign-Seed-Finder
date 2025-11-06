@@ -1,12 +1,4 @@
 {
-  "functions": {
-    "src/app/api/version/route.ts": {
-      "runtime": "edge@15"
-    },
-    "src/app/api/user-count/route.ts": {
-      "runtime": "edge@15"
-    }
-  },
   "regions": ["iad1"],
   "framework": "nextjs",
   "buildCommand": "npm run build",
