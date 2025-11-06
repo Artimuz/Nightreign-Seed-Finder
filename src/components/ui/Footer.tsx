@@ -2,8 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-
-const APP_VERSION = '1.0.13';
+import { APP_VERSION } from '@/lib/constants/version';
 
 export const Footer: React.FC = () => {
   return (
@@ -15,7 +14,7 @@ export const Footer: React.FC = () => {
     >
       <div className="relative flex items-center justify-center py-3">
         <span className="absolute left-4 text-sm text-gray-500">
-          v{process.env.NEXT_PUBLIC_APP_VERSION || APP_VERSION}
+          v{APP_VERSION}
         </span>
         <Link
           href="https://github.com/Artimuz/Nightreign-Seed-Finder"
