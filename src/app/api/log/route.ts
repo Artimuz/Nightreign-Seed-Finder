@@ -1,87 +1,110 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
-import { validateLogRequest, LogRequestZodSchema } from '@/lib/validation/schemas';
-import { sanitizeInput, sanitizeObject } from '@/lib/config/security';
-import { applyRateLimit, applyLogApiRateLimit } from '@/lib/middleware/ratelimit';
-import { getSeedNightlord, isValidNightlord } from '@/lib/utils/nightlordMapping';
-
+import { checkRateLimit } from '@/lib/rateLimit';
+interface LogRequestData {
+  seed_id: string;
+  timezone?: string;
+  path_taken: Record<string, string>;
+  additional_info: string;
+  session_duration: number;
+  Nightlord: string;
+}
 const genericError = (message: string = 'Internal server error', status: number = 500) => 
   NextResponse.json({ success: false, error: message }, { status });
-
+function sanitizeInput(input: string, maxLength: number): string {
+  if (!input || typeof input !== 'string') return '';
+  return input
+    .slice(0, maxLength)
+    .replace(/[<>'"&`]/g, '')
+    .replace(/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER|CREATE|EXEC|EXECUTE)\b)/gi, '')
+    .replace(/(javascript:|data:|vbscript:|on\w+\s*=)/gi, '')
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+    .trim();
+}
+function validateSeedId(seedId: string): boolean {
+  return /^[0-9]{3}$/.test(seedId);
+}
+function validateTimezone(timezone: string): boolean {
+  return /^[A-Za-z]+\/[A-Za-z_]+$/.test(timezone) && timezone.length <= 50;
+}
+function validateNightlord(nightlord: string): boolean {
+  return /^[A-Za-z]{1,20}$/.test(nightlord);
+}
+function validateMapType(mapType: string): boolean {
+  const validMapTypes = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted'];
+  return validMapTypes.includes(mapType);
+}
+function sanitizePathTaken(obj: unknown): Record<string, string> | null {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return null;
+  const sanitized: Record<string, string> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof key === 'string' && typeof value === 'string') {
+      const cleanKey = sanitizeInput(key, 20);
+      const cleanValue = sanitizeInput(value, 50);
+      if (cleanKey.length > 0 && cleanValue.length > 0) {
+        sanitized[cleanKey] = cleanValue;
+      }
+    }
+  }
+  const entries = Object.entries(sanitized);
+  if (entries.length > 50) return null;
+  return entries.length > 0 ? sanitized : null;
+}
 export async function POST(request: NextRequest) {
   try {
-    // Apply 30-second rate limit for log API
-    const logRateLimitResponse = await applyLogApiRateLimit(request);
-    if (logRateLimitResponse) {
-      return logRateLimitResponse;
+    if (!checkRateLimit(request, 30000, 1)) {
+      return genericError('Too many requests', 429);
     }
-
-    // Apply general rate limit as secondary protection
-    const rateLimitResponse = await applyRateLimit(request);
-    if (rateLimitResponse) {
-      return rateLimitResponse;
-    }
-
     const contentLength = request.headers.get('content-length');
-    if (contentLength && parseInt(contentLength) > 1024 * 1024) {
+    if (contentLength && parseInt(contentLength) > 10240) {
       return genericError('Request too large', 413);
     }
-
-    const body = await request.json();
-
-    const zodValidation = LogRequestZodSchema.safeParse(body);
-    if (!zodValidation.success) {
-      console.error('Validation failed:', zodValidation.error.errors);
-      return genericError('Invalid request data', 400);
+    const contentType = request.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      return genericError('Invalid content type', 400);
     }
-
-    const validation = validateLogRequest(body);
-    if (!validation.isValid) {
-      console.error('Legacy validation failed:', validation.errors);
-      return genericError('Validation failed', 400);
+    let body: LogRequestData;
+    try {
+      body = await request.json();
+    } catch {
+      return genericError('Invalid JSON', 400);
     }
-
-    // Calculate Nightlord from seed_id with security validation
-    const calculatedNightlord = getSeedNightlord(zodValidation.data.seed_id);
-    let finalNightlord: string | null = null;
-
-    // If client provided Nightlord, validate it matches the calculated one
-    if (zodValidation.data.Nightlord) {
-      const clientNightlord = sanitizeInput(zodValidation.data.Nightlord, 50);
-      if (isValidNightlord(clientNightlord) && clientNightlord === calculatedNightlord) {
-        finalNightlord = clientNightlord;
-      } else {
-        // Use calculated Nightlord if client-provided one is invalid or doesn't match
-        finalNightlord = calculatedNightlord;
-      }
-    } else {
-      // Use calculated Nightlord if none provided
-      finalNightlord = calculatedNightlord;
+    if (!body || typeof body !== 'object') {
+      return genericError('Invalid request body', 400);
     }
-
+    if (!body.seed_id || typeof body.seed_id !== 'string' || !validateSeedId(body.seed_id)) {
+      return genericError('Invalid seed_id format', 400);
+    }
+    if (body.timezone && (!validateTimezone(body.timezone))) {
+      return genericError('Invalid timezone format', 400);
+    }
+    if (body.additional_info && (!validateMapType(body.additional_info))) {
+      return genericError('Invalid map type', 400);
+    }
+    if (body.Nightlord && (!validateNightlord(body.Nightlord))) {
+      return genericError('Invalid nightlord format', 400);
+    }
+    if (typeof body.session_duration !== 'number' || body.session_duration < 0 || body.session_duration > 86400) {
+      return genericError('Invalid session duration', 400);
+    }
     const logEntry = {
-      seed_id: sanitizeInput(zodValidation.data.seed_id, 100),
-      timezone: zodValidation.data.timezone ? sanitizeInput(zodValidation.data.timezone, 50) : null,
-      bug_report: zodValidation.data.bug_report || false,
-      session_duration: Math.min(zodValidation.data.session_duration || 0, 86400),
-      additional_info: zodValidation.data.additional_info ? sanitizeObject(zodValidation.data.additional_info) : null,
-      path_taken: zodValidation.data.path_taken || null,
-      Nightlord: finalNightlord,
+      seed_id: body.seed_id,
+      timezone: body.timezone || null,
+      bug_report: false,
+      session_duration: Math.floor(body.session_duration),
+      additional_info: body.additional_info ? { mapType: body.additional_info } : null,
+      path_taken: sanitizePathTaken(body.path_taken),
+      Nightlord: body.Nightlord || null,
       created_at: new Date().toISOString(),
     };
-
     const { data, error } = await supabase
       .from('seedfinder_logs')
       .insert(logEntry);
-
     if (error) {
-      console.error('Database error:', error);
       return genericError('Database operation failed', 500);
     }
-
     return NextResponse.json({ success: true, data });
-  } catch (error) {
-    console.error('Unexpected error in log API:', error);
+  } catch {
     return genericError();
   }
 }

@@ -1,5 +1,4 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { getEnvironmentConfig } from '@/lib/config/environment';
 
 if (typeof window === 'undefined' && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
   try {
@@ -40,9 +39,8 @@ interface MockSubscription {
 let supabase: SupabaseClient | MockSupabaseClient;
 
 try {
-  const config = getEnvironmentConfig();
-  const supabaseUrl = config.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = config.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (supabaseUrl && supabaseAnonKey && supabaseUrl !== 'your_supabase_url_here' && supabaseAnonKey !== 'your_supabase_anon_key_here') {
     supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -56,7 +54,7 @@ try {
   }
 } catch (error) {
   console.error('🚨 SUPABASE CLIENT INITIALIZATION FAILED, USING MOCK CLIENT:', error);
-  console.error('🚨 THIS MEANS HEARTBEATS WILL NOT BE SAVED TO DATABASE!');
+  console.error('🚨 THIS MEANS LOGS WILL NOT BE SAVED TO DATABASE!');
   console.error('🚨 Check your environment variables in .env.local');
   const mockQueryBuilder: MockQueryBuilder = {
     upsert: () => Promise.resolve({ data: null, error: null }),

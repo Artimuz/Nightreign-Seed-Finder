@@ -2,73 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Active slot glow effect */
-.active-slot-glow {
-  filter: drop-shadow(0 0 8px #60a5fa) drop-shadow(0 0 5 #3b82f6) drop-shadow(0 0 10px #2563eb) drop-shadow(0 0 10px #1d4ed8);
-}
-@font-face {
-  font-family: 'Mantinia';
-  src: url('/fonts/Mantinia Regular/Mantinia Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-.font-mantinia {
-  font-family: 'Mantinia', 'Inter', sans-serif;
-}
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-@import '../styles/icon-scales.css';
+@import 'leaflet/dist/leaflet.css';
+@import '../styles/map-cards.css';
 @import '../styles/global-background.css';
-:root {
-  --background: #0f0f23;
-  --foreground: #ededed;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f0f23;
-    --foreground: #ededed;
-  }
-}
+
 body {
-  color: var(--foreground);
-  background: transparent;
-  font-family: Arial, Helvetica, sans-serif;
-  cursor: default;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
-* {
-  cursor: inherit;
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: transparent !important;
 }
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="url"],
-textarea {
-  cursor: text;
+
+.leaflet-tile-pane {
+  background: transparent !important;
 }
-input[type="range"] {
-  cursor: pointer;
+
+.leaflet-map-pane {
+  background: transparent !important;
 }
-button,
-[role="button"],
-.cursor-pointer {
-  cursor: pointer !important;
+
+/* Custom scrollbar styles for modal */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #374151;
 }
-h1, h2, h3, h4, h5, h6,
-.bg-clip-text,
-[class*="bg-clip-text"] {
-  cursor: default !important;
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
 }
-.text-transparent {
-  cursor: default !important;
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
 }
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 4px;
+  border: 1px solid #374151;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+/* Ghost icon styles for single-option icons */
+.ghost-icon {
+  /* Remove all transform-based animations that conflict with Leaflet positioning */
+  opacity: 0.67;
+  filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
+  animation: ghosty 4.5s ease-in-out infinite;
+}
+
+@keyframes ghosty {
+  0% {
+    opacity: 0.67;
+    filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
+  }
+  35% {
+    opacity: 0.85;
+    filter: saturate(10%) brightness(2.3) blur(0.35px) drop-shadow(0 6px 18px rgb(3, 95, 231));
+  }
+  50% {
+    opacity: 0.80;
+    filter: saturate(5%) brightness(2.5) blur(0.2px) drop-shadow(0 6px 18px rgb(25, 110, 236));
+  }
+  65% {
+    opacity: 0.85;
+    filter: saturate(10%) brightness(2.3) blur(0.35px) drop-shadow(0 6px 18px rgb(3, 95, 231));
+  }
+  100% {
+    opacity: 0.67;
+    filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
   }
 }

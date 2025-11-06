@@ -22,7 +22,8 @@ export const buildingIcons: Record<string, string> = {
   ruins_sleep: "/Images/buildingIcons/ruins_sleep.webp",
   sorcerers: "/Images/buildingIcons/sorcerers.webp",
   township: "/Images/buildingIcons/township.webp",
-};
+}
+
 export const buildingIconOrder: string[] = [
   "empty",
   "church",
@@ -47,7 +48,8 @@ export const buildingIconOrder: string[] = [
   "ruins_sleep",
   "sorcerers",
   "township",
-];
+]
+
 export const nightlordIcons: Record<string, string> = {
   "1_Gladius": "/Images/nightlordIcons/1_Gladius.webp",
   "2_Adel": "/Images/nightlordIcons/2_Adel.webp",
@@ -57,7 +59,8 @@ export const nightlordIcons: Record<string, string> = {
   "6_Fulghor": "/Images/nightlordIcons/6_Fulghor.webp",
   "7_Caligo": "/Images/nightlordIcons/7_Caligo.webp",
   "8_Heolstor": "/Images/nightlordIcons/8_Heolstor.webp",
-};
+}
+
 export const nightlordNames: Record<string, string> = {
   "1_Gladius": "Gladius",
   "2_Adel": "Adel",
@@ -67,7 +70,8 @@ export const nightlordNames: Record<string, string> = {
   "6_Fulghor": "Fulghor",
   "7_Caligo": "Caligo",
   "8_Heolstor": "Heolstor",
-};
+}
+
 export const nightlordIconOrder: string[] = [
   "1_Gladius",
   "2_Adel",
@@ -77,7 +81,8 @@ export const nightlordIconOrder: string[] = [
   "6_Fulghor",
   "7_Caligo",
   "8_Heolstor",
-];
+]
+
 export const Events: Record<string, string> = {
   augurraid: "/Images/events/augurraid.webp",
   extraboss: "/Images/events/extraboss.webp",
@@ -89,4 +94,4 @@ export const Events: Record<string, string> = {
   meteorstrike: "/Images/events/meteorstrike.webp",
   nighthorde: "/Images/events/nighthorde.webp",
   sorcerersrise: "/Images/events/sorcerersrise.webp",
-};
+}

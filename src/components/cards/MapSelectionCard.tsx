@@ -2,24 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
-import { MapType } from '@/lib/types/game';
 import { CardImage } from '@/components/ui/OptimizedImage';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface MapSelectionCardProps {
   mapType: string;
   title: string;
   imageSrc: string;
-  onSelect: (mapType: MapType) => void;
-  isSelected?: boolean;
+  href: string;
 }
+
 const cardVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
   selected: { opacity: 0 }
 };
+
 export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
-  mapType, title, imageSrc, onSelect, isSelected
+  mapType, title, imageSrc, href
 }) => {
   const [showMapIcon, setShowMapIcon] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -47,14 +48,14 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
     if (cardRef.current) {
       const rect = cardRef.current.getBoundingClientRect();
       const cardCenterX = rect.left + rect.width / 2;
-      const calculatedIconSize = Math.round(rect.width * 0.8);
-      const tooltipHeight = calculatedIconSize + 24; // icon height + padding
-      const tooltipWidth = calculatedIconSize + 24; // icon width + padding
-      
+      const calculatedIconSize = Math.round(rect.width * 0.7);
+      const tooltipHeight = calculatedIconSize + 24;
+      const tooltipWidth = calculatedIconSize + 24;
+
       setIconSize(calculatedIconSize);
       setTooltipPosition({
-        top: rect.top - 30 - tooltipHeight, // 30px above card minus actual tooltip height
-        left: cardCenterX - tooltipWidth / 2 // Position so tooltip center aligns with card center
+        top: rect.top - 30 - tooltipHeight,
+        left: cardCenterX - tooltipWidth / 2
       });
     }
   };
@@ -79,90 +80,88 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
   if (!mapType || !title || !imageSrc) {
     return null;
   }
-  return (
-    <motion.div
-      ref={cardRef}
-      variants={cardVariants}
-      initial="hidden"
-      animate={isSelected ? "selected" : "visible"}
-      whileHover={{
-        zIndex: 10
-      }}
-      className="map-selection-card group cursor-pointer relative"
-      style={{ overflow: 'visible' }}
-      onClick={() => onSelect(mapType as MapType)}
-      onMouseEnter={handleCardMouseEnter}
-      onMouseLeave={handleCardMouseLeave}
-    >
-      {/* Tooltip - Rendered outside container using portal */}
-      {mounted && showTooltip && createPortal(
-        <AnimatePresence>
-          <motion.div
-            className="fixed z-[9999] bg-black/90 rounded-lg p-3 border border-gray-600/50 shadow-xl pointer-events-none"
-            style={{
-              top: `${tooltipPosition.top}px`,
-              left: `${tooltipPosition.left}px`
-            }}
-            initial={{ opacity: 0, y: 10, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.8 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <Image
-              src={getMapIconSrc(mapType)}
-              alt={`${title} icon`}
-              width={iconSize}
-              height={iconSize}
-              className="object-contain"
-            />
-            {/* Tooltip arrow */}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-gray-600/50"></div>
-          </motion.div>
-        </AnimatePresence>,
-        document.body
-      )}
 
-      {/* Map Icon in top-left corner when hovered */}
-      <AnimatePresence>
-        {showMapIcon && (
-          <motion.div
-            className="absolute top-2 left-2 z-20 cursor-pointer"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            onMouseEnter={handleMapIconMouseEnter}
-            onMouseLeave={handleMapIconMouseLeave}
-          >
-            <Image
-              src="/Images/UIIcons/map_icon.png"
-              alt="Map icon"
-              width={40}
-              height={40}
-              className="object-contain drop-shadow-2xl"
+  return (
+    <Link href={href}>
+      <motion.div
+        ref={cardRef}
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        whileHover={{
+          zIndex: 10
+        }}
+        className="map-selection-card group cursor-pointer relative"
+        style={{ overflow: 'visible' }}
+        onMouseEnter={handleCardMouseEnter}
+        onMouseLeave={handleCardMouseLeave}
+      >
+        {mounted && showTooltip && createPortal(
+          <AnimatePresence>
+            <motion.div
+              className="fixed z-[9999] bg-black/90 rounded-lg p-3 border border-gray-600/50 shadow-xl pointer-events-none"
               style={{
-                filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))'
+                top: `${tooltipPosition.top}px`,
+                left: `${tooltipPosition.left}px`
               }}
-            />
-          </motion.div>
+              initial={{ opacity: 0, y: 10, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.8 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <Image
+                src={getMapIconSrc(mapType)}
+                alt={`${title} icon`}
+                width={iconSize}
+                height={iconSize}
+                className="object-contain"
+              />
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-gray-600/50"></div>
+            </motion.div>
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
-      
-      <div className="map-card-image-container">
-        <div className="map-card-image-wrapper">
-          <CardImage
-            src={imageSrc}
-            alt={title}
-            priority
-          />
-          {}
-          <div className="map-card-title">
-            <h3 className="text-white font-bold text-base leading-tight text-center seed-finder-glow">
-              {title}
-            </h3>
+
+        <AnimatePresence>
+          {showMapIcon && (
+            <motion.div
+              className="absolute top-2 left-2 z-20 cursor-pointer"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              onMouseEnter={handleMapIconMouseEnter}
+              onMouseLeave={handleMapIconMouseLeave}
+            >
+              <Image
+                src="/Images/UIIcons/map_icon.png"
+                alt="Map icon"
+                width={40}
+                height={40}
+                className="object-contain drop-shadow-2xl"
+                style={{
+                  filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))'
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        <div className="map-card-image-container">
+          <div className="map-card-image-wrapper">
+            <CardImage
+              src={imageSrc}
+              alt={title}
+              priority
+            />
+            <div className="map-card-title">
+              <h3 className="text-white font-bold text-base leading-tight text-center seed-finder-glow">
+                {title}
+              </h3>
+            </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 };

@@ -1,12 +1,12 @@
-
 @keyframes backgroundSaturation {
   0% {
-    filter: saturate(0.9);
+    filter: saturate(10%);
   }
   100% {
-    filter: saturate(1.2);
+    filter: saturate(10%);
   }
 }
+
 @keyframes backgroundHue {
   0% {
     filter: hue-rotate(-5deg);
@@ -15,6 +15,7 @@
     filter: hue-rotate(100deg);
   }
 }
+
 .global-background {
   position: fixed;
   top: 0;
@@ -24,6 +25,7 @@
   z-index: -10;
   overflow: hidden;
 }
+
 .global-background-video {
   position: absolute;
   top: 0;
@@ -37,13 +39,15 @@
   will-change: transform;
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
-  filter: var(--video-bg-filter, hue-rotate(0deg) saturate(100%) brightness(100%));
+  filter: var(--video-bg-filter, hue-rotate(0deg) saturate(10%) brightness(100%));
 }
+
 .global-background-video.loaded {
   opacity: 1;
   mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0.7) 90%, rgba(0,0,0,0) 100%);
   -webkit-mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0.7) 90%, rgba(0,0,0,0) 100%);
 }
+
 .global-background-black {
   position: absolute;
   top: 0;
@@ -53,6 +57,7 @@
   background: #000000;
   z-index: -10;
 }
+
 .global-background-gradient {
   position: absolute;
   top: 0;
@@ -71,6 +76,7 @@
   will-change: transform;
   animation: darkShift 45s ease-in-out infinite alternate;
 }
+
 .global-background-image {
   position: absolute;
   left: 0;
@@ -81,9 +87,11 @@
   opacity: 0;
   transition: opacity 1.2s ease-in-out;
 }
+
 .global-background-image.loaded {
   opacity: 1;
 }
+
 .global-background-image img,
 .global-background-image > div {
   width: 100% !important;
@@ -91,11 +99,13 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  filter: var(--image-bg-filter, hue-rotate(0deg) saturate(100%) brightness(100%));
+  filter: var(--image-bg-filter, hue-rotate(0deg) saturate(10%) brightness(100%));
 }
+
 .bg-image-2 {
   top: 20vh;
 }
+
 @keyframes darkShift {
   0% {
     background: linear-gradient(
@@ -118,16 +128,19 @@
     );
   }
 }
+
 @media (max-height: 800px) {
   .global-background {
     height: 1000px;
   }
 }
+
 @media (min-height: 950px) {
   .global-background {
     height: 1600px;
   }
 }
+
 @media (min-height: 1600px) {
   .global-background {
     height: 2000px;

@@ -1,77 +1,36 @@
-
-export type SlotId =
-  | "01" | "02" | "03" | "04" | "05" | "06" | "07" | "08" | "09" | "10"
-  | "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18" | "19" | "20"
-  | "21" | "22" | "23" | "24" | "25" | "26" | "27";
 export interface Seed {
-  seed_id: string;
-  map_type: string;
-  Event?: string;
-  nightlord: string;
-  slots: Record<SlotId, string>;
+  seed_id: string
+  map_type: string
+  slots: Record<string, string>
+  nightlord?: string
+  Event?: string
+  coordinates?: Record<string, { x: number; y: number }>
 }
-export interface Coordinates {
-  id: string;
-  x: number;
-  y: number;
-}
-export interface URLState {
-  mapType: string | null;
-  slots: Record<string, string>;
-  nightlord: string | null;
-  foundSeed: string | null;
-}
-export interface GameState extends URLState {
-  urlArray: string[];
-  urlHistory: string[][];
-  urlHistoryIndex: number;
-  currentPhase: 'selection' | 'building' | 'complete';
-  activeSlot: string | null;
-  activeBuildingPanel: boolean;
-  matchingSeeds: Seed[];
-  _isInternalURLUpdate: boolean;
-  sessionStartTime: number;
-  loggedSeeds: string[];
-  setMapType: (mapType: string) => void;
-  setSlot: (slotId: string, building: string) => void;
-  setNightlord: (nightlord: string) => void;
-  setFoundSeed: (seedId: string) => void;
-  setActiveSlot: (slotId: string | null) => void;
-  setActiveBuildingPanel: (active: boolean) => void;
-  getUndoPreview: () => void;
-  undo: () => void;
-  restart: () => void;
-  syncFromURL: (urlState: URLState, originalArray?: string[] | null) => void;
-  updateURL: () => void;
-  arrayToObject: (urlArray: string[]) => URLState;
-  objectToArray: (urlState: URLState) => string[];
-  logResult: (seedId: string) => void;
-}
-export const MAP_TYPES = {
-  'mountaintop': {
+
+export const MAP_TYPES = [
+  {
+    key: 'mountaintop',
     title: 'Mountaintop',
-    cardImage: '/Images/mapTypes/mountainIcon.webp',
-    mapImage: '/Images/mapTypes/Mountaintop.webp'
+    cardImage: '/Images/mapTypes/mountainIcon.webp'
   },
-  'noklateo': {
+  {
+    key: 'noklateo',
     title: 'Noklateo',
-    cardImage: '/Images/mapTypes/noklateoIcon.webp',
-    mapImage: '/Images/mapTypes/Noklateo, the Shrouded City.webp'
+    cardImage: '/Images/mapTypes/noklateoIcon.webp'
   },
-  'normal': {
+  {
+    key: 'normal',
     title: 'Normal',
-    cardImage: '/Images/mapTypes/normalIcon.webp',
-    mapImage: '/Images/mapTypes/Normal.webp'
+    cardImage: '/Images/mapTypes/normalIcon.webp'
   },
-  'rotted': {
+  {
+    key: 'rotted',
     title: 'Rotted Woods',
-    cardImage: '/Images/mapTypes/rotIcon.webp',
-    mapImage: '/Images/mapTypes/Rotted Woods.webp'
+    cardImage: '/Images/mapTypes/rotIcon.webp'
   },
-  'crater': {
+  {
+    key: 'crater',
     title: 'Crater',
-    cardImage: '/Images/mapTypes/craterIcon.webp',
-    mapImage: '/Images/mapTypes/Crater.webp'
+    cardImage: '/Images/mapTypes/craterIcon.webp'
   }
-} as const;
-export type MapType = keyof typeof MAP_TYPES;
+]

@@ -1,10 +1,11 @@
 'use client'
 import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { useGameStore } from '@/lib/state/store';
 import { MAP_TYPES } from '@/lib/types';
 import { MapSelectionCard } from './MapSelectionCard';
 import '@/styles/map-cards.css';
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -15,6 +16,7 @@ const containerVariants = {
     }
   }
 };
+
 const cardVariants = {
   hidden: { opacity: 0 },
   visible: (delay: number) => ({
@@ -26,6 +28,7 @@ const cardVariants = {
     }
   })
 };
+
 const titleVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -33,8 +36,38 @@ const titleVariants = {
     transition: { duration: 0.6, ease: "easeOut" }
   }
 };
+
 export const MapSelectionCards: React.FC = () => {
-  const { setMapType } = useGameStore();
+
+  const cardScale = 0.65;
+
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const [mobileIconSize, setMobileIconSize] = useState(100);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--card-scale', cardScale.toString());
+  }, [cardScale]);
+
+  useEffect(() => {
+    const updateIconSize = () => {
+      if (mobileContainerRef.current) {
+        const containerWidth = mobileContainerRef.current.offsetWidth;
+
+        const availableWidth = containerWidth - 60;
+        const baseIconSize = Math.max(80, Math.min(140, availableWidth / 3));
+        setMobileIconSize(Math.round(baseIconSize));
+
+        document.documentElement.style.setProperty('--mobile-icon-size', `${baseIconSize}px`);
+      }
+    };
+
+    updateIconSize();
+
+    window.addEventListener('resize', updateIconSize);
+
+    return () => window.removeEventListener('resize', updateIconSize);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
       <motion.div
@@ -43,42 +76,18 @@ export const MapSelectionCards: React.FC = () => {
         initial="hidden"
         animate="visible"
       >
-        {}
         <motion.div
-          className="text-center"
-          variants={titleVariants}
-        >
-          {}
-          <div className="flex justify-center">
-            <div className="w-full max-w-lg mx-auto">
-              <img
-                src="/Images/Title_n_.webp"
-                alt="NIGHTREIGN"
-                width={400}
-                height={160}
-                className="w-full h-auto object-contain"
-                style={{ maxWidth: '100%', height: 'auto' }}
-                loading="eager"
-              />
-            </div>
-          </div>
-          {}
-          <h1 className="text-2xl md:text-4xl font-bold font-mantinia text-white mb-8 -mt-8 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent text-outlined seed-finder-glow">
-            SEED FINDER
-          </h1>
-        </motion.div>
-        {}
-        <motion.div
-          className="text-center mb-4"
+          className="text-center mb-8"
           variants={titleVariants}
         >
           <h2 className="text-2xl md:text-2xl font-semibold text-white text-outlined seed-finder-glow">
             Select your map
           </h2>
         </motion.div>
+        
         {}
         <motion.div
-          className="map-cards-container"
+          className="desktop-map-cards-container hidden md:block"
           initial="hidden"
           animate="visible"
         >
@@ -90,30 +99,76 @@ export const MapSelectionCards: React.FC = () => {
               'rotted': 0.2,
               'crater': 0.4
             };
-            return Object.entries(MAP_TYPES).map(([mapType, mapData]) => {
-              const delay = delayMap[mapType as keyof typeof delayMap];
+            return MAP_TYPES.map((mapData) => {
+              const delay = delayMap[mapData.key as keyof typeof delayMap];
               return (
                 <motion.div
-                  key={mapType}
+                  key={mapData.key}
                   variants={cardVariants}
                   custom={delay}
                 >
                   <MapSelectionCard
-                    mapType={mapType}
+                    mapType={mapData.key}
                     title={mapData.title}
                     imageSrc={mapData.cardImage}
-                    onSelect={setMapType}
+                    href={`/map/${mapData.key}`}
                   />
                 </motion.div>
               );
             });
           })()}
         </motion.div>
+
         {}
         <motion.div
-          className="text-center mt-12"
-          variants={titleVariants}
+          ref={mobileContainerRef}
+          className="mobile-map-icons-container block md:hidden"
+          initial="hidden"
+          animate="visible"
         >
+          {}
+          <div className="mobile-icons-row mobile-icons-first">
+            {MAP_TYPES.slice(0, 3).map((mapData, index) => (
+              <motion.a
+                key={mapData.key}
+                href={`/map/${mapData.key}`}
+                className="mobile-map-icon"
+                variants={cardVariants}
+                custom={index * 0.1}
+              >
+                <Image
+                  src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`}
+                  alt={mapData.title}
+                  width={mobileIconSize}
+                  height={mobileIconSize}
+                  className="mobile-icon-image"
+                />
+                <span className="mobile-icon-title">{mapData.title}</span>
+              </motion.a>
+            ))}
+          </div>
+          
+          {}
+          <div className="mobile-icons-row mobile-icons-second">
+            {MAP_TYPES.slice(3, 5).map((mapData, index) => (
+              <motion.a
+                key={mapData.key}
+                href={`/map/${mapData.key}`}
+                className="mobile-map-icon"
+                variants={cardVariants}
+                custom={(index + 2) * 0.1}
+              >
+                <Image
+                  src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`}
+                  alt={mapData.title}
+                  width={mobileIconSize}
+                  height={mobileIconSize}
+                  className="mobile-icon-image"
+                />
+                <span className="mobile-icon-title">{mapData.title}</span>
+              </motion.a>
+            ))}
+          </div>
         </motion.div>
       </motion.div>
     </div>
