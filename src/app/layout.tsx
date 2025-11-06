@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { Header } from '@/components/ui/Header'
 import { Footer } from '@/components/ui/Footer'
 import { GlobalBackground } from '@/components/backgrounds/GlobalBackground'
-import VersionNotification from '@/components/VersionNotification'
 
 export const metadata: Metadata = {
   title: 'Nightreign Seed Finder',
@@ -27,7 +26,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased overflow-x-hidden">
         <GlobalBackground />
-        <VersionNotification />
         <Header />
         <main className="min-h-screen relative">
           {children}
