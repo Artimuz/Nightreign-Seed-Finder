@@ -51,7 +51,7 @@ export const GlobalBackground: React.FC = () => {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       >
         <source src="/Images/Top.BG_.webm" type="video/webm" />
       </video>
