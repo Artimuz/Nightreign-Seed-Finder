@@ -232,3 +232,29 @@
 .map-shadow {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
+
+/* Desktop card click transitions */
+.desktop-map-cards-container > * {
+  cursor: pointer;
+}
+
+.desktop-map-cards-container.card-clicked > * {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.desktop-map-cards-container.card-clicked .other-card {
+  opacity: 0.05;
+}
+
+/* Mobile icon click transitions */
+.mobile-map-icons-container .mobile-map-icon {
+  cursor: pointer;
+}
+
+.mobile-map-icons-container.icon-clicked .mobile-map-icon {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.mobile-map-icons-container.icon-clicked .other-icon {
+  opacity: 0.05;
+}

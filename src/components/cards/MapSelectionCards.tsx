@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { MAP_TYPES } from '@/lib/types';
 import { MapSelectionCard } from './MapSelectionCard';
 import '@/styles/map-cards.css';
@@ -38,11 +39,22 @@ const titleVariants = {
 };
 
 export const MapSelectionCards: React.FC = () => {
-
+  const router = useRouter();
   const cardScale = 0.65;
 
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const [mobileIconSize, setMobileIconSize] = useState(100);
+  const [clickedCard, setClickedCard] = useState<string | null>(null);
+  const [hasClicked, setHasClicked] = useState(false);
+
+  const handleCardClick = (mapKey: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    if (!hasClicked) {
+      setHasClicked(true);
+      setClickedCard(mapKey);
+      router.push(`/map/${mapKey}`);
+    }
+  };
 
   useEffect(() => {
     document.documentElement.style.setProperty('--card-scale', cardScale.toString());
@@ -86,7 +98,7 @@ export const MapSelectionCards: React.FC = () => {
         </motion.div>
         
         {}
-        <div className="desktop-map-cards-container hidden md:flex">
+        <div className={`desktop-map-cards-container hidden md:flex${hasClicked && clickedCard ? ' card-clicked' : ''}`}>
           {(() => {
             const delayMap = {
               'mountaintop': 0.4,
@@ -97,17 +109,20 @@ export const MapSelectionCards: React.FC = () => {
             };
             return MAP_TYPES.map((mapData) => {
               const delay = delayMap[mapData.key as keyof typeof delayMap];
+              const isOther = hasClicked && clickedCard && clickedCard !== mapData.key;
               return (
                 <motion.div
                   key={mapData.key}
                   variants={cardVariants}
                   custom={delay}
+                  animate={isOther ? { opacity: 0.05 } : { opacity: 1 }}
+                  transition={{ duration: 2, ease: "easeOut" }}
                 >
                   <MapSelectionCard
                     mapType={mapData.key}
                     title={mapData.title}
                     imageSrc={mapData.cardImage}
-                    href={`/map/${mapData.key}`}
+                    onClick={(event) => handleCardClick(mapData.key, event)}
                   />
                 </motion.div>
               );
@@ -117,51 +132,61 @@ export const MapSelectionCards: React.FC = () => {
 
         <motion.div
           ref={mobileContainerRef}
-          className="mobile-map-icons-container block md:hidden"
+          className={`mobile-map-icons-container block md:hidden${hasClicked && clickedCard ? ' icon-clicked' : ''}`}
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           <div className="mobile-icons-row mobile-icons-first">
-            {MAP_TYPES.slice(0, 3).map((mapData, index) => (
-              <motion.a
-                key={mapData.key}
-                href={`/map/${mapData.key}`}
-                className="mobile-map-icon"
-                variants={cardVariants}
-                custom={index * 0.1}
-              >
-                <Image
-                  src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`}
-                  alt={mapData.title}
-                  width={mobileIconSize}
-                  height={mobileIconSize}
-                  className="mobile-icon-image"
-                />
-                <span className="mobile-icon-title">{mapData.title}</span>
-              </motion.a>
-            ))}
+            {MAP_TYPES.slice(0, 3).map((mapData, index) => {
+              const isOther = hasClicked && clickedCard && clickedCard !== mapData.key;
+              return (
+                <motion.div
+                  key={mapData.key}
+                  className="mobile-map-icon"
+                  variants={cardVariants}
+                  custom={index * 0.1}
+                  animate={isOther ? { opacity: 0.05 } : { opacity: 1 }}
+                  transition={{ duration: 2, ease: "easeOut" }}
+                  onClick={(event) => handleCardClick(mapData.key, event)}
+                >
+                  <Image
+                    src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`}
+                    alt={mapData.title}
+                    width={mobileIconSize}
+                    height={mobileIconSize}
+                    className="mobile-icon-image"
+                  />
+                  <span className="mobile-icon-title">{mapData.title}</span>
+                </motion.div>
+              );
+            })}
           </div>
           
           <div className="mobile-icons-row mobile-icons-second">
-            {MAP_TYPES.slice(3, 5).map((mapData, index) => (
-              <motion.a
-                key={mapData.key}
-                href={`/map/${mapData.key}`}
-                className="mobile-map-icon"
-                variants={cardVariants}
-                custom={(index + 2) * 0.1}
-              >
-                <Image
-                  src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`}
-                  alt={mapData.title}
-                  width={mobileIconSize}
-                  height={mobileIconSize}
-                  className="mobile-icon-image"
-                />
-                <span className="mobile-icon-title">{mapData.title}</span>
-              </motion.a>
-            ))}
+            {MAP_TYPES.slice(3, 5).map((mapData, index) => {
+              const isOther = hasClicked && clickedCard && clickedCard !== mapData.key;
+              return (
+                <motion.div
+                  key={mapData.key}
+                  className="mobile-map-icon"
+                  variants={cardVariants}
+                  custom={(index + 2) * 0.1}
+                  animate={isOther ? { opacity: 0.05 } : { opacity: 1 }}
+                  transition={{ duration: 2, ease: "easeOut" }}
+                  onClick={(event) => handleCardClick(mapData.key, event)}
+                >
+                  <Image
+                    src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`}
+                    alt={mapData.title}
+                    width={mobileIconSize}
+                    height={mobileIconSize}
+                    className="mobile-icon-image"
+                  />
+                  <span className="mobile-icon-title">{mapData.title}</span>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </motion.div>

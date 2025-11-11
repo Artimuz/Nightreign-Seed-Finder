@@ -4,13 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { CardImage } from '@/components/ui/OptimizedImage';
 import Image from 'next/image';
-import Link from 'next/link';
 
 interface MapSelectionCardProps {
   mapType: string;
   title: string;
   imageSrc: string;
-  href: string;
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 const cardVariants = {
@@ -20,7 +19,7 @@ const cardVariants = {
 };
 
 export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
-  mapType, title, imageSrc, href
+  mapType, title, imageSrc, onClick
 }) => {
   const [showMapIcon, setShowMapIcon] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -82,20 +81,20 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
   }
 
   return (
-    <Link href={href}>
-      <motion.div
-        ref={cardRef}
-        variants={cardVariants}
-        initial="hidden"
-        animate="visible"
-        whileHover={{
-          zIndex: 10
-        }}
-        className="map-selection-card group cursor-pointer relative"
-        style={{ overflow: 'visible' }}
-        onMouseEnter={handleCardMouseEnter}
-        onMouseLeave={handleCardMouseLeave}
-      >
+    <motion.div
+      ref={cardRef}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      whileHover={{
+        zIndex: 10
+      }}
+      className="map-selection-card group cursor-pointer relative"
+      style={{ overflow: 'visible' }}
+      onMouseEnter={handleCardMouseEnter}
+      onMouseLeave={handleCardMouseLeave}
+      onClick={onClick}
+    >
         {mounted && showTooltip && createPortal(
           <AnimatePresence>
             <motion.div
@@ -162,6 +161,5 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
           </div>
         </div>
       </motion.div>
-    </Link>
   );
 };

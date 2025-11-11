@@ -1,41 +1,30 @@
 'use client'
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export const GlobalBackground: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  
-  const handleVideoLoad = () => {
-    setVideoLoaded(true);
-  };
+  const [isMobile, setIsMobile] = useState(false);
   
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
   
   useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.addEventListener('loadedmetadata', handleVideoLoad);
-      video.addEventListener('canplay', handleVideoLoad);
-      if (video.readyState >= 2) {
-        handleVideoLoad();
-      }
-    }
-    return () => {
-      if (video) {
-        video.removeEventListener('loadedmetadata', handleVideoLoad);
-        video.removeEventListener('canplay', handleVideoLoad);
-      }
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
     };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
   useEffect(() => {
     const timer = setTimeout(() => {
       setImageLoaded(true);
-    }, 1000);
+    }, 500);
     
     return () => clearTimeout(timer);
   }, []);
@@ -44,20 +33,9 @@ export const GlobalBackground: React.FC = () => {
     <div className="global-background">
       <div className="global-background-black" />
       <div className="global-background-gradient" />
-      <video
-        ref={videoRef}
-        className={`global-background-video ${videoLoaded ? 'loaded' : 'loading'}`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      >
-        <source src="/Images/Top.BG_.webm" type="video/webm" />
-      </video>
-      <div className={`global-background-image bg-image-2 ${imageLoaded ? 'loaded' : 'loading'}`}>
+      <div className={`global-background-image ${imageLoaded ? 'loaded' : 'loading'}`}>
         <Image
-          src="/Images/BG2_.webp"
+          src={isMobile ? "/Images/Top.BG_mobile.webp" : "/Images/Top.BG_Desktop.webp"}
           alt=""
           fill
           priority

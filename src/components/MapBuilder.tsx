@@ -670,7 +670,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
   useEffect(() => {
     if (!markersRef.current || !leafletMapRef.current) return
-
+    
+    console.log(`Marker visibility update - remainingSeedsCount: ${remainingSeedsCount}`)
     const markers = markersRef.current
 
     markers.forEach((marker, slotId) => {
@@ -679,22 +680,31 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
       
       const markerElement = marker.getElement()
       if (markerElement) {
+        const currentBuilding = slotId === 'nightlord' ? selectedNightlord : 
+          (Object.prototype.hasOwnProperty.call(selectedBuildings, slotId) ? selectedBuildings[slotId] || '' : '')
+        const isEmpty = !currentBuilding || currentBuilding === '' || currentBuilding === 'empty'
+        
+        console.log(`Slot ${slotId}: currentBuilding="${currentBuilding}", isEmpty=${isEmpty}, remainingSeedsCount=${remainingSeedsCount}`)
+
         if (nonEmptyOptions.length === 0) {
 
           markerElement.style.display = 'none'
           marker.closeTooltip()
+        } else if (remainingSeedsCount === 1 && isEmpty) {
+          console.log(`HIDING marker ${slotId} - Setting opacity to 0`)
+          markerElement.style.setProperty('opacity', '0', 'important')
+          marker.closeTooltip()
         } else {
 
           markerElement.style.display = 'block'
+          markerElement.style.setProperty('opacity', '1', 'important')
 
           const imgElement = markerElement.tagName === 'IMG' ? markerElement : markerElement.querySelector('img')
           if (imgElement) {
 
             imgElement.classList.remove('ghost-icon')
 
-            const currentBuilding = slotId === 'nightlord' ? selectedNightlord : 
-              (Object.prototype.hasOwnProperty.call(selectedBuildings, slotId) ? selectedBuildings[slotId] || '' : '')
-            const shouldGhost = nonEmptyOptions.length === 1 && (!currentBuilding || currentBuilding === '' || currentBuilding === 'empty')
+            const shouldGhost = nonEmptyOptions.length === 1 && isEmpty
             
             if (shouldGhost) {
 
@@ -727,7 +737,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         }
       }
     })
-  }, [selectedBuildings, selectedNightlord, mapType])
+  }, [selectedBuildings, selectedNightlord, mapType, remainingSeedsCount])
 
   useEffect(() => {
     if (!markersRef.current || !iconConfigRef.current || !leafletMapRef.current) return
