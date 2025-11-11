@@ -18,24 +18,6 @@
   z-index: -10;
 }
 
-.global-background-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(
-    180deg,
-    #1a1a1a 0%,
-    #2d2d2d 25%,
-    #1f1f1f 50%,
-    #141414 75%,
-    #0a0a0a 100%
-  );
-  z-index: -1;
-  will-change: transform;
-  animation: darkShift 45s ease-in-out infinite alternate;
-}
 
 .global-background-image {
   position: absolute;
@@ -63,7 +45,7 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  filter: var(--image-bg-filter, hue-rotate(0deg) saturate(10%) brightness(100%));
+  filter: var(--image-bg-filter, hue-rotate(0deg) saturate(150%) brightness(20%));
 }
 
 

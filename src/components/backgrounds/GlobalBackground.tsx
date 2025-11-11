@@ -35,7 +35,7 @@ export const GlobalBackground: React.FC = () => {
       <div className="global-background-gradient" />
       <div className={`global-background-image ${imageLoaded ? 'loaded' : 'loading'}`}>
         <Image
-          src={isMobile ? "/Images/Top.BG_mobile.webp" : "/Images/Top.BG_Desktop.webp"}
+          src={isMobile ? "/Images/Top.BG_mobile.webp" : "/Images/Top.BG_desktop_2.webp"}
           alt=""
           fill
           priority
