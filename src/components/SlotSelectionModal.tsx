@@ -71,6 +71,9 @@ export default function SlotSelectionModal({
 
   const getIconPath = (building: string) => {
     if (!building || building === 'empty') {
+      if (isNightlordModal) {
+        return '/Images/nightlordIcons/empty_nightlord.webp'
+      }
       return '/Images/buildingIcons/empty.webp'
     }
     

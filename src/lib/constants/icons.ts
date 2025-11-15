@@ -51,6 +51,7 @@ export const buildingIconOrder: string[] = [
 ]
 
 export const nightlordIcons: Record<string, string> = {
+  "empty": "/Images/nightlordIcons/empty_nightlord.webp",
   "1_Gladius": "/Images/nightlordIcons/1_Gladius.webp",
   "2_Adel": "/Images/nightlordIcons/2_Adel.webp",
   "3_Gnoster": "/Images/nightlordIcons/3_Gnoster.webp",

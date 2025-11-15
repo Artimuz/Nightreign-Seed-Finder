@@ -220,8 +220,11 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     return getAvailableBuildingsForSlot(mapType, slotsWithoutTarget, currentNightlord, slotId)
   }
 
-  const getIconPath = (building: string) => {
+  const getIconPath = (building: string, isNightlordSlot: boolean = false) => {
     if (!building || building === 'empty' || building === '') {
+      if (isNightlordSlot) {
+        return '/Images/nightlordIcons/empty_nightlord.webp'
+      }
       return '/Images/buildingIcons/empty.webp'
     }
 
@@ -507,17 +510,18 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
             
             if (ghostCheckOptions.length === 1 && (!currentNightlord || currentNightlord === '' || currentNightlord === 'empty')) {
 
-              iconUrl = getIconPath(ghostCheckOptions[0])
+              iconUrl = getIconPath(ghostCheckOptions[0], true)
               shouldGhost = true
               tooltipText = `Nightlord - Auto-select ${ghostCheckOptions[0]}`
               console.log(`Ghost nightlord for slot ${coord.id}: ${ghostCheckOptions[0]}`)
             } else {
 
-              iconUrl = getIconPath(currentNightlord)
+              iconUrl = getIconPath(currentNightlord, true)
               tooltipText = 'Nightlord - Click to select'
             }
             
-            iconSize = getZoomScaledIconSize(currentConfig.size, currentZoom)
+            const baseIconSize = getZoomScaledIconSize(currentConfig.size, currentZoom)
+            iconSize = [baseIconSize[0] * 1.5, baseIconSize[1] * 1.5] as [number, number]
             iconAnchor = [iconSize[0] / 2, iconSize[1] / 2] as [number, number]
             popupAnchor = [0, -iconSize[1] / 2] as [number, number]
           } else {
@@ -641,7 +645,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         const imgElement = markerElement.tagName === 'IMG' ? markerElement : markerElement.querySelector('img')
         
         if (imgElement && imgElement instanceof HTMLImageElement) {
-          imgElement.src = getIconPath(currentNightlord)
+          imgElement.src = getIconPath(currentNightlord, true)
           markerElement.setAttribute('data-building', currentNightlord)
           nightlordMarker.setTooltipContent(`Nightlord - ${currentNightlord}`)
         }
@@ -713,7 +717,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
               }
               
               if (imgElement instanceof HTMLImageElement) {
-                imgElement.src = getIconPath(nonEmptyOptions[0])
+                imgElement.src = getIconPath(nonEmptyOptions[0], slotId === 'nightlord')
                 imgElement.classList.add('ghost-icon')
               }
               
@@ -728,7 +732,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
               }
               
               if (imgElement instanceof HTMLImageElement) {
-                imgElement.src = getIconPath(currentIcon)
+                imgElement.src = getIconPath(currentIcon, slotId === 'nightlord')
                 imgElement.classList.remove('ghost-icon')
               }
               marker.setTooltipContent(slotId === 'nightlord' ? `Nightlord - Click to select` : `Slot ${slotId} - Click to build`)
@@ -745,14 +749,15 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     const markers = markersRef.current
     const iconConfig = iconConfigRef.current
 
-    markers.forEach((marker) => {
+    markers.forEach((marker, slotId) => {
       const markerElement = marker.getElement()
       if (markerElement) {
         const imgElement = markerElement.tagName === 'IMG' ? markerElement : markerElement.querySelector('img')
         
         if (imgElement) {
-
-          const newSize = getZoomScaledIconSize(iconConfig.size, currentZoom)
+          const baseSize = getZoomScaledIconSize(iconConfig.size, currentZoom)
+          const newSize = slotId === 'nightlord' ? 
+            [baseSize[0] * 2, baseSize[1] * 2] : baseSize
 
           imgElement.style.width = `${newSize[0]}px`
           imgElement.style.height = `${newSize[1]}px`
