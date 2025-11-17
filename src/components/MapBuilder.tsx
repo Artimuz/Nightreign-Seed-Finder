@@ -61,19 +61,12 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
     const handleResize = () => {
       checkIfMobile()
-      if (mapRef.current && leafletMapRef.current) {
-        const newContainerWidth = mapRef.current.offsetWidth
-        const currentIconSize = iconConfigRef.current?.size[0] || 36
-        const newIconSize = Math.max(24, Math.min(80, newContainerWidth * 0.08))
-        
-        if (Math.abs(newIconSize - currentIconSize) > 5) {
-          setTimeout(() => {
-            if (leafletMapRef.current) {
-              leafletMapRef.current.remove()
-              leafletMapRef.current = null
-            }
-          }, 100)
-        }
+      
+      // Never destroy the map, just invalidate size for all resize events
+      if (leafletMapRef.current) {
+        setTimeout(() => {
+          leafletMapRef.current?.invalidateSize({ animate: false })
+        }, 50)
       }
     }
 
@@ -195,7 +188,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
       const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, currentNightlord)
       if (showSeedCount) {
-        console.log(`${remainingSeeds.length} seeds remaining`)
       }
 
       const availableNightlords = getAvailableNightlords(mapType, cleanedSlots)
@@ -214,7 +206,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
     const remainingSeeds = getRemainingSeeds(mapType, slotsWithoutTarget, currentNightlord)
     if (showSeedCount) {
-      console.log(`${remainingSeeds.length} seeds remaining`)
     }
 
     return getAvailableBuildingsForSlot(mapType, slotsWithoutTarget, currentNightlord, slotId)
@@ -444,10 +435,11 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           return
         }
 
-        const response = await fetch('/data/coordsXY.json')
-        const coordsData = await response.json()
+        // Use Phase 1 coordinate constants instead of JSON loading
+        const { INTERACTIVE_COORDINATES } = await import('@/lib/constants/mapCoordinates')
+        const coordsData = INTERACTIVE_COORDINATES
         
-        const isCurrentlyMobile = window.innerWidth <= 768
+        const isCurrentlyMobile = isMobile
 
         const containerWidth = mapRef.current?.offsetWidth || 1000
         const baseIconSize = Math.max(24, containerWidth * 0.04)
@@ -465,7 +457,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           }
         }
         
-        const currentConfig = isCurrentlyMobile ? iconConfig.mobile : iconConfig.desktop
+        // Use current isMobile state for real-time icon configuration
+        const currentConfig = isMobile ? iconConfig.mobile : iconConfig.desktop
 
         markersRef.current.forEach((marker) => {
           marker.remove()
@@ -513,7 +506,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
               iconUrl = getIconPath(ghostCheckOptions[0], true)
               shouldGhost = true
               tooltipText = `Nightlord - Auto-select ${ghostCheckOptions[0]}`
-              console.log(`Ghost nightlord for slot ${coord.id}: ${ghostCheckOptions[0]}`)
             } else {
 
               iconUrl = getIconPath(currentNightlord, true)
@@ -521,7 +513,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
             }
             
             const baseIconSize = getZoomScaledIconSize(currentConfig.size, currentZoom)
-            iconSize = [baseIconSize[0] * 1.5, baseIconSize[1] * 1.5] as [number, number]
+            iconSize = [baseIconSize[0] * 1.75, baseIconSize[1] * 1.75] as [number, number]
             iconAnchor = [iconSize[0] / 2, iconSize[1] / 2] as [number, number]
             popupAnchor = [0, -iconSize[1] / 2] as [number, number]
           } else {
@@ -533,7 +525,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
               iconUrl = getIconPath(ghostCheckOptions[0])
               shouldGhost = true
               tooltipText = `Slot ${coord.id} - Auto-select ${ghostCheckOptions[0]}`
-              console.log(`Ghost building for slot ${coord.id}: ${ghostCheckOptions[0]}`)
             } else {
 
               iconUrl = getIconPath(currentBuilding || 'empty')
@@ -606,7 +597,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         leafletMapRef.current = null
       }
     }
-  }, [mapType, isMobile, router])
+  }, [mapType, router])
 
   useEffect(() => {
     if (!markersRef.current || !iconConfigRef.current || !leafletMapRef.current) return
@@ -675,7 +666,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   useEffect(() => {
     if (!markersRef.current || !leafletMapRef.current) return
     
-    console.log(`Marker visibility update - remainingSeedsCount: ${remainingSeedsCount}`)
     const markers = markersRef.current
 
     markers.forEach((marker, slotId) => {
@@ -688,14 +678,12 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           (Object.prototype.hasOwnProperty.call(selectedBuildings, slotId) ? selectedBuildings[slotId] || '' : '')
         const isEmpty = !currentBuilding || currentBuilding === '' || currentBuilding === 'empty'
         
-        console.log(`Slot ${slotId}: currentBuilding="${currentBuilding}", isEmpty=${isEmpty}, remainingSeedsCount=${remainingSeedsCount}`)
 
         if (nonEmptyOptions.length === 0) {
 
           markerElement.style.display = 'none'
           marker.closeTooltip()
         } else if (remainingSeedsCount === 1 && isEmpty) {
-          console.log(`HIDING marker ${slotId} - Setting opacity to 0`)
           markerElement.style.setProperty('opacity', '0', 'important')
           marker.closeTooltip()
         } else {
@@ -746,8 +734,24 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   useEffect(() => {
     if (!markersRef.current || !iconConfigRef.current || !leafletMapRef.current) return
 
+    const containerWidth = mapRef.current?.offsetWidth || 1000
+    const baseIconSize = Math.max(24, containerWidth * 0.04)
+    
+    const newIconConfig = isMobile 
+      ? {
+          size: [baseIconSize, baseIconSize] as [number, number],
+          anchor: [baseIconSize / 2, baseIconSize / 2] as [number, number],
+          popupAnchor: [0, -baseIconSize / 2] as [number, number]
+        }
+      : {
+          size: [baseIconSize * 1.3, baseIconSize * 1.3] as [number, number],
+          anchor: [baseIconSize * 0.65, baseIconSize * 0.65] as [number, number],
+          popupAnchor: [0, -baseIconSize * 0.65] as [number, number]
+        }
+
+    iconConfigRef.current = newIconConfig
+
     const markers = markersRef.current
-    const iconConfig = iconConfigRef.current
 
     markers.forEach((marker, slotId) => {
       const markerElement = marker.getElement()
@@ -755,9 +759,9 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         const imgElement = markerElement.tagName === 'IMG' ? markerElement : markerElement.querySelector('img')
         
         if (imgElement) {
-          const baseSize = getZoomScaledIconSize(iconConfig.size, currentZoom)
+          const baseSize = getZoomScaledIconSize(newIconConfig.size, currentZoom)
           const newSize = slotId === 'nightlord' ? 
-            [baseSize[0] * 2, baseSize[1] * 2] : baseSize
+            [baseSize[0] * 1.75, baseSize[1] * 1.75] : baseSize
 
           imgElement.style.width = `${newSize[0]}px`
           imgElement.style.height = `${newSize[1]}px`
@@ -768,7 +772,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         }
       }
     })
-  }, [currentZoom])
+  }, [currentZoom, isMobile])
 
   useEffect(() => {
     if (!mapRef.current) return
