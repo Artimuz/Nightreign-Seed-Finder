@@ -1,0 +1,157 @@
+/* Sidebar-specific styles */
+
+.sidebar-overlay {
+  @apply fixed inset-0 bg-black/60 backdrop-blur-sm z-40;
+}
+
+.sidebar-container {
+  @apply fixed top-0 right-0 h-full w-80 md:w-96 bg-gray-900/95 backdrop-blur-md border-l border-gray-600/30 z-50 overflow-y-auto;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-content {
+  @apply p-6;
+}
+
+.sidebar-header {
+  @apply flex items-center justify-between mb-8;
+}
+
+.sidebar-title {
+  @apply text-xl font-bold text-white;
+}
+
+.sidebar-close-button {
+  @apply text-gray-400 hover:text-white transition-colors duration-200 p-2 rounded-lg hover:bg-gray-800/50;
+}
+
+.sidebar-nav {
+  @apply space-y-4;
+}
+
+.sidebar-nav-item {
+  @apply block;
+}
+
+.sidebar-nav-card {
+  @apply p-4 rounded-lg border border-gray-600/30 bg-gray-800/30 hover:bg-gray-700/50 hover:border-gray-500/50 transition-all duration-200;
+}
+
+.sidebar-nav-title {
+  @apply text-lg font-semibold text-white group-hover:text-blue-400 transition-colors duration-200;
+}
+
+.sidebar-nav-description {
+  @apply text-sm text-gray-400 mt-1;
+}
+
+.sidebar-nav-meta {
+  @apply text-xs text-gray-500 mt-2;
+}
+
+.sidebar-divider {
+  @apply pt-4 border-t border-gray-600/30;
+}
+
+/* Hamburger menu styles */
+.hamburger-menu {
+  @apply relative z-50 flex flex-col justify-center items-center w-8 h-8 bg-transparent border-none cursor-pointer;
+  transition: all 0.3s ease;
+}
+
+.hamburger-line {
+  @apply block w-6 h-0.5 bg-white;
+  transition: all 0.3s ease-out;
+}
+
+.hamburger-line:nth-child(1) {
+  transform-origin: center;
+}
+
+.hamburger-line:nth-child(2) {
+  @apply my-1;
+}
+
+.hamburger-line:nth-child(3) {
+  transform-origin: center;
+}
+
+/* Active state */
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translateY(6px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translateY(-6px);
+}
+
+/* Focus states for accessibility */
+.hamburger-menu:focus {
+  @apply outline-none ring-2 ring-blue-400/50 rounded-lg;
+}
+
+.sidebar-close-button:focus {
+  @apply outline-none ring-2 ring-blue-400/50 rounded-lg;
+}
+
+.sidebar-nav-item:focus {
+  @apply outline-none;
+}
+
+.sidebar-nav-item:focus .sidebar-nav-card {
+  @apply ring-2 ring-blue-400/50;
+}
+
+/* Animation classes for Framer Motion */
+.sidebar-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.sidebar-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 0.3s ease-out;
+}
+
+.sidebar-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebar-exit-active {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar-container {
+    @apply w-72;
+  }
+  
+  .sidebar-content {
+    @apply p-4;
+  }
+  
+  .sidebar-header {
+    @apply mb-6;
+  }
+  
+  .sidebar-title {
+    @apply text-lg;
+  }
+  
+  .sidebar-nav-card {
+    @apply p-3;
+  }
+  
+  .sidebar-nav-title {
+    @apply text-base;
+  }
+}

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import lore and sidebar styles */
+@import '../styles/lore.css';
+@import '../styles/sidebar.css';
+
 @import 'leaflet/dist/leaflet.css';
 @import '../styles/map-cards.css';
 @import '../styles/global-background.css';

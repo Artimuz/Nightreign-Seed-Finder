@@ -1,0 +1,176 @@
+/* Lore-specific styles */
+
+.lore-container {
+  @apply min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8;
+  background: radial-gradient(ellipse at center, rgba(20, 24, 36, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+}
+
+.lore-content {
+  @apply max-w-4xl mx-auto;
+}
+
+.lore-article {
+  @apply bg-black/95 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8;
+}
+
+.lore-title {
+  @apply text-4xl font-bold text-white mb-2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.lore-subtitle {
+  @apply text-xl text-blue-400 mb-6;
+}
+
+.lore-description {
+  @apply text-lg text-gray-300 mb-8 leading-relaxed;
+}
+
+.lore-text {
+  @apply text-gray-200 leading-relaxed mb-6;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.lore-section {
+  @apply mb-8;
+}
+
+.lore-section-title {
+  @apply text-2xl font-semibold text-white mb-4 border-b border-gray-600/50 pb-2;
+}
+
+.lore-list {
+  @apply list-disc list-inside space-y-2 text-gray-300;
+}
+
+.lore-list li {
+  @apply ml-4;
+}
+
+.lore-image {
+  @apply rounded-lg shadow-lg mb-6;
+}
+
+.lore-image-container {
+  @apply flex justify-center items-center mb-8;
+}
+
+.character-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.character-card {
+  @apply bg-gray-700/30 backdrop-blur-sm border border-gray-600/50 rounded-lg overflow-hidden transition-all duration-300 hover:border-yellow-400 hover:bg-gray-600/50 hover:transform hover:scale-105;
+}
+
+.character-card-image {
+  @apply w-full h-48 object-cover;
+}
+
+.character-card-content {
+  @apply p-4;
+}
+
+.character-card-name {
+  @apply text-lg font-semibold text-white mb-1;
+}
+
+.character-card-title {
+  @apply text-sm text-blue-400 mb-2;
+}
+
+.character-card-description {
+  @apply text-sm text-gray-400 leading-relaxed;
+}
+
+.breadcrumb {
+  @apply flex items-center space-x-2 text-sm text-gray-400 mb-6;
+}
+
+.breadcrumb-link {
+  @apply hover:text-white transition-colors duration-200;
+}
+
+.breadcrumb-separator {
+  @apply text-gray-600;
+}
+
+.related-content {
+  @apply mt-12 pt-8 border-t border-gray-600/50;
+}
+
+.related-content-title {
+  @apply text-2xl font-semibold text-white mb-6;
+}
+
+.tag-list {
+  @apply flex flex-wrap gap-2 mt-4;
+}
+
+.tag {
+  @apply px-3 py-1 bg-gray-700/50 text-gray-300 text-sm rounded-full border border-gray-600/50;
+}
+
+.abilities-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+.ability-item {
+  @apply bg-gray-700/30 border border-gray-600/50 rounded-lg p-4;
+}
+
+.ability-name {
+  @apply text-white font-semibold mb-1;
+}
+
+.stats-section {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8;
+}
+
+.stats-column {
+  @apply space-y-4;
+}
+
+.stats-title {
+  @apply text-lg font-semibold text-white mb-3;
+}
+
+.stats-list {
+  @apply space-y-2;
+}
+
+.stat-item {
+  @apply flex items-start space-x-2;
+}
+
+.stat-bullet {
+  @apply w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0;
+}
+
+.stat-text {
+  @apply text-gray-300;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lore-container {
+    @apply pt-20 px-3;
+  }
+  
+  .lore-article {
+    @apply p-4;
+  }
+  
+  .lore-title {
+    @apply text-2xl;
+  }
+  
+  .lore-subtitle {
+    @apply text-lg;
+  }
+  
+  .character-grid {
+    @apply grid-cols-1 sm:grid-cols-2;
+  }
+}
