@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   keywords: 'nightreign, seed finder, game seeds, map builder',
   authors: [{ name: 'Nightreign Seed Finder Team' }],
   robots: 'index, follow',
+  other: {
+    'google-adsense-account': 'ca-pub-3952409900980393',
+  },
   openGraph: {
     title: 'Nightreign Seed Finder',
     description: 'Find optimal game seeds for Nightreign',
