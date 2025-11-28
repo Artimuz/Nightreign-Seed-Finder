@@ -256,7 +256,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "1_Gladius",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort",
       "02": "greatchurch_holy",
@@ -400,7 +400,7 @@
     "map_type": "Normal",
     "Event": "meteorstrike",
     "nightlord": "1_Gladius",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort_magic",
       "02": "mainencampment_fire",
@@ -1372,7 +1372,7 @@
     "map_type": "Noklateo",
     "Event": "",
     "nightlord": "1_Gladius",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "mainencampment_eletric",
       "02": "mainencampment",
@@ -1804,7 +1804,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "2_Adel",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort",
       "02": "ruins_poison",
@@ -1876,7 +1876,7 @@
     "map_type": "Normal",
     "Event": "meteorstrike",
     "nightlord": "2_Adel",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_poison",
       "02": "mainencampment",
@@ -2020,7 +2020,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "2_Adel",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort",
       "02": "ruins_poison",
@@ -2308,7 +2308,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "2_Adel",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "ruins_bleed",
@@ -2812,7 +2812,7 @@
     "map_type": "Noklateo",
     "Event": "fellomen",
     "nightlord": "2_Adel",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort_magic",
       "02": "mainencampment",
@@ -3028,7 +3028,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "greatchurch",
       "02": "ruins_sleep",
@@ -3064,7 +3064,7 @@
     "map_type": "Normal",
     "Event": "fellomen",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_frostbite",
       "02": "ruins_frostbite",
@@ -3388,7 +3388,7 @@
     "map_type": "Normal",
     "Event": "augurraid",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort",
       "02": "ruins_frostbite",
@@ -3604,7 +3604,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "ruins_blight",
@@ -3640,7 +3640,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment_eletric",
@@ -3712,7 +3712,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "ruins_frostbite",
@@ -3820,7 +3820,7 @@
     "map_type": "Crater",
     "Event": "augurraid",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "greatchurch",
@@ -3892,7 +3892,7 @@
     "map_type": "Crater",
     "Event": "",
     "nightlord": "3_Gnoster",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment",
@@ -4468,7 +4468,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "4_Maris",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_eletric",
       "02": "ruins_blight",
@@ -5008,7 +5008,7 @@
     "map_type": "Normal",
     "Event": "gnosterplague",
     "nightlord": "4_Maris",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort",
       "02": "fort",
@@ -5188,7 +5188,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "4_Maris",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment",
@@ -6016,7 +6016,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "5_Libra",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_poison",
       "02": "ruins_frostbite",
@@ -6268,7 +6268,7 @@
     "map_type": "Normal",
     "Event": "sorcerersrise",
     "nightlord": "5_Libra",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort_magic",
       "02": "",
@@ -6592,7 +6592,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "5_Libra",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "ruins_poison",
@@ -6664,7 +6664,7 @@
     "map_type": "Crater",
     "Event": "",
     "nightlord": "5_Libra",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment_fire",
@@ -7672,7 +7672,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "6_Fulghor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins",
       "02": "fort_magic",
@@ -7744,7 +7744,7 @@
     "map_type": "Normal",
     "Event": "libracurse",
     "nightlord": "6_Fulghor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_eletric",
       "02": "mainencampment",
@@ -7960,7 +7960,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "6_Fulghor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment",
@@ -7996,7 +7996,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "6_Fulghor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment",
@@ -8032,7 +8032,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "6_Fulghor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "mainencampment_madness",
@@ -9004,7 +9004,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_poison",
       "02": "ruins_eletric",
@@ -9040,7 +9040,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_holy",
       "02": "greatchurch",
@@ -9076,7 +9076,7 @@
     "map_type": "Normal",
     "Event": "augurraid",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort_magic",
       "02": "",
@@ -9364,7 +9364,7 @@
     "map_type": "Mountaintop",
     "Event": "augurraid",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "ruins_holy",
@@ -9472,7 +9472,7 @@
     "map_type": "Mountaintop",
     "Event": "",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "",
       "02": "ruins_bleed",
@@ -9904,7 +9904,7 @@
     "map_type": "Noklateo",
     "Event": "augurraid",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins",
       "02": "ruins_blight",
@@ -10012,7 +10012,7 @@
     "map_type": "Noklateo",
     "Event": "meteorstrike",
     "nightlord": "7_Caligo",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "mainencampment",
       "02": "ruins_blight",
@@ -10156,7 +10156,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "8_Heolstor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "fort",
       "02": "mainencampment",
@@ -10300,7 +10300,7 @@
     "map_type": "Normal",
     "Event": "",
     "nightlord": "8_Heolstor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "mainencampment_fire",
       "02": "fort",
@@ -11344,7 +11344,7 @@
     "map_type": "Noklateo",
     "Event": "",
     "nightlord": "8_Heolstor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_blight",
       "02": "mainencampment",
@@ -11380,7 +11380,7 @@
     "map_type": "Noklateo",
     "Event": "augurraid",
     "nightlord": "8_Heolstor",
-    "Spawn Slot": "7",
+    "Spawn Slot": "17",
     "slots": {
       "01": "ruins_eletric",
       "02": "ruins_magic",

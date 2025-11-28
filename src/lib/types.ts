@@ -5,6 +5,7 @@ export interface Seed {
   nightlord?: string
   Event?: string
   coordinates?: Record<string, { x: number; y: number }>
+  'Spawn Slot'?: string
 }
 
 export const MAP_TYPES = [

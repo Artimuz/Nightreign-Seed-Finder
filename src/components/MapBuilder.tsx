@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import L from 'leaflet'
 import SlotSelectionModal from './SlotSelectionModal'
-import { getRemainingSeeds, getAvailableBuildingsForSlot, getAvailableNightlords, getAllSeeds } from '@/lib/data/seedSearch'
+import { getRemainingSeeds, getAvailableBuildingsForSlot, getAvailableNightlords, getAvailableNightlordsForGhost, getAllSeeds } from '@/lib/data/seedSearch'
 import { useRateLimit } from '@/hooks/useRateLimit'
 
 interface MapBuilderProps {
@@ -24,6 +24,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   const leafletMapRef = useRef<L.Map | null>(null)
   const markersRef = useRef<Map<string, L.Marker>>(new Map())
   const iconConfigRef = useRef<{ size: [number, number], anchor: [number, number], popupAnchor: [number, number] } | null>(null)
+  const spawnMarkerRef = useRef<L.Marker | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [selectedBuildings, setSelectedBuildings] = useState<Record<string, string>>({})
   const [selectedNightlord, setSelectedNightlord] = useState<string>('')
@@ -33,6 +34,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   const [pathTaken, setPathTaken] = useState<Record<string, string>>({})
   const [remainingSeedsCount, setRemainingSeedsCount] = useState<number>(0)
   const [pendingLogSeed, setPendingLogSeed] = useState<string | null>(null)
+  const [selectedSpawnSlot, setSelectedSpawnSlot] = useState<string | null>(null)
   const router = useRouter()
   
   const { canMakeRequest, recordRequest, getRemainingTime } = useRateLimit(30000)
@@ -50,7 +52,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     })
     
     const cleanedNightlord = (!selectedNightlord || selectedNightlord === 'empty') ? null : selectedNightlord
-    const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, cleanedNightlord)
+    const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, cleanedNightlord, selectedSpawnSlot)
     setRemainingSeedsCount(remainingSeeds.length)
   }
 
@@ -82,7 +84,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
   useEffect(() => {
     updateRemainingSeedsCount()
-  }, [selectedBuildings, selectedNightlord, mapType])
+  }, [selectedBuildings, selectedNightlord, mapType, selectedSpawnSlot])
 
   useEffect(() => {
     if (pendingLogSeed) {
@@ -125,7 +127,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
       executeLogging();
       setPendingLogSeed(null);
     }
-  }, [pathTaken, selectedBuildings, selectedNightlord, pendingLogSeed, canMakeRequest, getRemainingTime, recordRequest, router, mapType])
+  }, [pathTaken, selectedBuildings, selectedNightlord, pendingLogSeed, canMakeRequest, getRemainingTime, recordRequest, router, mapType, selectedSpawnSlot])
 
   useEffect(() => {
     const sessionStartKey = 'seedfinder_session_start';
@@ -186,11 +188,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
     if (slotId === 'nightlord') {
 
-      const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, currentNightlord)
-      if (showSeedCount) {
-      }
 
-      const availableNightlords = getAvailableNightlords(mapType, cleanedSlots)
+      const availableNightlords = getAvailableNightlords(mapType, cleanedSlots, selectedSpawnSlot)
 
       if (nightlord && nightlord !== '' && nightlord !== 'empty') {
         availableNightlords.push('empty')
@@ -204,11 +203,118 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
       delete slotsWithoutTarget[slotId]
     }
 
-    const remainingSeeds = getRemainingSeeds(mapType, slotsWithoutTarget, currentNightlord)
-    if (showSeedCount) {
+
+    return getAvailableBuildingsForSlot(mapType, slotsWithoutTarget, currentNightlord, slotId, selectedSpawnSlot)
+  }
+
+  // CLICK HANDLER: Function that includes spawn filtering for click logic
+  const getAvailableOptionsWithStateAndSpawn = (slotId: string, buildings: Record<string, string>, nightlord: string | null, spawnSlot: string | null) => {
+
+    const currentNightlord = (!nightlord || nightlord === '' || nightlord === 'empty') ? null : nightlord
+
+    const cleanedSlots: Record<string, string> = {}
+    Object.keys(buildings).forEach(key => {
+      if (!Object.prototype.hasOwnProperty.call(buildings, key)) return;
+      const building = buildings[key]
+      if (building && building !== 'empty' && building.trim() !== '') {
+        if (typeof key === 'string' && /^[a-zA-Z0-9_]+$/.test(key)) {
+          cleanedSlots[key] = building
+        }
+      }
+
+    })
+
+    if (slotId === 'nightlord') {
+
+
+      const availableNightlords = getAvailableNightlords(mapType, cleanedSlots, spawnSlot)
+
+      if (nightlord && nightlord !== '' && nightlord !== 'empty') {
+        availableNightlords.push('empty')
+      }
+      
+      return availableNightlords
     }
 
-    return getAvailableBuildingsForSlot(mapType, slotsWithoutTarget, currentNightlord, slotId)
+    const slotsWithoutTarget = { ...cleanedSlots }
+    if (Object.prototype.hasOwnProperty.call(slotsWithoutTarget, slotId)) {
+      delete slotsWithoutTarget[slotId]
+    }
+
+
+    const result = getAvailableBuildingsForSlot(mapType, slotsWithoutTarget, currentNightlord, slotId, spawnSlot)
+    
+    
+    return result
+  }
+
+  // GHOST LOGIC: Separate function that excludes spawn filtering for ghost detection
+  const getAvailableOptionsForGhost = (slotId: string, currentBuildings: Record<string, string>, currentNightlord: string): string[] => {
+    const cleanedSlots: Record<string, string> = {}
+    Object.keys(currentBuildings).forEach(key => {
+      if (!Object.prototype.hasOwnProperty.call(currentBuildings, key)) return;
+      const building = currentBuildings[key]
+      if (building && building !== 'empty' && building.trim() !== '') {
+        if (typeof key === 'string' && /^[a-zA-Z0-9_]+$/.test(key)) {
+          cleanedSlots[key] = building
+        }
+      }
+    })
+
+    const nightlord = (!currentNightlord || currentNightlord === 'empty') ? null : currentNightlord
+
+    if (slotId === 'nightlord') {
+      const availableNightlords = getAvailableNightlordsForGhost(mapType, cleanedSlots)
+
+      if (currentNightlord && currentNightlord !== '' && currentNightlord !== 'empty') {
+        availableNightlords.push('empty')
+      }
+      
+      return availableNightlords
+    }
+
+    const slotsWithoutTarget = { ...cleanedSlots }
+    if (Object.prototype.hasOwnProperty.call(slotsWithoutTarget, slotId)) {
+      delete slotsWithoutTarget[slotId]
+    }
+
+    // IMPORTANT: Ghost logic should still consider spawn constraints for building filtering
+    // but NOT for final seed results - this ensures ghost works when spawn narrows building options
+    const result = getAvailableBuildingsForSlot(mapType, slotsWithoutTarget, nightlord, slotId, selectedSpawnSlot)
+    
+    
+    return result
+  }
+
+  const handleSpawnToggle = (slotId: string) => {
+    const newSpawnSlot = selectedSpawnSlot === slotId ? null : slotId
+    setSelectedSpawnSlot(newSpawnSlot)
+    
+    // Check for auto-navigation after spawn toggle
+    setTimeout(() => {
+      const currentSlots = { ...selectedBuildingsRef.current }
+      const currentNightlord = selectedNightlordRef.current || null
+      
+      
+      const cleanedSlots: Record<string, string> = {}
+      Object.keys(currentSlots).forEach(key => {
+        if (!Object.prototype.hasOwnProperty.call(currentSlots, key)) return;
+        const slotBuilding = currentSlots[key]
+        if (slotBuilding && slotBuilding !== 'empty' && slotBuilding.trim() !== '') {
+          if (typeof key === 'string' && /^[a-zA-Z0-9_]+$/.test(key)) {
+            cleanedSlots[key] = slotBuilding
+          }
+        }
+      })
+      
+      const cleanedNightlord = (!currentNightlord || currentNightlord === 'empty') ? null : currentNightlord
+      const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, cleanedNightlord, newSpawnSlot)
+      
+      
+      if (remainingSeeds.length === 1) {
+        setPendingLogSeed(remainingSeeds[0].seed_id);
+      }
+    }, 0)
   }
 
   const getIconPath = (building: string, isNightlordSlot: boolean = false) => {
@@ -238,6 +344,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
   const selectedBuildingsRef = useRef(selectedBuildings)
   const selectedNightlordRef = useRef(selectedNightlord)
+  const selectedSpawnSlotRef = useRef(selectedSpawnSlot)
 
   useEffect(() => {
     selectedBuildingsRef.current = selectedBuildings
@@ -246,20 +353,30 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   useEffect(() => {
     selectedNightlordRef.current = selectedNightlord
   }, [selectedNightlord])
+  
+  useEffect(() => {
+    selectedSpawnSlotRef.current = selectedSpawnSlot
+  }, [selectedSpawnSlot])
 
   const handleSlotClick = (slotId: string) => {
 
     const currentBuildings = selectedBuildingsRef.current
     const currentNightlord = selectedNightlordRef.current
 
-    const options = getAvailableOptionsWithState(slotId, currentBuildings, currentNightlord, false)
+    // Use modal options for click logic - same options the modal will show
+    // IMPORTANT: Use current spawn slot state from ref to ensure consistency
+    const currentSpawnSlot = selectedSpawnSlotRef.current
+    const options = getAvailableOptionsWithStateAndSpawn(slotId, currentBuildings, currentNightlord, currentSpawnSlot)
 
     const currentBuilding = slotId === 'nightlord' ? currentNightlord : 
       (Object.prototype.hasOwnProperty.call(currentBuildings, slotId) ? currentBuildings[slotId] : undefined)
 
     const nonEmptyOptions = options.filter(option => option !== 'empty')
     
-    if (nonEmptyOptions.length === 1) {
+    // Exception: If this slot is set as spawn location, always open modal (don't auto-select)
+    const isSpawnSlot = selectedSpawnSlotRef.current === slotId
+    
+    if (nonEmptyOptions.length === 1 && !isSpawnSlot) {
       const singleOption = nonEmptyOptions[0]
       
       if (!currentBuilding || currentBuilding === '' || currentBuilding === 'empty') {
@@ -342,6 +459,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     setTimeout(() => {
       const currentSlots = { ...selectedBuildingsRef.current }
       const currentNightlord = selectedNightlordRef.current || null
+      
 
       if (targetSlot === 'nightlord') {
 
@@ -358,10 +476,11 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           }
         })
         
-        const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, nightlordForSearch)
+        const currentSpawnSlot = selectedSpawnSlotRef.current
+        const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, nightlordForSearch, currentSpawnSlot)
+        
         
         if (remainingSeeds.length === 1) {
-
           setPendingLogSeed(remainingSeeds[0].seed_id);
         }
       } else {
@@ -385,10 +504,11 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
         const cleanedNightlord = (!currentNightlord || currentNightlord === 'empty') ? null : currentNightlord
         
-        const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, cleanedNightlord)
+        const currentSpawnSlot = selectedSpawnSlotRef.current
+        const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, cleanedNightlord, currentSpawnSlot)
+        
         
         if (remainingSeeds.length === 1) {
-
           setPendingLogSeed(remainingSeeds[0].seed_id);
         }
       }
@@ -439,7 +559,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         const { INTERACTIVE_COORDINATES } = await import('@/lib/constants/mapCoordinates')
         const coordsData = INTERACTIVE_COORDINATES
         
-        const isCurrentlyMobile = isMobile
 
         const containerWidth = mapRef.current?.offsetWidth || 1000
         const baseIconSize = Math.max(24, containerWidth * 0.04)
@@ -493,9 +612,9 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           const scaledY = coord.y * scaleFactor
           const leafletCoords: [number, number] = [containerSize - scaledY, scaledX]
 
-          let iconUrl, iconSize, iconAnchor, popupAnchor, tooltipText, shouldGhost = false
+          let iconUrl, iconSize, iconAnchor, popupAnchor, shouldGhost = false
 
-          const ghostCheckOptions = availableOptions.filter(option => option !== 'empty')
+          const ghostCheckOptions = getAvailableOptionsForGhost(coord.id, selectedBuildings, selectedNightlord).filter(option => option !== 'empty')
           
           if (coord.id === 'nightlord') {
 
@@ -505,11 +624,9 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
               iconUrl = getIconPath(ghostCheckOptions[0], true)
               shouldGhost = true
-              tooltipText = `Nightlord - Auto-select ${ghostCheckOptions[0]}`
             } else {
 
               iconUrl = getIconPath(currentNightlord, true)
-              tooltipText = 'Nightlord - Click to select'
             }
             
             const baseIconSize = getZoomScaledIconSize(currentConfig.size, currentZoom)
@@ -524,11 +641,9 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
               iconUrl = getIconPath(ghostCheckOptions[0])
               shouldGhost = true
-              tooltipText = `Slot ${coord.id} - Auto-select ${ghostCheckOptions[0]}`
             } else {
 
               iconUrl = getIconPath(currentBuilding || 'empty')
-              tooltipText = `Slot ${coord.id} - Click to build`
             }
             
             iconSize = getZoomScaledIconSize(currentConfig.size, currentZoom)
@@ -669,8 +784,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     const markers = markersRef.current
 
     markers.forEach((marker, slotId) => {
-      const availableOptions = getAvailableOptions(slotId, false)
-      const nonEmptyOptions = availableOptions.filter(option => option !== 'empty')
+      getAvailableOptions(slotId, false)
+      const nonEmptyOptions = getAvailableOptionsForGhost(slotId, selectedBuildings, selectedNightlord).filter(option => option !== 'empty')
       
       const markerElement = marker.getElement()
       if (markerElement) {
@@ -697,6 +812,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
             imgElement.classList.remove('ghost-icon')
 
             const shouldGhost = nonEmptyOptions.length === 1 && isEmpty
+            
             
             if (shouldGhost) {
 
@@ -729,7 +845,51 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         }
       }
     })
-  }, [selectedBuildings, selectedNightlord, mapType, remainingSeedsCount])
+  }, [selectedBuildings, selectedNightlord, mapType, remainingSeedsCount, selectedSpawnSlot])
+
+  // Separate useEffect for spawn marker (doesn't need iconConfigRef)
+  useEffect(() => {
+    if (!markersRef.current || !leafletMapRef.current) return
+
+    const markers = markersRef.current
+
+    // Spawn marker management
+    if (selectedSpawnSlot) {
+      const spawnSlotMarker = markers.get(selectedSpawnSlot)
+      
+      if (spawnSlotMarker && leafletMapRef.current) {
+        const spawnPosition = spawnSlotMarker.getLatLng()
+        
+        // Create or update spawn marker
+        if (!spawnMarkerRef.current) {
+          const spawnIcon = L.icon({
+            iconUrl: '/Images/SpawnIcons/spawn.webp',
+            iconSize: [70, 70],
+            iconAnchor: [35, 35],
+            popupAnchor: [0, -35]
+          })
+          
+          spawnMarkerRef.current = L.marker(spawnPosition, { 
+            icon: spawnIcon,
+            zIndexOffset: 1000, // Above all other markers
+            interactive: false // Allow clicks to pass through to markers below
+          }).addTo(leafletMapRef.current)
+          
+          spawnMarkerRef.current.setTooltipContent(`Spawn Location - Slot ${selectedSpawnSlot}`)
+        } else {
+          // Update existing spawn marker position
+          spawnMarkerRef.current.setLatLng(spawnPosition)
+          spawnMarkerRef.current.setTooltipContent(`Spawn Location - Slot ${selectedSpawnSlot}`)
+        }
+      }
+    } else {
+      // Remove spawn marker if no spawn slot selected
+      if (spawnMarkerRef.current && leafletMapRef.current) {
+        leafletMapRef.current.removeLayer(spawnMarkerRef.current)
+        spawnMarkerRef.current = null
+      }
+    }
+  }, [selectedSpawnSlot])
 
   useEffect(() => {
     if (!markersRef.current || !iconConfigRef.current || !leafletMapRef.current) return
@@ -824,6 +984,11 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         availableOptions={getAvailableOptions(selectedSlot)}
         currentBuilding={selectedSlot === 'nightlord' ? selectedNightlord : 
           (Object.prototype.hasOwnProperty.call(selectedBuildings, selectedSlot) ? selectedBuildings[selectedSlot] : undefined)}
+        mapType={mapType}
+        slots={selectedBuildings}
+        nightlord={selectedNightlord || null}
+        selectedSpawnSlot={selectedSpawnSlot}
+        onSpawnToggle={handleSpawnToggle}
       />
     </>
   )

@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { buildingIconOrder, nightlordIconOrder } from '@/lib/constants/icons'
+import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
+import { SpawnIcon } from '@/components/ui/SpawnIcon'
 
 interface SlotSelectionModalProps {
   isOpen: boolean
@@ -11,6 +13,11 @@ interface SlotSelectionModalProps {
   onSelect: (building: string) => void
   availableOptions: string[]
   currentBuilding?: string
+  mapType: string
+  slots: Record<string, string>
+  nightlord: string | null
+  selectedSpawnSlot?: string | null
+  onSpawnToggle?: (slotId: string) => void
 }
 
 export default function SlotSelectionModal({ 
@@ -19,9 +26,20 @@ export default function SlotSelectionModal({
   slotId, 
   onSelect, 
   availableOptions,
-  currentBuilding
+  currentBuilding,
+  mapType,
+  slots,
+  nightlord,
+  selectedSpawnSlot,
+  onSpawnToggle
 }: SlotSelectionModalProps) {
   const [mounted, setMounted] = useState(false)
+  
+  const { isPossibleSpawn } = useSpawnAnalysis({
+    mapType,
+    slots,
+    nightlord
+  })
 
   const iconConfig = {
     mobile: {
@@ -66,6 +84,13 @@ export default function SlotSelectionModal({
 
   const handleOptionClick = (building: string) => {
     onSelect(building)
+    onClose()
+  }
+
+  const handleSpawnToggle = () => {
+    if (onSpawnToggle) {
+      onSpawnToggle(slotId)
+    }
     onClose()
   }
 
@@ -174,6 +199,17 @@ export default function SlotSelectionModal({
             </button>
           </div>
         </div>
+        
+        {isPossibleSpawn(slotId) && (!selectedSpawnSlot || selectedSpawnSlot === slotId) && (
+          <div className="px-6 py-4 border-b border-gray-700/50">
+            <div className="flex flex-col items-center gap-2">
+              <SpawnIcon
+                isSelected={selectedSpawnSlot === slotId}
+                onClick={handleSpawnToggle}
+              />
+            </div>
+          </div>
+        )}
         
         {}
         <div className="p-6 overflow-y-auto max-h-96 scrollbar-custom">

@@ -1,5 +1,6 @@
 import { Seed } from '@/lib/types'
 import seedData from '../../../public/data/seed_data.json'
+import { filterSeedsBySpawn } from '@/lib/map/spawnAnalysis'
 
 const seeds: Seed[] = seedData as Seed[]
 
@@ -7,14 +8,15 @@ interface SearchCriteria {
   mapType: string
   slots: Record<string, string>
   nightlord?: string | null
+  selectedSpawnSlot?: string | null
 }
 
 export const searchSeeds = (criteria: SearchCriteria): Seed[] => {
-  const { mapType, slots, nightlord } = criteria
+  const { mapType, slots, nightlord, selectedSpawnSlot } = criteria
 
   if (!mapType) return []
 
-  return seeds.filter(seed => {
+  let filteredSeeds = seeds.filter(seed => {
 
     const seedMapType = seed.map_type.toLowerCase().replace(/\s+/g, '').replace(',', '')
     const searchMapType = mapType.toLowerCase().replace(/\s+/g, '').replace(',', '')
@@ -51,9 +53,60 @@ export const searchSeeds = (criteria: SearchCriteria): Seed[] => {
 
     return true
   })
+
+  // Apply spawn filtering if selected
+  if (selectedSpawnSlot) {
+    filteredSeeds = filterSeedsBySpawn(filteredSeeds, selectedSpawnSlot)
+  }
+
+  return filteredSeeds
+}
+
+// IMPORTANT: Keep original functions for ghost icon logic (no spawn filtering)
+export const searchSeedsForGhost = (mapType: string, slots: Record<string, string>, nightlord?: string | null): Seed[] => {
+  return searchSeeds({ mapType, slots, nightlord })
 }
 
 export const getAvailableBuildingsForSlot = (
+  mapType: string,
+  slots: Record<string, string>,
+  nightlord: string | null,
+  targetSlotId: string,
+  selectedSpawnSlot?: string | null
+): string[] => {
+  if (!mapType) return []
+
+  const currentSlots = { ...slots }
+  if (Object.prototype.hasOwnProperty.call(currentSlots, targetSlotId)) {
+    delete currentSlots[targetSlotId]
+  }
+
+  const matchingSeeds = searchSeeds({
+    mapType,
+    slots: currentSlots,
+    nightlord,
+    selectedSpawnSlot
+  })
+
+  const availableBuildings = new Set<string>()
+  
+  matchingSeeds.forEach(seed => {
+    const building = seed.slots[targetSlotId as keyof typeof seed.slots]
+    if (building && building !== 'empty' && building.trim() !== '') {
+      availableBuildings.add(building)
+    }
+  })
+
+  if (Object.prototype.hasOwnProperty.call(slots, targetSlotId) && 
+      slots[targetSlotId] && slots[targetSlotId] !== 'empty') {
+    availableBuildings.add('empty')
+  }
+
+  return Array.from(availableBuildings)
+}
+
+// GHOST LOGIC: Separate function for building options without spawn filtering
+export const getAvailableBuildingsForSlotForGhost = (
   mapType: string,
   slots: Record<string, string>,
   nightlord: string | null,
@@ -66,11 +119,7 @@ export const getAvailableBuildingsForSlot = (
     delete currentSlots[targetSlotId]
   }
 
-  const matchingSeeds = searchSeeds({
-    mapType,
-    slots: currentSlots,
-    nightlord
-  })
+  const matchingSeeds = searchSeedsForGhost(mapType, currentSlots, nightlord)
 
   const availableBuildings = new Set<string>()
   
@@ -91,14 +140,36 @@ export const getAvailableBuildingsForSlot = (
 
 export const getAvailableNightlords = (
   mapType: string,
-  slots: Record<string, string>
+  slots: Record<string, string>,
+  selectedSpawnSlot?: string | null
 ): string[] => {
   if (!mapType) return []
 
   const matchingSeeds = searchSeeds({
     mapType,
-    slots
+    slots,
+    selectedSpawnSlot
   })
+
+  const availableNightlords = new Set<string>()
+  
+  matchingSeeds.forEach(seed => {
+    if (seed.nightlord && seed.nightlord.trim() !== '') {
+      availableNightlords.add(seed.nightlord)
+    }
+  })
+
+  return Array.from(availableNightlords)
+}
+
+// GHOST LOGIC: Separate function for nightlords without spawn filtering
+export const getAvailableNightlordsForGhost = (
+  mapType: string,
+  slots: Record<string, string>
+): string[] => {
+  if (!mapType) return []
+
+  const matchingSeeds = searchSeedsForGhost(mapType, slots)
 
   const availableNightlords = new Set<string>()
   
@@ -114,9 +185,10 @@ export const getAvailableNightlords = (
 export const getRemainingSeeds = (
   mapType: string,
   slots: Record<string, string>,
-  nightlord: string | null
+  nightlord: string | null,
+  selectedSpawnSlot?: string | null
 ): Seed[] => {
-  return searchSeeds({ mapType, slots, nightlord })
+  return searchSeeds({ mapType, slots, nightlord, selectedSpawnSlot })
 }
 
 export const getAllSeeds = (): Seed[] => seeds
