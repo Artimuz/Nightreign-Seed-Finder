@@ -4,11 +4,21 @@ import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { HamburgerMenu } from './HamburgerMenu';
 import { SidebarMenu } from './SidebarMenu';
+import { useGlobalUpdateContext } from '@/components/providers/GlobalUpdateProvider';
 
 export const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  let triggerUpdateModal: (() => void) | undefined;
+  try {
+    const updateContext = useGlobalUpdateContext();
+    triggerUpdateModal = updateContext.triggerUpdateModal;
+  } catch {
+    // Context not available
+    triggerUpdateModal = undefined;
+  }
 
   const isHomepage = pathname === '/';
   
@@ -64,7 +74,7 @@ export const Header: React.FC = () => {
           {/* Hamburger Menu - positioned on the right */}
           <button
             onClick={toggleSidebar}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700/80 hover:bg-gray-600/90 text-white p-3 rounded-lg border border-gray-500/50 hover:border-gray-400/70 transition-all duration-200 hover:scale-105 z-10"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white p-3 transition-all duration-200 hover:scale-105 z-10 focus:outline-none"
             title="Open Menu"
             aria-label={isSidebarOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isSidebarOpen}
@@ -78,7 +88,11 @@ export const Header: React.FC = () => {
       </header>
 
       {/* Sidebar */}
-      <SidebarMenu isOpen={isSidebarOpen} onClose={closeSidebar} />
+      <SidebarMenu 
+        isOpen={isSidebarOpen} 
+        onClose={closeSidebar}
+        onTriggerUpdates={triggerUpdateModal}
+      />
     </>
   );
 };

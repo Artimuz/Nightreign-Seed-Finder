@@ -7,9 +7,10 @@ import { getLoreCategories } from '@/lib/lore/utils'
 interface SidebarMenuProps {
   isOpen: boolean
   onClose: () => void
+  onTriggerUpdates?: () => void
 }
 
-export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
+export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTriggerUpdates }) => {
   const categories = getLoreCategories()
 
   const sidebarVariants = {
@@ -122,8 +123,25 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => 
                   initial="closed"
                   animate="open"
                   transition={{ delay: 0.3 }}
-                  className="pt-4 border-t border-gray-600/50"
+                  className="pt-4 border-t border-gray-600/50 space-y-4"
                 >
+                  <button
+                    onClick={() => {
+                      if (onTriggerUpdates) {
+                        onTriggerUpdates()
+                      }
+                      onClose()
+                    }}
+                    className="block w-full p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-blue-400 transition-all duration-200 text-left"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-blue-400 transition-colors duration-200">
+                      Last Updates
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      View recent app updates and new features
+                    </p>
+                  </button>
+                  
                   <Link
                     href="/lore"
                     onClick={onClose}
@@ -134,6 +152,19 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => 
                     </h3>
                     <p className="text-sm text-gray-400 mt-1">
                       Explore the complete collection of stories and characters
+                    </p>
+                  </Link>
+                  
+                  <Link
+                    href="/privacy-policy"
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      Privacy Policy
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Learn how we protect and handle your data
                     </p>
                   </Link>
                 </motion.div>
