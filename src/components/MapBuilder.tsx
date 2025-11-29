@@ -6,6 +6,7 @@ import L from 'leaflet'
 import SlotSelectionModal from './SlotSelectionModal'
 import { getRemainingSeeds, getAvailableBuildingsForSlot, getAvailableNightlords, getAvailableNightlordsForGhost, getAllSeeds } from '@/lib/data/seedSearch'
 import { useRateLimit } from '@/hooks/useRateLimit'
+import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
 
 interface MapBuilderProps {
   mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted'
@@ -34,10 +35,66 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   const [pathTaken, setPathTaken] = useState<Record<string, string>>({})
   const [remainingSeedsCount, setRemainingSeedsCount] = useState<number>(0)
   const [pendingLogSeed, setPendingLogSeed] = useState<string | null>(null)
-  const [selectedSpawnSlot, setSelectedSpawnSlot] = useState<string | null>(null)
   const router = useRouter()
   
   const { canMakeRequest, recordRequest, getRemainingTime } = useRateLimit(30000)
+
+  const { isPossibleSpawn, spawnAnalysis, selectedSpawnSlot, toggleSpawnSlot } = useSpawnAnalysis({
+    mapType,
+    slots: selectedBuildings,
+    nightlord: (!selectedNightlord || selectedNightlord === 'empty' || selectedNightlord === '') ? null : selectedNightlord
+  })
+
+  useEffect(() => {
+    if (!mapRef.current) return
+
+    const observer = new MutationObserver(() => {
+      const emptyIcons = mapRef.current?.querySelectorAll('img[src*="empty.webp"]')
+      if (emptyIcons && emptyIcons.length > 0) {
+        emptyIcons.forEach((img) => {
+          if (img instanceof HTMLImageElement) {
+            const markerElement = img.closest('[data-slot-id]')
+            if (markerElement) {
+              const slotId = markerElement.getAttribute('data-slot-id')
+              if (slotId && slotId !== 'nightlord') {
+                const shouldHaveBlueHue = selectedSpawnSlot === null && spawnAnalysis.possibleSpawnSlots.includes(slotId)
+                
+                if (shouldHaveBlueHue) {
+                  img.style.filter = 'hue-rotate(115deg) saturate(1.5) brightness(1)'
+                } else {
+                  img.style.filter = ''
+                }
+              }
+            }
+          }
+        })
+      }
+    })
+
+    observer.observe(mapRef.current, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['src']
+    })
+
+    return () => observer.disconnect()
+  }, [spawnAnalysis.possibleSpawnSlots, selectedSpawnSlot])
+
+  const applyBlueHueIfNeeded = (imgElement: HTMLImageElement, slotId: string) => {
+    if (slotId === 'nightlord') return
+    
+    const currentBuilding = selectedBuildings[slotId] || ''
+    const isEmpty = !currentBuilding || currentBuilding === '' || currentBuilding === 'empty'
+    const isSpawnAvailable = spawnAnalysis.possibleSpawnSlots.includes(slotId)
+    const noSpawnSelected = !selectedSpawnSlot
+    
+    if (isEmpty && isSpawnAvailable && noSpawnSelected && imgElement.src.includes('empty.webp')) {
+      imgElement.style.filter = 'hue-rotate(200deg) saturate(1.5) brightness(1.1)'
+    } else {
+      imgElement.style.filter = ''
+    }
+  }
 
   const updateRemainingSeedsCount = () => {
     const cleanedSlots: Record<string, string> = {}
@@ -287,8 +344,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   }
 
   const handleSpawnToggle = (slotId: string) => {
+    toggleSpawnSlot(slotId) // Use hook's function instead of manual state
     const newSpawnSlot = selectedSpawnSlot === slotId ? null : slotId
-    setSelectedSpawnSlot(newSpawnSlot)
     
     // Check for auto-navigation after spawn toggle
     setTimeout(() => {
@@ -733,8 +790,9 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           if (imgElement instanceof HTMLImageElement) {
 
             imgElement.src = getIconPath(currentBuilding)
-
             markerElement.setAttribute('data-building', currentBuilding)
+
+            applyBlueHueIfNeeded(imgElement, slotId)
 
             marker.setTooltipContent(`Slot ${slotId} - ${currentBuilding === 'empty' ? 'Empty' : currentBuilding}`)
           }
@@ -770,6 +828,9 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
             if (imgElement && imgElement instanceof HTMLImageElement) {
               imgElement.src = getIconPath('empty')
               markerElement.setAttribute('data-building', 'empty')
+              
+              applyBlueHueIfNeeded(imgElement, slotId)
+              
               marker.setTooltipContent(`Slot ${slotId} - Click to build`)
             }
           }
@@ -838,6 +899,10 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
               if (imgElement instanceof HTMLImageElement) {
                 imgElement.src = getIconPath(currentIcon, slotId === 'nightlord')
                 imgElement.classList.remove('ghost-icon')
+                
+                if (slotId !== 'nightlord') {
+                  applyBlueHueIfNeeded(imgElement, slotId)
+                }
               }
               marker.setTooltipContent(slotId === 'nightlord' ? `Nightlord - Click to select` : `Slot ${slotId} - Click to build`)
             }
@@ -986,7 +1051,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           (Object.prototype.hasOwnProperty.call(selectedBuildings, selectedSlot) ? selectedBuildings[selectedSlot] : undefined)}
         mapType={mapType}
         slots={selectedBuildings}
-        nightlord={selectedNightlord || null}
+        nightlord={(!selectedNightlord || selectedNightlord === 'empty' || selectedNightlord === '') ? null : selectedNightlord}
         selectedSpawnSlot={selectedSpawnSlot}
         onSpawnToggle={handleSpawnToggle}
       />
