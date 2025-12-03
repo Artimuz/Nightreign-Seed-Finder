@@ -33,5 +33,10 @@ export const MAP_TYPES = [
     key: 'crater',
     title: 'Crater',
     cardImage: '/Images/mapTypes/craterIcon.webp'
+  },
+  {
+    key: 'forsaken',
+    title: '*Coming Soon*',
+    cardImage: '/Images/mapTypes/forsakenIcon.webp'
   }
 ]

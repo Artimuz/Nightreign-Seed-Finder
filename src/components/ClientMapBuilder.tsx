@@ -11,7 +11,7 @@ const MapBuilder = dynamic(() => import('./MapBuilder'), {
   )
 })
 
-type ValidMapType = 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted'
+type ValidMapType = 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'forsaken'
 
 interface ClientMapBuilderProps {
   mapType: ValidMapType

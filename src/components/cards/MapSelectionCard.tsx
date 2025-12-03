@@ -10,6 +10,7 @@ interface MapSelectionCardProps {
   title: string;
   imageSrc: string;
   onClick?: (event: React.MouseEvent) => void;
+  isLocked?: boolean;
 }
 
 const cardVariants = {
@@ -19,7 +20,7 @@ const cardVariants = {
 };
 
 export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
-  mapType, title, imageSrc, onClick
+  mapType, title, imageSrc, onClick, isLocked = false
 }) => {
   const [showMapIcon, setShowMapIcon] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -38,7 +39,8 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
       'crater': '/Images/mapTypes/map_icon/craterIcon.webp',
       'mountaintop': '/Images/mapTypes/map_icon/mountainIcon.webp',
       'noklateo': '/Images/mapTypes/map_icon/noklateoIcon.webp',
-      'rotted': '/Images/mapTypes/map_icon/rotIcon.webp'
+      'rotted': '/Images/mapTypes/map_icon/rotIcon.webp',
+      'forsaken': '/Images/mapTypes/map_icon/forsakenIcon.webp'
     };
     return iconMap[mapType.toLowerCase()] || '/Images/mapTypes/map_icon/normalIcon.webp';
   };
@@ -60,7 +62,9 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
   };
 
   const handleCardMouseEnter = () => {
-    setShowMapIcon(true);
+    if (!isLocked) {
+      setShowMapIcon(true);
+    }
   };
 
   const handleCardMouseLeave = () => {
@@ -89,8 +93,11 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
       whileHover={{
         zIndex: 10
       }}
-      className="map-selection-card group cursor-pointer relative"
-      style={{ overflow: 'visible' }}
+      className={`map-selection-card group ${isLocked ? 'cursor-not-allowed' : 'cursor-pointer'} relative`}
+      style={{ 
+        overflow: 'visible',
+        filter: isLocked ? 'saturate(0)' : 'saturate(1)'
+      }}
       onMouseEnter={handleCardMouseEnter}
       onMouseLeave={handleCardMouseLeave}
       onClick={onClick}
@@ -122,26 +129,34 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
         )}
 
         <AnimatePresence>
-          {showMapIcon && (
+          {(showMapIcon || isLocked) && (
             <motion.div
               className="absolute top-2 left-2 z-20 cursor-pointer"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              onMouseEnter={handleMapIconMouseEnter}
-              onMouseLeave={handleMapIconMouseLeave}
+              onMouseEnter={!isLocked ? handleMapIconMouseEnter : undefined}
+              onMouseLeave={!isLocked ? handleMapIconMouseLeave : undefined}
             >
-              <Image
-                src="/Images/UIIcons/map_icon.png"
-                alt="Map icon"
-                width={40}
-                height={40}
-                className="object-contain drop-shadow-2xl"
-                style={{
-                  filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))'
-                }}
-              />
+              {isLocked ? (
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" className="text-white">
+                    <path fill="currentColor" d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+                  </svg>
+                </div>
+              ) : (
+                <Image
+                  src="/Images/UIIcons/map_icon.png"
+                  alt="Map icon"
+                  width={40}
+                  height={40}
+                  className="object-contain drop-shadow-2xl"
+                  style={{
+                    filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))'
+                  }}
+                />
+              )}
             </motion.div>
           )}
         </AnimatePresence>

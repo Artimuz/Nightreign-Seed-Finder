@@ -4,7 +4,8 @@ export const MAP_CONFIG = {
     'crater': '/Images/mapTypes/Crater.webp',
     'mountaintop': '/Images/mapTypes/Mountaintop.webp',
     'noklateo': '/Images/mapTypes/Noklateo, the Shrouded City.webp',
-    'rotted': '/Images/mapTypes/Rotted Woods.webp'
+    'rotted': '/Images/mapTypes/Rotted Woods.webp',
+    'forsaken': '/Images/mapTypes/Forsaken.webp'
   },
   zoom: {
     mobile: { min: 0, max: 3, snap: 0.10, delta: 0.10 },
@@ -33,7 +34,7 @@ export const MAP_CONFIG = {
   }
 }
 
-export type MapType = 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted'
+export type MapType = 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'forsaken'
 
 export const getMapImage = (mapType: MapType): string => {
   return MAP_CONFIG.images[mapType]

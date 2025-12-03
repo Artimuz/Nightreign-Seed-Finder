@@ -1,7 +1,7 @@
 import ClientMapBuilder from '../../../components/ClientMapBuilder'
 import Link from 'next/link'
 
-const VALID_MAP_TYPES = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted'] as const
+const VALID_MAP_TYPES = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'forsaken'] as const
 type ValidMapType = typeof VALID_MAP_TYPES[number]
 
 export async function generateStaticParams() {

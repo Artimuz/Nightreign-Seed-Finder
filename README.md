@@ -1,31 +1,38 @@
 # Nightreign Seed Finder
 
-A high-performance web application for discovering optimal game seeds in Nightreign. Built with Next.js 15, TypeScript, and enterprise-grade optimizations for Vercel deployment.
+A high-performance web application for discovering optimal game seeds in Elden Ring: Nightreign. Built with Next.js 15, TypeScript, and enterprise-grade optimizations for Vercel deployment.
 
 ## Features
 
-- **Interactive Map Builder**: Real-time seed filtering with visual map construction
-- **Static Site Generation**: 330+ pre-generated pages for instant loading
+- **Interactive Map Builder**: Real-time seed filtering with visual map construction across multiple map types
+- **Six Map Types**: Normal, Crater, Mountaintop, Noklateo, Rotted Woods, and The Forsaken Hollows
+- **Advanced Lock System**: Future-ready locked content with visual feedback and navigation prevention
+- **Static Site Generation**: 350+ pre-generated pages for instant loading
 - **Edge Runtime APIs**: Global distribution with sub-10ms response times
-- **Mobile-Optimized**: Responsive design for all screen sizes
+- **Mobile-Optimized**: Responsive design with adaptive grid layouts for all screen sizes
 - **Type-Safe Architecture**: Full TypeScript implementation with strict validation
 - **Performance-First**: Optimized for minimal server resource consumption
+- **Lore Integration**: Comprehensive Nightfarers and Nightlords lore sections
+- **Real-Time Updates**: Version checking and update notification system
 
 ## Technical Stack
 
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS with custom animations
 - **Database**: Supabase (PostgreSQL)
 - **Deployment**: Vercel (Edge Runtime + Static Generation)
-- **State Management**: Zustand
-- **Validation**: Zod schemas
+- **State Management**: React hooks with custom managers
+- **Animation**: Framer Motion for interactive elements
+- **Validation**: Zod schemas with rate limiting
+- **Image Optimization**: Next.js Image component with WebP support
 
 ## Architecture
 
 ### Static Generation
-- 5 map type pages pre-built at deployment
-- 320 seed result pages statically generated
+- 6 map type pages pre-built at deployment (including locked content)
+- 340+ seed result pages statically generated
+- Complete lore section with Nightfarers and Nightlords content
 - Zero server-side rendering for core content
 
 ### Edge Computing
@@ -48,11 +55,19 @@ A high-performance web application for discovering optimal game seeds in Nightre
 ### Setup
 ```bash
 git clone <repository-url>
-cd nightreign-seed-finder
+cd SeedFinder2.0
 npm install
 cp .env.example .env.local
 # Configure Supabase credentials in .env.local
 npm run dev
+```
+
+### Environment Variables
+```bash
+# .env.local
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
 ### Build Commands
@@ -66,19 +81,31 @@ npm run lint     # Code quality checks
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── api/               # Edge Runtime API routes
-│   ├── map/[mapType]/     # Static map pages (5 variants)
-│   └── result/[id]/       # Static result pages (320 variants)
+│   ├── api/               # Edge Runtime API routes (logging, user count, version)
+│   ├── map/[mapType]/     # Static map pages (6 variants including locked)
+│   ├── result/[id]/       # Static result pages (340+ variants)
+│   ├── lore/             # Lore content pages
+│   │   ├── nightfarers/  # Character lore (8 characters)
+│   │   └── nightlords/   # Boss lore (8 bosses)
+│   └── admin/            # Administrative interface
 ├── components/            # UI components
-│   ├── backgrounds/       # Visual components
-│   ├── cards/            # Interactive cards
-│   └── ui/               # Base UI elements
+│   ├── BaseMap/          # Interactive map system
+│   ├── backgrounds/      # Visual components
+│   ├── cards/           # Interactive cards with lock functionality
+│   ├── lore/            # Lore content components
+│   ├── providers/       # React context providers
+│   ├── ui/              # Base UI elements
+│   └── updates/         # Update notification system
 ├── lib/                  # Core utilities
-│   ├── constants/        # Application constants
-│   ├── data/            # Game data processing
+│   ├── constants/        # Application constants and icons
+│   ├── data/            # Game data processing and search
 │   ├── database/        # Schema and queries
-│   └── validation/      # Input validation
-└── hooks/               # Custom React hooks
+│   ├── lore/            # Lore content management
+│   ├── map/             # Map configuration and utilities
+│   ├── updates/         # Update management system
+│   └── validation/      # Input validation and schemas
+├── hooks/               # Custom React hooks
+└── styles/              # Global stylesheets
 ```
 
 ## Production Deployment
@@ -104,11 +131,31 @@ src/
 
 ## Usage
 
+### Map Building
 1. Navigate to the application homepage
-2. Select a map type (Normal, Crater, Mountaintop, Noklateo, Rotted Woods)
+2. Select a map type from six available options:
+   - **Normal**: Standard Nightreign experience
+   - **Crater**: Volcanic landscape with unique challenges
+   - **Mountaintop**: High-altitude terrain
+   - **Noklateo**: The Shrouded City with mystical elements
+   - **Rotted Woods**: Corrupted forest environment
+   - **The Forsaken Hollows**: Locked content (coming soon)
 3. Use the interactive builder to place buildings on map slots
-4. View filtered seed results in real-time
-5. Click any seed to view the complete map layout
+4. Apply filters for specific building types and spawn configurations
+5. View filtered seed results in real-time
+6. Click any seed to view the complete map layout with all details
+
+### Lore Exploration
+1. Visit the Lore section to explore game content
+2. Browse Nightfarers character profiles and abilities
+3. Study Nightlords boss strategies and lore
+4. Access detailed character and boss information
+
+### Mobile Experience
+- Responsive grid layout adapts to screen size
+- Touch-optimized interactions for map building
+- Mobile-specific navigation and controls
+- Full feature parity with desktop version
 
 ## License
 

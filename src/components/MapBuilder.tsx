@@ -9,7 +9,7 @@ import { useRateLimit } from '@/hooks/useRateLimit'
 import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
 
 interface MapBuilderProps {
-  mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted'
+  mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'forsaken'
 }
 
 const MAP_IMAGES = {
@@ -17,7 +17,8 @@ const MAP_IMAGES = {
   'crater': '/Images/mapTypes/Crater.webp',
   'mountaintop': '/Images/mapTypes/Mountaintop.webp',
   'noklateo': '/Images/mapTypes/Noklateo, the Shrouded City.webp',
-  'rotted': '/Images/mapTypes/Rotted Woods.webp'
+  'rotted': '/Images/mapTypes/Rotted Woods.webp',
+  'forsaken': '/Images/mapTypes/Forsaken.webp'
 }
 
 export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
