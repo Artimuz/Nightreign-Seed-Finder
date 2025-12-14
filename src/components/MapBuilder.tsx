@@ -1050,11 +1050,6 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         availableOptions={getAvailableOptions(selectedSlot)}
         currentBuilding={selectedSlot === 'nightlord' ? selectedNightlord : 
           (Object.prototype.hasOwnProperty.call(selectedBuildings, selectedSlot) ? selectedBuildings[selectedSlot] : undefined)}
-        mapType={mapType}
-        slots={selectedBuildings}
-        nightlord={(!selectedNightlord || selectedNightlord === 'empty' || selectedNightlord === '') ? null : selectedNightlord}
-        selectedSpawnSlot={selectedSpawnSlot}
-        onSpawnToggle={handleSpawnToggle}
       />
     </>
   )

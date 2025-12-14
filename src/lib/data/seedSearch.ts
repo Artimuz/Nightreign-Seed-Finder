@@ -45,10 +45,15 @@ export const searchSeeds = (criteria: SearchCriteria): Seed[] => {
 
     for (const [slotId, building] of Object.entries(slots)) {
       if (!Object.prototype.hasOwnProperty.call(slots, slotId)) continue;
-      if (building && building !== 'empty' && 
-          Object.prototype.hasOwnProperty.call(seed.slots, slotId) && 
-          seed.slots[slotId as keyof typeof seed.slots] !== building) {
-        return false
+      if (
+        building &&
+        building !== 'empty' &&
+        Object.prototype.hasOwnProperty.call(seed.slots, slotId)
+      ) {
+        const val = seed.slots[slotId as keyof typeof seed.slots]
+        if (val !== building) {
+          return false
+        }
       }
     }
 
@@ -190,6 +195,11 @@ export const getRemainingSeeds = (
   selectedSpawnSlot?: string | null
 ): Seed[] => {
   return searchSeeds({ mapType, slots, nightlord, selectedSpawnSlot })
+}
+
+const normalizeBuilding = (value: string): string => {
+  if (value.endsWith('_spawn')) return value.replace(/_spawn$/, '')
+  return value
 }
 
 export const getAllSeeds = (): Seed[] => seeds

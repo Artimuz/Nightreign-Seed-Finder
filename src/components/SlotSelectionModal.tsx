@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { buildingIconOrder, nightlordIconOrder } from '@/lib/constants/icons'
-import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
-import { SpawnIcon } from '@/components/ui/SpawnIcon'
 
 interface SlotSelectionModalProps {
   isOpen: boolean
@@ -13,11 +11,6 @@ interface SlotSelectionModalProps {
   onSelect: (building: string) => void
   availableOptions: string[]
   currentBuilding?: string
-  mapType: string
-  slots: Record<string, string>
-  nightlord: string | null
-  selectedSpawnSlot?: string | null
-  onSpawnToggle?: (slotId: string) => void
 }
 
 export default function SlotSelectionModal({ 
@@ -26,20 +19,10 @@ export default function SlotSelectionModal({
   slotId, 
   onSelect, 
   availableOptions,
-  currentBuilding,
-  mapType,
-  slots,
-  nightlord,
-  selectedSpawnSlot,
-  onSpawnToggle
+  currentBuilding
 }: SlotSelectionModalProps) {
   const [mounted, setMounted] = useState(false)
   
-  const { isPossibleSpawn } = useSpawnAnalysis({
-    mapType,
-    slots,
-    nightlord
-  })
 
   const iconConfig = {
     mobile: {
@@ -87,12 +70,6 @@ export default function SlotSelectionModal({
     onClose()
   }
 
-  const handleSpawnToggle = () => {
-    if (onSpawnToggle) {
-      onSpawnToggle(slotId)
-    }
-    onClose()
-  }
 
   const getIconPath = (building: string) => {
     if (!building || building === 'empty') {
@@ -200,17 +177,6 @@ export default function SlotSelectionModal({
           </div>
         </div>
         
-        {isPossibleSpawn(slotId) && (!selectedSpawnSlot || selectedSpawnSlot === slotId) && (
-          <div className="px-6 py-4 border-b border-gray-700/50">
-            <div className="flex flex-col items-center gap-2">
-              <SpawnIcon
-                isSelected={selectedSpawnSlot === slotId}
-                onClick={handleSpawnToggle}
-              />
-            </div>
-          </div>
-        )}
-        
         {}
         <div className="p-6 overflow-y-auto max-h-96 scrollbar-custom">
           <div className={`grid ${getGridColumns()} gap-2 justify-items-center`}>
@@ -252,6 +218,13 @@ export default function SlotSelectionModal({
                     sizes={`${isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}px`}
                   />
                 </div>
+                {building && building.endsWith('_spawn') && (
+                  <div className="absolute inset-x-0 -bottom-5 flex justify-center">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-yellow-400 text-black shadow">
+                      Spawn
+                    </span>
+                  </div>
+                )}
               </button>
             ))}
           </div>

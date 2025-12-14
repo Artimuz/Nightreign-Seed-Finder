@@ -1,6 +1,8 @@
 export const buildingIcons: Record<string, string> = {
   empty: "/Images/buildingIcons/empty.webp",
   church: "/Images/buildingIcons/church.webp",
+  empty_spawn: "/Images/buildingIcons/empty_spawn.webp",
+  church_spawn: "/Images/buildingIcons/church_spawn.webp",
   fort: "/Images/buildingIcons/fort.webp",
   fort_magic: "/Images/buildingIcons/fort_magic.webp",
   greatchurch: "/Images/buildingIcons/greatchurch.webp",
@@ -26,7 +28,9 @@ export const buildingIcons: Record<string, string> = {
 
 export const buildingIconOrder: string[] = [
   "empty",
+  "empty_spawn",
   "church",
+  "church_spawn",
   "fort",
   "fort_magic",
   "greatchurch",

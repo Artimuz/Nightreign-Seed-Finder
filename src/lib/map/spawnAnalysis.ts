@@ -22,18 +22,16 @@ export function analyzePossibleSpawns(
     }
   }
 
-  // Filter seeds by existing criteria (without spawn slot filtering)
   const matchingSeeds = seeds.filter(seed => {
-    // Map type matching logic
     const seedMapType = seed.map_type.toLowerCase().replace(/\s+/g, '').replace(',', '')
     const searchMapType = mapType.toLowerCase().replace(/\s+/g, '').replace(',', '')
     
     const mapTypeMapping: Record<string, string[]> = {
-      'normal': ['normal'],
-      'crater': ['crater'],
-      'mountaintop': ['mountaintop', 'mountain'],
-      'noklateo': ['noklateo', 'noklateo,theshroudedcity', 'noklateo the shrouded city'],
-      'rotted': ['rotted', 'rottedwoods', 'rotted woods']
+      normal: ['normal'],
+      crater: ['crater'],
+      mountaintop: ['mountaintop', 'mountain'],
+      noklateo: ['noklateo', 'noklateo,theshroudedcity', 'noklateo the shrouded city'],
+      rotted: ['rotted', 'rottedwoods', 'rotted woods']
     }
     
     const validMappings = mapTypeMapping[searchMapType] || [searchMapType]
@@ -43,17 +41,21 @@ export function analyzePossibleSpawns(
     
     if (!isMapTypeMatch) return false
 
-    // Nightlord matching
     if (nightlord && nightlord.trim() !== '' && seed.nightlord !== nightlord) {
       return false
     }
 
-    // Building matching
     for (const [slotId, building] of Object.entries(currentBuildings)) {
-      if (building && building !== 'empty' && 
-          Object.prototype.hasOwnProperty.call(seed.slots, slotId) && 
-          seed.slots[slotId as keyof typeof seed.slots] !== building) {
-        return false
+      const current = building
+      if (
+        current &&
+        current !== 'empty' &&
+        Object.prototype.hasOwnProperty.call(seed.slots, slotId)
+      ) {
+        const val = seed.slots[slotId as keyof typeof seed.slots]
+        if (val !== current) {
+          return false
+        }
       }
     }
 
@@ -68,15 +70,15 @@ export function analyzePossibleSpawns(
     }
   }
 
-  // Analyze spawn slots from matching seeds
   const spawnSlotCounts: Record<string, number> = {}
   
   matchingSeeds.forEach(seed => {
-    const spawnSlot = seed['Spawn Slot' as keyof Seed]
-    if (spawnSlot && typeof spawnSlot === 'string') {
-      const normalizedSlot = normalizeSpawnSlot(spawnSlot)
-      spawnSlotCounts[normalizedSlot] = (spawnSlotCounts[normalizedSlot] || 0) + 1
-    }
+    Object.entries(seed.slots).forEach(([slotId, value]) => {
+      if (value === 'empty_spawn' || value === 'church_spawn') {
+        const normalizedSlot = normalizeSlotId(slotId)
+        spawnSlotCounts[normalizedSlot] = (spawnSlotCounts[normalizedSlot] || 0) + 1
+      }
+    })
   })
 
   const totalSeeds = matchingSeeds.length
@@ -96,26 +98,29 @@ export function analyzePossibleSpawns(
   }
 }
 
-function normalizeSpawnSlot(slot: string): string {
+function normalizeSlotId(slot: string): string {
   const num = parseInt(slot, 10)
-  return num < 10 ? `0${num}` : slot
+  if (Number.isNaN(num)) return slot
+  return num < 10 ? `0${num}` : String(num)
+}
+
+function normalizeBuilding(value: string): string {
+  if (value.endsWith('_spawn')) return value.replace(/_spawn$/, '')
+  return value
 }
 
 export function filterSeedsBySpawn(
-  seeds: Seed[],
+  list: Seed[],
   selectedSpawnSlot: string | null
 ): Seed[] {
   if (!selectedSpawnSlot) {
-    return seeds
+    return list
   }
-
-  return seeds.filter(seed => {
-    const seedSpawnSlot = seed['Spawn Slot' as keyof Seed]
-    if (!seedSpawnSlot || typeof seedSpawnSlot !== 'string') {
-      return false
-    }
-    
-    const normalizedSeedSlot = normalizeSpawnSlot(seedSpawnSlot)
-    return normalizedSeedSlot === selectedSpawnSlot
+  const normalized = normalizeSlotId(selectedSpawnSlot)
+  return list.filter(seed => {
+    const valAtNormalized = seed.slots[normalized as keyof typeof seed.slots]
+    const valAtRaw = seed.slots[selectedSpawnSlot as keyof typeof seed.slots]
+    const val = valAtNormalized ?? valAtRaw
+    return val === 'empty_spawn' || val === 'church_spawn'
   })
 }
