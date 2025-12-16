@@ -37,3 +37,27 @@ CREATE INDEX IF NOT EXISTS idx_search_logs_session_id ON search_logs(session_id)
 CREATE INDEX IF NOT EXISTS idx_search_logs_timestamp ON search_logs(timestamp);
 CREATE INDEX IF NOT EXISTS idx_performance_metrics_endpoint ON performance_metrics(endpoint);
 CREATE INDEX IF NOT EXISTS idx_performance_metrics_timestamp ON performance_metrics(timestamp);
+
+-- Bug report submissions
+CREATE TABLE IF NOT EXISTS bug_reports (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NULL,
+  email TEXT NULL,
+  subject TEXT NULL,
+  message TEXT NOT NULL,
+  user_url TEXT NULL,
+  user_agent TEXT NULL,
+  client_ip INET NULL,
+  is_suspected BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Constraints to mirror application-level limits
+ALTER TABLE bug_reports
+  ADD CONSTRAINT chk_bug_reports_name_length CHECK (name IS NULL OR CHAR_LENGTH(name) <= 50),
+  ADD CONSTRAINT chk_bug_reports_email_length CHECK (email IS NULL OR CHAR_LENGTH(email) <= 50),
+  ADD CONSTRAINT chk_bug_reports_subject_length CHECK (subject IS NULL OR CHAR_LENGTH(subject) <= 100),
+  ADD CONSTRAINT chk_bug_reports_message_length CHECK (CHAR_LENGTH(message) >= 1 AND CHAR_LENGTH(message) <= 1000),
+  ADD CONSTRAINT chk_bug_reports_user_url_length CHECK (user_url IS NULL OR CHAR_LENGTH(user_url) <= 2048);
+
+CREATE INDEX IF NOT EXISTS idx_bug_reports_created_at ON bug_reports (created_at DESC);
