@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { buildingIconOrder, nightlordIconOrder } from '@/lib/constants/icons'
 
 interface SlotSelectionModalProps {
@@ -180,53 +179,59 @@ export default function SlotSelectionModal({
         {}
         <div className="p-6 overflow-y-auto max-h-96 scrollbar-custom">
           <div className={`grid ${getGridColumns()} gap-2 justify-items-center`}>
-            {sortedOptions.map((building, index) => (
-              <button
-                key={`${building}-${index}`}
-                onClick={() => handleOptionClick(building)}
-                className={`relative ${iconConfig.mobile.containerPadding} ${isNightlordModal ? `md:${iconConfig.nightlordDesktop.containerPadding}` : `md:${iconConfig.desktop.containerPadding}`} rounded-xl border-2 border-gray-600/50 bg-gray-700/30 hover:border-yellow-400 hover:bg-gray-600/50 transition-all duration-75 group flex items-center justify-center`}
-              >
-                <div 
-                  className="relative flex items-center justify-center md:hidden"
-                  style={{
-                    width: `${iconConfig.mobile.size}px`,
-                    height: `${iconConfig.mobile.size}px`
-                  }}
+            {sortedOptions.map((building, index) => {
+              const iconSrc = getIconPath(building)
+
+              return (
+                <button
+                  key={`${building}-${index}`}
+                  onClick={() => handleOptionClick(building)}
+                  className={`relative ${iconConfig.mobile.containerPadding} ${isNightlordModal ? `md:${iconConfig.nightlordDesktop.containerPadding}` : `md:${iconConfig.desktop.containerPadding}`} rounded-xl border-2 border-gray-600/50 bg-gray-700/30 hover:border-yellow-400 hover:bg-gray-600/50 transition-all duration-75 group flex items-center justify-center`}
                 >
-                  <Image
-                    src={getIconPath(building)}
-                    alt={building || 'empty'}
-                    width={iconConfig.mobile.size}
-                    height={iconConfig.mobile.size}
-                    className="object-contain group-hover:opacity-80 transition-opacity duration-100"
-                    sizes={`${iconConfig.mobile.size}px`}
-                  />
-                </div>
-                <div 
-                  className="relative items-center justify-center hidden md:flex"
-                  style={{
-                    width: `${isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}px`,
-                    height: `${isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}px`
-                  }}
-                >
-                  <Image
-                    src={getIconPath(building)}
-                    alt={building || 'empty'}
-                    width={isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}
-                    height={isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}
-                    className="object-contain group-hover:opacity-80 transition-opacity duration-100"
-                    sizes={`${isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}px`}
-                  />
-                </div>
-                {building && building.endsWith('_spawn') && (
-                  <div className="absolute inset-x-0 -bottom-5 flex justify-center">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-yellow-400 text-black shadow">
-                      Spawn
-                    </span>
+                  <div
+                    className="relative flex items-center justify-center md:hidden"
+                    style={{
+                      width: `${iconConfig.mobile.size}px`,
+                      height: `${iconConfig.mobile.size}px`
+                    }}
+                  >
+                    <img
+                      src={iconSrc}
+                      alt={building || 'empty'}
+                      width={iconConfig.mobile.size}
+                      height={iconConfig.mobile.size}
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-100"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
-                )}
-              </button>
-            ))}
+                  <div
+                    className="relative items-center justify-center hidden md:flex"
+                    style={{
+                      width: `${isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}px`,
+                      height: `${isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}px`
+                    }}
+                  >
+                    <img
+                      src={iconSrc}
+                      alt={building || 'empty'}
+                      width={isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}
+                      height={isNightlordModal ? iconConfig.nightlordDesktop.size : iconConfig.desktop.size}
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-100"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  {building && building.endsWith('_spawn') && (
+                    <div className="absolute inset-x-0 -bottom-5 flex justify-center">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-yellow-400 text-black shadow">
+                        Spawn
+                      </span>
+                    </div>
+                  )}
+                </button>
+              )
+            })}
           </div>
         </div>
         

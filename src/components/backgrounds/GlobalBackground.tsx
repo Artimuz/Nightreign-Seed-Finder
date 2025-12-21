@@ -1,54 +1,34 @@
 'use client'
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useEffect, useState } from 'react'
 
 export const GlobalBackground: React.FC = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-  
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-  
+  const [imageLoaded, setImageLoaded] = useState(false)
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setImageLoaded(true);
-    }, 500);
-    
-    return () => clearTimeout(timer);
-  }, []);
+      setImageLoaded(true)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div className="global-background">
       <div className="global-background-black" />
       <div className="global-background-gradient" />
       <div className={`global-background-image ${imageLoaded ? 'loaded' : 'loading'}`}>
-        <Image
-          src={isMobile ? "/Images/Top.BG_mobile.webp" : "/Images/Top.BG_desktop_2.webp"}
-          alt=""
-          fill
-          priority
-          onLoad={handleImageLoad}
-          sizes="100vw"
-          quality={85}
-          unoptimized={false}
-          style={{ 
-            objectFit: 'cover',
-            objectPosition: 'center'
-          }}
-        />
+        <picture>
+          <source media="(max-width: 767px)" srcSet="/Images/Top.BG_mobile.webp" />
+          <img
+            src="/Images/Top.BG_desktop_2.webp"
+            alt=""
+            className="absolute inset-0 h-full w-full"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            decoding="async"
+            onLoad={() => setImageLoaded(true)}
+          />
+        </picture>
       </div>
     </div>
-  );
-};
+  )
+}

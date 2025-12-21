@@ -9,6 +9,8 @@ interface CardImageProps {
 }
 
 export const CardImage: React.FC<CardImageProps> = ({ src, alt, priority = false }) => {
+  const isLocalSrc = src.startsWith('/')
+
   return (
     <Image
       src={src}
@@ -17,6 +19,7 @@ export const CardImage: React.FC<CardImageProps> = ({ src, alt, priority = false
       className="map-card-image object-cover object-center"
       priority={priority}
       sizes="(max-width: 480px) 200px, (max-width: 768px) 250px, 350px"
+      unoptimized={isLocalSrc}
     />
   );
 };

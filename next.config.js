@@ -83,6 +83,24 @@ const nextConfig = {
         ],
       },
       {
+        source: '/manifest.webmanifest',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
         source: '/:path*.(ico|svg|webp|webm|otf)',
         headers: [
           {

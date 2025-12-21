@@ -1,6 +1,5 @@
 'use client'
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation';
 import { HamburgerMenu } from './HamburgerMenu';
 import { SidebarMenu } from './SidebarMenu';
@@ -62,13 +61,14 @@ export const Header: React.FC = () => {
               </svg>
             </button>
           )}
-          <Image
+          <img
             src="/Images/logo_header.webp"
             alt="Nightreign Logo"
             width={314}
             height={105}
             className="object-contain"
-            priority
+            loading="eager"
+            decoding="async"
           />
           
           {/* Hamburger Menu - positioned on the right */}

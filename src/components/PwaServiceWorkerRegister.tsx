@@ -4,15 +4,20 @@ import { useEffect } from 'react'
 
 export function PwaServiceWorkerRegister() {
   useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') return
     if (!('serviceWorker' in navigator)) return
 
-    const version = process.env.NEXT_PUBLIC_APP_VERSION ?? 'dev'
     const register = async () => {
       try {
-        await navigator.serviceWorker.register(`/sw.js?v=${encodeURIComponent(version)}`, {
-          scope: '/',
-          updateViaCache: 'none',
-        })
+        const existingRegistration = await navigator.serviceWorker.getRegistration('/')
+        const expectedScriptUrl = new URL('/sw.js', window.location.href).toString()
+
+        if (existingRegistration) {
+          const existingScriptUrl = existingRegistration.active?.scriptURL
+          if (existingScriptUrl === expectedScriptUrl) return
+        }
+
+        await navigator.serviceWorker.register('/sw.js', { scope: '/' })
       } catch {
         return
       }
