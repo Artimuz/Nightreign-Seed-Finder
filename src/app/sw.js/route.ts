@@ -17,7 +17,7 @@ const isCacheableRequest = (request) => {
 }
 
 const isStaticAsset = (url) => {
-  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/')
+  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/data/')
 }
 
 self.addEventListener('install', (event) => {
@@ -56,7 +56,9 @@ self.addEventListener('fetch', (event) => {
         const cached = await cache.match(request)
         if (cached) return cached
         const response = await fetch(request)
-        if (response.ok) await cache.put(request, response.clone())
+        if (response.status === 200 || response.type === 'opaque') {
+          await cache.put(request, response.clone())
+        }
         return response
       })()
     )
