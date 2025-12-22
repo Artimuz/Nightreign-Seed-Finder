@@ -53,12 +53,12 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       (async () => {
         const cache = await caches.open(RUNTIME_CACHE)
-        const cacheKey = url.pathname + url.search
-        const cached = await cache.match(cacheKey)
+        const canonicalRequest = new Request(url.toString(), { method: 'GET' })
+        const cached = await cache.match(canonicalRequest, { ignoreVary: true })
         if (cached) return cached
         const response = await fetch(request)
         if (response.status === 200 || response.type === 'opaque') {
-          await cache.put(cacheKey, response.clone())
+          await cache.put(canonicalRequest, response.clone())
         }
         return response
       })()
