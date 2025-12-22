@@ -50,6 +50,7 @@ export default function UpdatePost({ update, isManualMode, isDismissed }: Update
             height={400}
             className="w-full h-auto object-cover"
             priority
+            unoptimized={update.image.startsWith('/')}
           />
         </div>
       )}

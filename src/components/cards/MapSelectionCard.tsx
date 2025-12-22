@@ -121,6 +121,7 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
                 width={iconSize}
                 height={iconSize}
                 className="object-contain"
+                unoptimized
               />
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-gray-600/50"></div>
             </motion.div>
@@ -152,6 +153,7 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
                   width={40}
                   height={40}
                   className="object-contain drop-shadow-2xl"
+                  unoptimized
                   style={{
                     filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))'
                   }}

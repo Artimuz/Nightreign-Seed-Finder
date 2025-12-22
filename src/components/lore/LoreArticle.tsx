@@ -42,6 +42,7 @@ export const LoreArticle: React.FC<LoreArticleProps> = ({ character }) => {
             height={300}
             className="lore-image"
             priority
+            unoptimized={character.imageUrl.startsWith('/')}
           />
         </div>
 
@@ -121,6 +122,7 @@ export const LoreArticle: React.FC<LoreArticleProps> = ({ character }) => {
                         width={150}
                         height={150}
                         className="character-card-image"
+                        unoptimized={relatedChar.imageUrl.startsWith('/')}
                       />
                     </div>
                     

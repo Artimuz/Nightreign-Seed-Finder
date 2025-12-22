@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { APP_VERSION } from '@/lib/constants/version'
 
 interface VersionResponse {
   version: string
@@ -28,7 +29,7 @@ interface VersionCheckState {
 
 const STORAGE_KEY = 'nightreign_version_check'
 const CHECK_INTERVAL = 60 * 60 * 1000
-const CLIENT_VERSION = '1.0.15'
+const CLIENT_VERSION = APP_VERSION
 
 export function useVersionCheck() {
   const [state, setState] = useState<VersionCheckState>({

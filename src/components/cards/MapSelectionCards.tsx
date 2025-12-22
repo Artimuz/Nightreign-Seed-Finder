@@ -159,6 +159,7 @@ export const MapSelectionCards: React.FC = () => {
                       width={mobileIconSize}
                       height={mobileIconSize}
                       className={`mobile-icon-image ${mapData.key === 'forsaken' ? 'saturate-0' : ''}`}
+                      unoptimized
                     />
                     {mapData.key === 'forsaken' && (
                       <div className="absolute top-1 right-1 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
@@ -194,6 +195,7 @@ export const MapSelectionCards: React.FC = () => {
                       width={mobileIconSize}
                       height={mobileIconSize}
                       className={`mobile-icon-image ${mapData.key === 'forsaken' ? 'saturate-0' : ''}`}
+                      unoptimized
                     />
                     {mapData.key === 'forsaken' && (
                       <div className="absolute top-1 right-1 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
