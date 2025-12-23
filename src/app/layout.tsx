@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   keywords: 'nightreign, seed finder, game seeds, map builder',
   authors: [{ name: 'Nightreign Seed Finder Team' }],
   robots: 'index, follow',
-  manifest: '/manifest.webmanifest',
+  manifest: `/manifest.webmanifest?v=${process.env.NEXT_PUBLIC_APP_VERSION ?? 'dev'}`, 
   themeColor: '#000000',
   other: {
     'google-adsense-account': 'ca-pub-3952409900980393',

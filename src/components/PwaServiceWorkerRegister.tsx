@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { APP_VERSION } from '@/lib/constants/version'
 
 export function PwaServiceWorkerRegister() {
   useEffect(() => {
@@ -10,14 +11,14 @@ export function PwaServiceWorkerRegister() {
     const register = async () => {
       try {
         const existingRegistration = await navigator.serviceWorker.getRegistration('/')
-        const expectedScriptUrl = new URL('/sw.js', window.location.href).toString()
+        const expectedScriptUrl = new URL(`/sw.js?v=${APP_VERSION}`, window.location.href).toString()
 
         if (existingRegistration) {
           const existingScriptUrl = existingRegistration.active?.scriptURL
           if (existingScriptUrl === expectedScriptUrl) return
         }
 
-        await navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        await navigator.serviceWorker.register(`/sw.js?v=${APP_VERSION}`, { scope: '/' })
       } catch {
         return
       }

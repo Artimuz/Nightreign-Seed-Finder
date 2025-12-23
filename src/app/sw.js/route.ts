@@ -17,13 +17,13 @@ const isCacheableRequest = (request) => {
 }
 
 const isStaticAsset = (url) => {
-  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/data/')
+  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/data/') || url.pathname === '/manifest.webmanifest' || url.pathname === '/favicon.ico'
 }
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(APP_CACHE).then((cache) =>
-      cache.addAll(['/', '/manifest.webmanifest', '/favicon.ico']).catch(() => undefined)
+      cache.addAll(['/', '/manifest.webmanifest?v=' + CACHE_VERSION, '/manifest.webmanifest', '/favicon.ico']).catch(() => undefined)
     )
   )
   self.skipWaiting()
@@ -53,11 +53,14 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       (async () => {
         const cache = await caches.open(RUNTIME_CACHE)
+        const cachedDirect = await cache.match(request, { ignoreVary: true })
+        if (cachedDirect) return cachedDirect
         const canonicalRequest = new Request(url.toString(), { method: 'GET' })
-        const cached = await cache.match(canonicalRequest, { ignoreVary: true })
-        if (cached) return cached
+        const cachedCanonical = await cache.match(canonicalRequest, { ignoreVary: true })
+        if (cachedCanonical) return cachedCanonical
         const response = await fetch(request)
         if (response.status === 200 || response.type === 'opaque') {
+          await cache.put(request, response.clone())
           await cache.put(canonicalRequest, response.clone())
         }
         return response
@@ -88,7 +91,7 @@ self.addEventListener('fetch', (event) => {
   return new NextResponse(js, {
     headers: {
       'Content-Type': 'application/javascript; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=31536000, immutable',
     },
   })
 }
