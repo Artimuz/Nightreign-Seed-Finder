@@ -8,7 +8,7 @@ const normalizeBaseUrl = (value: string): string => {
 
 const defaultProdBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder'
 
-const defaultDevBasePath = '/docs-assets'
+const defaultDevBasePath = '/'
 
 const resolveBaseUrl = (): string => {
   const configured = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? '')

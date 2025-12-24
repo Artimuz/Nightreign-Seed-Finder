@@ -90,6 +90,17 @@ export const nightlordIconOrder: string[] = [
   "8_Heolstor",
 ]
 
+export const nightlordStatusCards: Record<string, string> = {
+  "1_Gladius": pagesWebpUrl("/Images/nightlordStatus/1_Gladius_Status.webp"),
+  "2_Adel": pagesWebpUrl("/Images/nightlordStatus/2_Adel_Status.webp"),
+  "3_Gnoster": pagesWebpUrl("/Images/nightlordStatus/3_Gnoster_Status.webp"),
+  "4_Maris": pagesWebpUrl("/Images/nightlordStatus/4_Maris_Status.webp"),
+  "5_Libra": pagesWebpUrl("/Images/nightlordStatus/5_Libra_Status.webp"),
+  "6_Fulghor": pagesWebpUrl("/Images/nightlordStatus/6_Fulghor_Status.webp"),
+  "7_Caligo": pagesWebpUrl("/Images/nightlordStatus/7_Caligo_Status.webp"),
+  "8_Heolstor": pagesWebpUrl("/Images/nightlordStatus/8_Heolstor_Status.webp"),
+}
+
 export const Events: Record<string, string> = {
   augurraid: pagesWebpUrl("/Images/events/augurraid.webp"),
   extraboss: pagesWebpUrl("/Images/events/extraboss.webp"),

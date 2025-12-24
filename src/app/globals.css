@@ -85,3 +85,13 @@ body {
     filter: saturate(100%) brightness(2) blur(0.5px) drop-shadow(0 6px 18px rgb(65, 138, 248));
   }
 }
+
+.nightlord-status-card {
+  opacity: 1;
+  transition: opacity 350ms ease;
+  pointer-events: auto;
+}
+
+.nightlord-status-card.nightlord-status-card-hidden {
+  opacity: 0;
+}

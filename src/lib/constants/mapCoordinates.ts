@@ -39,6 +39,12 @@ export const NIGHTLORD_COORDINATE: Coordinate = {
   y: 900
 }
 
+export const NIGHTLORD_STATUS_CARD_COORDINATE: Coordinate = {
+  id: "nightlord_status_card",
+  x: 85,
+  y: 940
+}
+
 export const EVENT_COORDINATE: Coordinate = {
   id: "event",
   x: 900,
@@ -53,6 +59,7 @@ export const INTERACTIVE_COORDINATES: Coordinate[] = [
 export const ALL_MAP_COORDINATES: Coordinate[] = [
   ...BUILDING_SLOT_COORDINATES,
   NIGHTLORD_COORDINATE,
+  NIGHTLORD_STATUS_CARD_COORDINATE,
   EVENT_COORDINATE
 ]
 export const getCoordinateById = (id: string): Coordinate | undefined => {
@@ -65,6 +72,10 @@ export const getBuildingSlotCoordinates = (): Coordinate[] => {
 
 export const getNightlordCoordinate = (): Coordinate => {
   return NIGHTLORD_COORDINATE
+}
+
+export const getNightlordStatusCardCoordinate = (): Coordinate => {
+  return NIGHTLORD_STATUS_CARD_COORDINATE
 }
 
 export const getEventCoordinate = (): Coordinate => {
