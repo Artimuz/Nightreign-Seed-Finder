@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion';
+import { pagesWebpUrl } from '@/lib/pagesAssets';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -154,7 +155,7 @@ export const MapSelectionCards: React.FC = () => {
                 >
                   <div className="relative">
                     <Image
-                      src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key === 'forsaken' ? 'forsaken' : mapData.key}Icon.webp`}
+                      src={pagesWebpUrl(`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key === 'forsaken' ? 'forsaken' : mapData.key}Icon.webp`)}
                       alt={mapData.title}
                       width={mobileIconSize}
                       height={mobileIconSize}
@@ -190,7 +191,7 @@ export const MapSelectionCards: React.FC = () => {
                 >
                   <div className="relative">
                     <Image
-                      src={`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key === 'forsaken' ? 'forsaken' : mapData.key}Icon.webp`}
+                      src={pagesWebpUrl(`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key === 'forsaken' ? 'forsaken' : mapData.key}Icon.webp`)}
                       alt={mapData.title}
                       width={mobileIconSize}
                       height={mobileIconSize}

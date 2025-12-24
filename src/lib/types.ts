@@ -1,3 +1,5 @@
+import { pagesWebpUrl } from '@/lib/pagesAssets'
+
 export interface Seed {
   seed_id: string
   map_type: string
@@ -11,31 +13,31 @@ export const MAP_TYPES = [
   {
     key: 'mountaintop',
     title: 'Mountaintop',
-    cardImage: '/Images/mapTypes/mountainIcon.webp'
+    cardImage: pagesWebpUrl('/Images/mapTypes/mountainIcon.webp')
   },
   {
     key: 'noklateo',
     title: 'Noklateo',
-    cardImage: '/Images/mapTypes/noklateoIcon.webp'
+    cardImage: pagesWebpUrl('/Images/mapTypes/noklateoIcon.webp')
   },
   {
     key: 'normal',
     title: 'Normal',
-    cardImage: '/Images/mapTypes/normalIcon.webp'
+    cardImage: pagesWebpUrl('/Images/mapTypes/normalIcon.webp')
   },
   {
     key: 'rotted',
     title: 'Rotted Woods',
-    cardImage: '/Images/mapTypes/rotIcon.webp'
+    cardImage: pagesWebpUrl('/Images/mapTypes/rotIcon.webp')
   },
   {
     key: 'crater',
     title: 'Crater',
-    cardImage: '/Images/mapTypes/craterIcon.webp'
+    cardImage: pagesWebpUrl('/Images/mapTypes/craterIcon.webp')
   },
   {
     key: 'forsaken',
     title: '*Coming Soon*',
-    cardImage: '/Images/mapTypes/forsakenIcon.webp'
+    cardImage: pagesWebpUrl('/Images/mapTypes/forsakenIcon.webp')
   }
 ]

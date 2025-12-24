@@ -1,5 +1,7 @@
 'use client'
 
+import { pagesWebpUrl } from '@/lib/pagesAssets'
+
 interface SpawnIconProps {
   isSelected: boolean
   onClick: () => void
@@ -8,8 +10,8 @@ interface SpawnIconProps {
 
 export function SpawnIcon({ isSelected, onClick, className = '' }: SpawnIconProps) {
   const iconSrc = isSelected 
-    ? '/Images/SpawnIcons/Set_Spawn_False.webp'
-    : '/Images/SpawnIcons/Set_Spawn_True.webp'
+    ? pagesWebpUrl('/Images/SpawnIcons/Set_Spawn_False.webp')
+    : pagesWebpUrl('/Images/SpawnIcons/Set_Spawn_True.webp')
     
   const text = isSelected 
     ? 'Remove spawn location'

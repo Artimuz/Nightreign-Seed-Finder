@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { CardImage } from '@/components/ui/OptimizedImage';
 import Image from 'next/image';
+import { pagesWebpUrl, pagesPngUrl } from '@/lib/pagesAssets';
 
 interface MapSelectionCardProps {
   mapType: string;
@@ -35,14 +36,14 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
 
   const getMapIconSrc = (mapType: string) => {
     const iconMap: { [key: string]: string } = {
-      'normal': '/Images/mapTypes/map_icon/normalIcon.webp',
-      'crater': '/Images/mapTypes/map_icon/craterIcon.webp',
-      'mountaintop': '/Images/mapTypes/map_icon/mountainIcon.webp',
-      'noklateo': '/Images/mapTypes/map_icon/noklateoIcon.webp',
-      'rotted': '/Images/mapTypes/map_icon/rotIcon.webp',
-      'forsaken': '/Images/mapTypes/map_icon/forsakenIcon.webp'
+      'normal': pagesWebpUrl('/Images/mapTypes/map_icon/normalIcon.webp'),
+      'crater': pagesWebpUrl('/Images/mapTypes/map_icon/craterIcon.webp'),
+      'mountaintop': pagesWebpUrl('/Images/mapTypes/map_icon/mountainIcon.webp'),
+      'noklateo': pagesWebpUrl('/Images/mapTypes/map_icon/noklateoIcon.webp'),
+      'rotted': pagesWebpUrl('/Images/mapTypes/map_icon/rotIcon.webp'),
+      'forsaken': pagesWebpUrl('/Images/mapTypes/map_icon/forsakenIcon.webp')
     };
-    return iconMap[mapType.toLowerCase()] || '/Images/mapTypes/map_icon/normalIcon.webp';
+    return iconMap[mapType.toLowerCase()] || pagesWebpUrl('/Images/mapTypes/map_icon/normalIcon.webp');
   };
 
   const calculateTooltipPosition = () => {
@@ -148,7 +149,7 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
                 </div>
               ) : (
                 <Image
-                  src="/Images/UIIcons/map_icon.png"
+                  src={pagesPngUrl('/Images/UIIcons/map_icon.png')}
                   alt="Map icon"
                   width={40}
                   height={40}

@@ -7,18 +7,19 @@ import SlotSelectionModal from './SlotSelectionModal'
 import { getRemainingSeeds, getAvailableBuildingsForSlot, getAvailableNightlords, getAvailableNightlordsForGhost, getAllSeeds } from '@/lib/data/seedSearch'
 import { useRateLimit } from '@/hooks/useRateLimit'
 import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
+import { pagesWebpUrl } from '@/lib/pagesAssets'
 
 interface MapBuilderProps {
   mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'forsaken'
 }
 
 const MAP_IMAGES = {
-  'normal': '/Images/mapTypes/Normal.webp',
-  'crater': '/Images/mapTypes/Crater.webp',
-  'mountaintop': '/Images/mapTypes/Mountaintop.webp',
-  'noklateo': '/Images/mapTypes/Noklateo, the Shrouded City.webp',
-  'rotted': '/Images/mapTypes/Rotted Woods.webp',
-  'forsaken': '/Images/mapTypes/Forsaken.webp'
+  'normal': pagesWebpUrl('/Images/mapTypes/Normal.webp'),
+  'crater': pagesWebpUrl('/Images/mapTypes/Crater.webp'),
+  'mountaintop': pagesWebpUrl('/Images/mapTypes/Mountaintop.webp'),
+  'noklateo': pagesWebpUrl('/Images/mapTypes/Noklateo, the Shrouded City.webp'),
+  'rotted': pagesWebpUrl('/Images/mapTypes/Rotted Woods.webp'),
+  'forsaken': pagesWebpUrl('/Images/mapTypes/Forsaken.webp')
 }
 
 export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
@@ -378,16 +379,16 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   const getIconPath = (building: string, isNightlordSlot: boolean = false) => {
     if (!building || building === 'empty' || building === '') {
       if (isNightlordSlot) {
-        return '/Images/nightlordIcons/empty_nightlord.webp'
+        return pagesWebpUrl('/Images/nightlordIcons/empty_nightlord.webp')
       }
-      return '/Images/buildingIcons/empty.webp'
+      return pagesWebpUrl('/Images/buildingIcons/empty.webp')
     }
 
     if (building.match(/^\d+_/)) {
-      return `/Images/nightlordIcons/${building}.webp`
+      return pagesWebpUrl(`/Images/nightlordIcons/${building}.webp`)
     }
     
-    return `/Images/buildingIcons/${building}.webp`
+    return pagesWebpUrl(`/Images/buildingIcons/${building}.webp`)
   }
 
   const getZoomScaledIconSize = (baseSize: [number, number], zoomLevel: number) => {
@@ -929,7 +930,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         // Create or update spawn marker
         if (!spawnMarkerRef.current) {
           const spawnIcon = L.icon({
-            iconUrl: '/Images/SpawnIcons/spawn.webp',
+            iconUrl: pagesWebpUrl('/Images/SpawnIcons/spawn.webp'),
             iconSize: [70, 70],
             iconAnchor: [35, 35],
             popupAnchor: [0, -35]

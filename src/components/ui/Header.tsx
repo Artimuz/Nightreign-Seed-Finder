@@ -4,6 +4,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { HamburgerMenu } from './HamburgerMenu';
 import { SidebarMenu } from './SidebarMenu';
 import { useGlobalUpdateContext } from '@/components/providers/GlobalUpdateProvider';
+import { pagesWebpUrl } from '@/lib/pagesAssets';
 
 export const Header: React.FC = () => {
   const router = useRouter();
@@ -62,7 +63,7 @@ export const Header: React.FC = () => {
             </button>
           )}
           <img
-            src="/Images/logo_header.webp"
+            src={pagesWebpUrl("/Images/logo_header.webp")}
             alt="Nightreign Logo"
             width={314}
             height={105}

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { pagesWebpUrl } from '@/lib/pagesAssets'
 
 export const GlobalBackground: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -18,9 +19,9 @@ export const GlobalBackground: React.FC = () => {
       <div className="global-background-gradient" />
       <div className={`global-background-image ${imageLoaded ? 'loaded' : 'loading'}`}>
         <picture>
-          <source media="(max-width: 767px)" srcSet="/Images/Top.BG_mobile.webp" />
+          <source media="(max-width: 767px)" srcSet={pagesWebpUrl('/Images/Top.BG_mobile.webp')} />
           <img
-            src="/Images/Top.BG_desktop_2.webp"
+            src={pagesWebpUrl('/Images/Top.BG_desktop_2.webp')}
             alt=""
             className="absolute inset-0 h-full w-full"
             style={{ objectFit: 'cover', objectPosition: 'center' }}

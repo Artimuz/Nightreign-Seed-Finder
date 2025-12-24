@@ -17,6 +17,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'artimuz.github.io',
+        port: '',
+        pathname: '/Nightreign-Seed-Finder/**',
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 1080, 1920],
@@ -114,7 +120,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
           },
           {
             key: 'X-Frame-Options',

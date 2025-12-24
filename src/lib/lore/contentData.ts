@@ -1,4 +1,5 @@
 import { LoreCharacter, LoreContent } from './types'
+import { pagesWebpUrl, pagesPngUrl } from '@/lib/pagesAssets'
 
 export const nightlordsData: LoreCharacter[] = [
   {
@@ -10,7 +11,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Three-Headed Form', 'Pack Splitting', 'Chain-Link Sword Combat', 'Flame Breath'],
     strengths: ['Multiple attack vectors', 'Pack coordination', 'Overwhelming flames', 'Relentless hunting'],
     weaknesses: ['Vulnerable to holy damage', 'Sacred light disrupts abilities', 'Split forms share damage'],
-    imageUrl: '/Images/nightlordIcons/gladius-tricephalos-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/gladius-tricephalos-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['beast', 'wolf', 'fire', 'hunter', 'pack']
   },
@@ -23,7 +24,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Gaping Maw Attack', 'Lightning Harboring', 'Grinding Teeth', 'Colossal Frame'],
     strengths: ['Massive size and reach', 'Lightning channeling', 'Devouring everything', 'Intimidating presence'],
     weaknesses: ['Vulnerable to poison', 'Slow movement', 'Predictable attack patterns'],
-    imageUrl: '/Images/nightlordIcons/adel-gaping-jaw-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/adel-gaping-jaw-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['dragon', 'baron', 'lightning', 'devourer', 'colossal']
   },
@@ -36,7 +37,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Magical Light Rain', 'Coordinated Assault', 'Parasitic Poison', 'Dual-Form Combat'],
     strengths: ['Two-pronged attacks', 'Aerial and ground coverage', 'Poison injection', 'Shared health pool'],
     weaknesses: ['Vulnerable to fire damage', 'Cannot be fought separately', 'Predictable coordination patterns'],
-    imageUrl: '/Images/nightlordIcons/gnoster-sentient-pest-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/gnoster-sentient-pest-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['insect', 'wisdom', 'poison', 'dual-form', 'magic']
   },
@@ -49,7 +50,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Ocean Creation', 'Environmental Manipulation', 'Sleep Induction', 'Reality Blending'],
     strengths: ['Environmental control', 'Illusion weaving', 'Sleep attacks', 'Fluid movement'],
     weaknesses: ['Vulnerable to lightning', 'Reliant on water manipulation', 'Disrupted by electrical attacks'],
-    imageUrl: '/Images/nightlordIcons/maris-augur-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/maris-augur-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['aquatic', 'fathom', 'augur', 'dreams', 'ocean']
   },
@@ -62,7 +63,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Corrupting Bargains', 'Dubious Alchemy', 'Madness Induction', 'Scale-bearing Commerce'],
     strengths: ['Psychological manipulation', 'Pre-combat advantages', 'Madness spreading', 'Tempting offers'],
     weaknesses: ['Vulnerable to madness', 'Weak to holy damage', 'Susceptible to fire', 'Own corruption affects it'],
-    imageUrl: '/Images/nightlordIcons/libra-equilibrious-beast-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/libra-equilibrious-beast-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['goat', 'alchemy', 'madness', 'merchant', 'corruption']
   },
@@ -75,7 +76,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Sacred Night Power', 'Divine Storm Connection', 'Centaur Combat', 'Righteous Fury'],
     strengths: ['Divine-dark hybrid power', 'Thunder concealment', 'Ancient warrior skill', 'Sacred fervor'],
     weaknesses: ['Vulnerable to lightning', 'Conflicted nature', 'Memories of former glory'],
-    imageUrl: '/Images/nightlordIcons/fulghor-darkdrift-knight-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/fulghor-darkdrift-knight-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['centaur', 'champion', 'divine', 'thunder', 'corruption']
   },
@@ -88,7 +89,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Fog Manipulation', 'Frost Mastery', 'Warmth Theft', 'Ancient Dragon Power'],
     strengths: ['Impenetrable fog concealment', 'Temperature control', 'Life force drain', 'Prehistoric wisdom'],
     weaknesses: ['Vulnerable to fire damage', 'Fog can be dispersed', 'Ancient but predictable patterns'],
-    imageUrl: '/Images/nightlordIcons/caligo-fissure-in-the-fog-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/caligo-fissure-in-the-fog-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['dragon', 'fog', 'frost', 'ancient', 'prehistoric']
   },
@@ -101,7 +102,7 @@ export const nightlordsData: LoreCharacter[] = [
     abilities: ['Night Generation', 'Primordial Power', 'Reality Corruption', 'Darkness Embodiment'],
     strengths: ['Source of all Night', 'Primordial authority', 'Reality manipulation', 'Ultimate darkness'],
     weaknesses: ['Vulnerable to holy damage', 'Opposed by sacred light', 'Tied to Night\'s existence'],
-    imageUrl: '/Images/nightlordIcons/heolstor-night-aspect-elden-ring-nightreign-icon.png',
+    imageUrl: pagesPngUrl('/Images/nightlordIcons/heolstor-night-aspect-elden-ring-nightreign-icon.png'),
     category: 'nightlord',
     tags: ['primordial', 'night', 'origin', 'darkness', 'ultimate']
   }
@@ -117,7 +118,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Clan Combat Techniques', 'Survival Instincts', 'Memory-Driven Fury', 'Lone Wolf Tactics'],
     strengths: ['Battle-hardened survivor', 'Driven by purpose', 'Adaptable fighter', 'Strong willpower'],
     weaknesses: ['Haunted by loss', 'Carries emotional burden', 'Tendency toward isolation'],
-    imageUrl: '/Images/nightfarers/wylder.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/wylder.webp?v=2024'),
     category: 'nightfarer',
     tags: ['survivor', 'clan', 'tragedy', 'memory', 'lone-warrior']
   },
@@ -130,7 +131,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Protective Magic', 'Witch Craft', 'Guardian Bond', 'Mystical Ward'],
     strengths: ['Magical protection', 'Strong moral compass', 'Defensive mastery', 'Selfless nature'],
     weaknesses: ['Burden of responsibility', 'Magical limitations', 'Self-sacrificing tendency'],
-    imageUrl: '/Images/nightfarers/guardian.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/guardian.webp?v=2024'),
     category: 'nightfarer',
     tags: ['protection', 'magic', 'witch', 'guardian', 'responsibility']
   },
@@ -143,7 +144,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Investigation Skills', 'Analytical Combat', 'Fellowship Training', 'Precision Strikes'],
     strengths: ['Methodical approach', 'Strong deduction', 'Fellowship resources', 'Determined focus'],
     weaknesses: ['Overly analytical', 'Bound by duty', 'Emotional detachment'],
-    imageUrl: '/Images/nightfarers/ironeye.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/ironeye.webp?v=2024'),
     category: 'nightfarer',
     tags: ['investigator', 'fellowship', 'analytical', 'methodical', 'night-aspect']
   },
@@ -156,7 +157,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Noble Training', 'Culinary Arts', 'Leadership Skills', 'Diplomatic Grace'],
     strengths: ['Natural leader', 'Caring nature', 'Adaptive skills', 'Noble bearing'],
     weaknesses: ['High standards', 'Perfectionist tendencies', 'Burden of expectations'],
-    imageUrl: '/Images/nightfarers/duchess.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/duchess.webp?v=2024'),
     category: 'nightfarer',
     tags: ['noble', 'baker', 'service', 'transformation', 'leadership']
   },
@@ -169,7 +170,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Tournament Combat', 'Competitive Fighting', 'Glory-Seeking Drive', 'Battle Prowess'],
     strengths: ['Proven warrior', 'Competitive spirit', 'Battle experience', 'Victory-focused'],
     weaknesses: ['Never satisfied', 'Glory-obsessed', 'Constantly seeking challenges'],
-    imageUrl: '/Images/nightfarers/raider.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/raider.webp?v=2024'),
     category: 'nightfarer',
     tags: ['tournament', 'champion', 'glory', 'competitive', 'warrior']
   },
@@ -182,7 +183,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Family Spirit Summoning', 'Spiritual Connection', 'Ancestral Combat', 'Death Resistance'],
     strengths: ['Spirit allies', 'Family bond power', 'Spiritual resilience', 'Unique summoning'],
     weaknesses: ['Tied to the past', 'Spiritual burden', 'Emotional vulnerability'],
-    imageUrl: '/Images/nightfarers/revenant.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/revenant.webp?v=2024'),
     category: 'nightfarer',
     tags: ['spirits', 'family', 'summoning', 'ancestral', 'connection']
   },
@@ -195,7 +196,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Sorcerous Power', 'Night Shard Manipulation', 'Mystical Investigation', 'Solitary Survival'],
     strengths: ['Magical aptitude', 'Determined searcher', 'Independent nature', 'Mystical knowledge'],
     weaknesses: ['Consumed by loss', 'Isolated existence', 'Obsessive behavior'],
-    imageUrl: '/Images/nightfarers/recluse.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/recluse.webp?v=2024'),
     category: 'nightfarer',
     tags: ['loss', 'mystery', 'infant', 'sorcery', 'nightlord-connection']
   },
@@ -208,7 +209,7 @@ export const nightfarersData: LoreCharacter[] = [
     abilities: ['Sacred Mission Training', 'Religious Dedication', 'Artifact Location', 'Divine Purpose'],
     strengths: ['Strong faith', 'Mission-focused', 'Brave explorer', 'Religious backing'],
     weaknesses: ['Bound by duty', 'Rigid beliefs', 'Dangerous assignments'],
-    imageUrl: '/Images/nightfarers/executor.webp?v=2024',
+    imageUrl: pagesWebpUrl('/Images/nightfarers/executor.webp?v=2024'),
     category: 'nightfarer',
     tags: ['sacred', 'priestess', 'mission', 'faith', 'artifacts']
   }

@@ -5,6 +5,7 @@ import { Footer } from '@/components/ui/Footer'
 import { GlobalBackground } from '@/components/backgrounds/GlobalBackground'
 import { GlobalUpdateProvider } from '@/components/providers/GlobalUpdateProvider'
 import { PwaServiceWorkerRegister } from '@/components/PwaServiceWorkerRegister'
+import { pagesIcoUrl } from '@/lib/pagesAssets'
 
 export const metadata: Metadata = {
   title: 'Nightreign Seed Finder',
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
   keywords: 'nightreign, seed finder, game seeds, map builder',
   authors: [{ name: 'Nightreign Seed Finder Team' }],
   robots: 'index, follow',
-  manifest: `/manifest.webmanifest?v=${process.env.NEXT_PUBLIC_APP_VERSION ?? 'dev'}`, 
+  manifest: `/manifest.webmanifest?v=${process.env.NEXT_PUBLIC_APP_VERSION ?? 'dev'}`,
+  icons: {
+    icon: pagesIcoUrl('/favicon.ico')
+  },
   themeColor: '#000000',
   other: {
     'google-adsense-account': 'ca-pub-3952409900980393',

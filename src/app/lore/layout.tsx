@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pagesWebpUrl } from '@/lib/pagesAssets'
 import '../../styles/lore.css'
 import '../../styles/sidebar.css'
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/Images/logo_header.webp',
+        url: pagesWebpUrl('/Images/logo_header.webp'),
         width: 314,
         height: 105,
         alt: 'Nightreign Logo'

@@ -17,13 +17,13 @@ const isCacheableRequest = (request) => {
 }
 
 const isStaticAsset = (url) => {
-  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/data/') || url.pathname === '/manifest.webmanifest' || url.pathname === '/favicon.ico'
+  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/data/') || url.pathname === '/manifest.webmanifest'
 }
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(APP_CACHE).then((cache) =>
-      cache.addAll(['/', '/manifest.webmanifest?v=' + CACHE_VERSION, '/manifest.webmanifest', '/favicon.ico']).catch(() => undefined)
+      cache.addAll(['/', '/manifest.webmanifest?v=' + CACHE_VERSION, '/manifest.webmanifest']).catch(() => undefined)
     )
   )
   self.skipWaiting()

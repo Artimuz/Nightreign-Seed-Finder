@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { pagesWebpUrl } from '@/lib/pagesAssets'
 import { buildingIconOrder, nightlordIconOrder } from '@/lib/constants/icons'
 
 interface SlotSelectionModalProps {
@@ -73,19 +74,19 @@ export default function SlotSelectionModal({
   const getIconPath = (building: string) => {
     if (!building || building === 'empty') {
       if (isNightlordModal) {
-        return '/Images/nightlordIcons/empty_nightlord.webp'
+        return pagesWebpUrl('/Images/nightlordIcons/empty_nightlord.webp')
       }
-      return '/Images/buildingIcons/empty.webp'
+      return pagesWebpUrl('/Images/buildingIcons/empty.webp')
     }
     
     if (building.includes('_Gladius') || building.includes('_Adel') || 
         building.includes('_Gnoster') || building.includes('_Maris') ||
         building.includes('_Libra') || building.includes('_Fulghor') ||
         building.includes('_Caligo') || building.includes('_Heolstor')) {
-      return `/Images/nightlordIcons/${building}.webp`
+      return pagesWebpUrl(`/Images/nightlordIcons/${building}.webp`)
     }
     
-    return `/Images/buildingIcons/${building}.webp`
+    return pagesWebpUrl(`/Images/buildingIcons/${building}.webp`)
   }
 
   const uniqueOptions = Array.from(new Set(availableOptions))

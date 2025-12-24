@@ -1,11 +1,13 @@
+import { pagesWebpUrl } from '@/lib/pagesAssets'
+
 export const MAP_CONFIG = {
   images: {
-    'normal': '/Images/mapTypes/Normal.webp',
-    'crater': '/Images/mapTypes/Crater.webp',
-    'mountaintop': '/Images/mapTypes/Mountaintop.webp',
-    'noklateo': '/Images/mapTypes/Noklateo, the Shrouded City.webp',
-    'rotted': '/Images/mapTypes/Rotted Woods.webp',
-    'forsaken': '/Images/mapTypes/Forsaken.webp'
+    'normal': pagesWebpUrl('/Images/mapTypes/Normal.webp'),
+    'crater': pagesWebpUrl('/Images/mapTypes/Crater.webp'),
+    'mountaintop': pagesWebpUrl('/Images/mapTypes/Mountaintop.webp'),
+    'noklateo': pagesWebpUrl('/Images/mapTypes/Noklateo, the Shrouded City.webp'),
+    'rotted': pagesWebpUrl('/Images/mapTypes/Rotted Woods.webp'),
+    'forsaken': pagesWebpUrl('/Images/mapTypes/Forsaken.webp')
   },
   zoom: {
     mobile: { min: 0, max: 3, snap: 0.10, delta: 0.10 },
