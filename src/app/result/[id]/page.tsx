@@ -1,4 +1,5 @@
 import ClientMapResult from '../../../components/ClientMapResult'
+import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   const seedIds = Array.from({ length: 320 }, (_, i) => 
@@ -22,14 +23,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
   // Validate seed ID (should be 000-319)
   const seedNumber = parseInt(seedId)
   if (isNaN(seedNumber) || seedNumber < 0 || seedNumber > 319) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Invalid Seed</h1>
-          <p className="text-gray-600">Seed must be between 000 and 319</p>
-        </div>
-      </div>
-    )
+    notFound()
   }
 
   // Format seed number to 3 digits with leading zeros

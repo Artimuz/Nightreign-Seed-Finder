@@ -27,11 +27,6 @@
   height: 100vh;
   z-index: 1;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
-
-.global-background-image.loaded {
   opacity: 1;
   mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0.7) 90%, rgba(0,0,0,0) 100%);
   -webkit-mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 80%, rgba(0,0,0,0.7) 90%, rgba(0,0,0,0) 100%);
