@@ -5,15 +5,31 @@ export const buildingIcons: Record<string, string> = {
   church: pagesWebpUrl("/Images/buildingIcons/church.webp"),
   empty_spawn: pagesWebpUrl("/Images/buildingIcons/empty_spawn.webp"),
   church_spawn: pagesWebpUrl("/Images/buildingIcons/church_spawn.webp"),
+  forge: pagesWebpUrl("/Images/buildingIcons/forge.webp"),
+  forge_bleed: pagesWebpUrl("/Images/buildingIcons/forge_bleed.webp"),
+  forge_eletric: pagesWebpUrl("/Images/buildingIcons/forge_eletric.webp"),
+  forge_fire: pagesWebpUrl("/Images/buildingIcons/forge_fire.webp"),
+  forge_holy: pagesWebpUrl("/Images/buildingIcons/forge_holy.webp"),
+  forge_poison: pagesWebpUrl("/Images/buildingIcons/forge_poison.webp"),
   fort: pagesWebpUrl("/Images/buildingIcons/fort.webp"),
   fort_magic: pagesWebpUrl("/Images/buildingIcons/fort_magic.webp"),
   greatchurch: pagesWebpUrl("/Images/buildingIcons/greatchurch.webp"),
+  greatchurch_eletric: pagesWebpUrl("/Images/buildingIcons/greatchurch_eletric.webp"),
   greatchurch_fire: pagesWebpUrl("/Images/buildingIcons/greatchurch_fire.webp"),
+  greatchurch_frostbite: pagesWebpUrl("/Images/buildingIcons/greatchurch_frostbite.webp"),
   greatchurch_holy: pagesWebpUrl("/Images/buildingIcons/greatchurch_holy.webp"),
+  greatchurch_sleep: pagesWebpUrl("/Images/buildingIcons/greatchurch_sleep.webp"),
   mainencampment: pagesWebpUrl("/Images/buildingIcons/mainencampment.webp"),
   mainencampment_eletric: pagesWebpUrl("/Images/buildingIcons/mainencampment_eletric.webp"),
   mainencampment_fire: pagesWebpUrl("/Images/buildingIcons/mainencampment_fire.webp"),
   mainencampment_madness: pagesWebpUrl("/Images/buildingIcons/mainencampment_madness.webp"),
+  marsh_bleed: pagesWebpUrl("/Images/buildingIcons/marsh_bleed.webp"),
+  marsh_frostbite: pagesWebpUrl("/Images/buildingIcons/marsh_frostbite.webp"),
+  marsh_madness: pagesWebpUrl("/Images/buildingIcons/marsh_madness.webp"),
+  marsh_poison: pagesWebpUrl("/Images/buildingIcons/marsh_poison.webp"),
+  marsh_rot: pagesWebpUrl("/Images/buildingIcons/marsh_rot.webp"),
+  marsh_sleep: pagesWebpUrl("/Images/buildingIcons/marsh_sleep.webp"),
+  portal: pagesWebpUrl("/Images/buildingIcons/portal.webp"),
   ruins: pagesWebpUrl("/Images/buildingIcons/ruins.webp"),
   ruins_bleed: pagesWebpUrl("/Images/buildingIcons/ruins_bleed.webp"),
   ruins_blight: pagesWebpUrl("/Images/buildingIcons/ruins_blight.webp"),
@@ -26,6 +42,10 @@ export const buildingIcons: Record<string, string> = {
   ruins_sleep: pagesWebpUrl("/Images/buildingIcons/ruins_sleep.webp"),
   sorcerers: pagesWebpUrl("/Images/buildingIcons/sorcerers.webp"),
   township: pagesWebpUrl("/Images/buildingIcons/township.webp"),
+  EUF_holy: pagesWebpUrl("/Images/buildingIcons/EUF_holy.webp"),
+  EUF_rot: pagesWebpUrl("/Images/buildingIcons/EUF_rot.webp"),
+  WUF_fire: pagesWebpUrl("/Images/buildingIcons/WUF_fire.webp"),
+  WUF_magic: pagesWebpUrl("/Images/buildingIcons/WUF_magic.webp"),
 }
 
 export const buildingIconOrder: string[] = [
@@ -33,15 +53,31 @@ export const buildingIconOrder: string[] = [
   "empty_spawn",
   "church",
   "church_spawn",
+  "forge",
+  "forge_bleed",
+  "forge_eletric",
+  "forge_fire",
+  "forge_holy",
+  "forge_poison",
   "fort",
   "fort_magic",
   "greatchurch",
+  "greatchurch_eletric",
   "greatchurch_fire",
+  "greatchurch_frostbite",
   "greatchurch_holy",
+  "greatchurch_sleep",
   "mainencampment",
   "mainencampment_eletric",
   "mainencampment_fire",
   "mainencampment_madness",
+  "marsh_bleed",
+  "marsh_frostbite",
+  "marsh_madness",
+  "marsh_poison",
+  "marsh_rot",
+  "marsh_sleep",
+  "portal",
   "ruins",
   "ruins_bleed",
   "ruins_blight",
@@ -54,6 +90,10 @@ export const buildingIconOrder: string[] = [
   "ruins_sleep",
   "sorcerers",
   "township",
+  "EUF_holy",
+  "EUF_rot",
+  "WUF_fire",
+  "WUF_magic",
 ]
 
 export const nightlordIcons: Record<string, string> = {
@@ -66,6 +106,8 @@ export const nightlordIcons: Record<string, string> = {
   "6_Fulghor": pagesWebpUrl("/Images/nightlordIcons/6_Fulghor.webp"),
   "7_Caligo": pagesWebpUrl("/Images/nightlordIcons/7_Caligo.webp"),
   "8_Heolstor": pagesWebpUrl("/Images/nightlordIcons/8_Heolstor.webp"),
+  "9_Balancers": pagesWebpUrl("/Images/nightlordIcons/9_Balancers.webp"),
+  "10_Greg": pagesWebpUrl("/Images/nightlordIcons/10_Greg.webp"),
 }
 
 export const nightlordNames: Record<string, string> = {
@@ -77,6 +119,8 @@ export const nightlordNames: Record<string, string> = {
   "6_Fulghor": "Fulghor",
   "7_Caligo": "Caligo",
   "8_Heolstor": "Heolstor",
+  "9_Balancers": "Balancers",
+  "10_Greg": "Greg",
 }
 
 export const nightlordIconOrder: string[] = [
@@ -88,6 +132,8 @@ export const nightlordIconOrder: string[] = [
   "6_Fulghor",
   "7_Caligo",
   "8_Heolstor",
+  "9_Balancers",
+  "10_Greg",
 ]
 
 export const nightlordStatusCards: Record<string, string> = {
@@ -99,13 +145,18 @@ export const nightlordStatusCards: Record<string, string> = {
   "6_Fulghor": pagesWebpUrl("/Images/nightlordStatus/6_Fulghor_Status.webp"),
   "7_Caligo": pagesWebpUrl("/Images/nightlordStatus/7_Caligo_Status.webp"),
   "8_Heolstor": pagesWebpUrl("/Images/nightlordStatus/8_Heolstor_Status.webp"),
+  "9_Balancers": pagesWebpUrl("/Images/nightlordStatus/9_Balancers_Status.webp"),
+  "10_Greg": pagesWebpUrl("/Images/nightlordStatus/10_Greg_Status.webp"),
 }
 
 export const Events: Record<string, string> = {
   augurraid: pagesWebpUrl("/Images/events/augurraid.webp"),
+  balancersRaid: pagesWebpUrl("/Images/events/balancersRaid.webp"),
+  caligoRaid: pagesWebpUrl("/Images/events/caligoRaid.webp"),
   extraboss: pagesWebpUrl("/Images/events/extraboss.webp"),
   fellomen: pagesWebpUrl("/Images/events/fellomen.webp"),
   frenzytower: pagesWebpUrl("/Images/events/frenzytower.webp"),
+  gladiusRaid: pagesWebpUrl("/Images/events/gladiusRaid.webp"),
   gnosterplague: pagesWebpUrl("/Images/events/gnosterplague.webp"),
   libracurse: pagesWebpUrl("/Images/events/libracurse.webp"),
   mausoleum: pagesWebpUrl("/Images/events/mausoleum.webp"),

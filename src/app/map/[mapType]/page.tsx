@@ -1,5 +1,5 @@
 import ClientMapBuilder from '../../../components/ClientMapBuilder'
-import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 const VALID_MAP_TYPES = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'forsaken'] as const
 type ValidMapType = typeof VALID_MAP_TYPES[number]
@@ -19,24 +19,8 @@ interface MapPageProps {
 export default async function MapPage({ params }: MapPageProps) {
   const { mapType: mapTypeParam } = await params
 
-  // Validate map type
   if (!VALID_MAP_TYPES.includes(mapTypeParam as ValidMapType)) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Invalid Map Type</h1>
-          <p className="text-gray-600 mb-4">
-            Valid map types: {VALID_MAP_TYPES.join(', ')}
-          </p>
-          <Link 
-            href="/"
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block text-center no-underline"
-          >
-            Back to Home
-          </Link>
-        </div>
-      </div>
-    )
+    redirect('/404')
   }
 
   return (

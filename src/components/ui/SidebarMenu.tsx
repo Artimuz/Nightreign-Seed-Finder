@@ -2,7 +2,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { getLoreCategories } from '@/lib/lore/utils'
 
 interface SidebarMenuProps {
   isOpen: boolean
@@ -11,7 +10,6 @@ interface SidebarMenuProps {
 }
 
 export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTriggerUpdates }) => {
-  const categories = getLoreCategories()
 
   const sidebarVariants = {
     closed: {
@@ -67,9 +65,8 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
             className="fixed top-20 right-0 h-[calc(100vh-5rem)] w-80 md:w-96 bg-black/95 backdrop-blur-md border-l border-gray-600/50 z-40 overflow-y-auto"
           >
             <div className="p-6">
-              {/* Header */}
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl font-bold text-white">Lore & Stories</h2>
+                <h2 className="text-xl font-bold text-white">Menu</h2>
                 <button
                   onClick={onClose}
                   className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -87,43 +84,13 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                 </button>
               </div>
 
-              {/* Navigation Items */}
               <nav className="space-y-4">
-                {categories.map((category, index) => (
-                  <motion.div
-                    key={category.id}
-                    variants={itemVariants}
-                    initial="closed"
-                    animate="open"
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={category.href}
-                      onClick={onClose}
-                      className="block group"
-                    >
-                      <div className="p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-yellow-400 transition-all duration-200">
-                        <h3 className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors duration-200">
-                          {category.title}
-                        </h3>
-                        <p className="text-sm text-gray-400 mt-1">
-                          {category.description}
-                        </p>
-                        <div className="text-xs text-gray-500 mt-2">
-                          {category.characters.length} characters
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-
-                {/* Additional Links */}
                 <motion.div
                   variants={itemVariants}
                   initial="closed"
                   animate="open"
-                  transition={{ delay: 0.3 }}
-                  className="pt-4 border-t border-gray-600/50 space-y-4"
+                  transition={{ delay: 0.1 }}
+                  className="space-y-4"
                 >
                   <button
                     onClick={() => {
@@ -141,19 +108,6 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                       View recent app updates and new features
                     </p>
                   </button>
-                  
-                  <Link
-                    href="/lore"
-                    onClick={onClose}
-                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-yellow-400 transition-all duration-200"
-                  >
-                    <h3 className="text-lg font-semibold text-white hover:text-blue-400 transition-colors duration-200">
-                      All Lore
-                    </h3>
-                    <p className="text-sm text-gray-400 mt-1">
-                      Explore the complete collection of stories and characters
-                    </p>
-                  </Link>
                   
                   <Link
                     href="/privacy-policy"
