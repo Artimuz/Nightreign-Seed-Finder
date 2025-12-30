@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import L from 'leaflet'
-import { Events, nightlordStatusCards } from '@/lib/constants/icons'
+import { Events, nightlordIcons, nightlordStatusCards } from '@/lib/constants/icons'
 import { getAllSeeds } from '@/lib/data/seedSearch'
 import { normalizeNightlordKey } from '@/lib/map/nightlordUtils'
-import { getNightlordStatusCardCoordinate, toLeafletCoordinates } from '@/lib/constants/mapCoordinates'
+import { getNightlordCoordinate, getNightlordStatusCardCoordinate, toLeafletCoordinates } from '@/lib/constants/mapCoordinates'
+import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
 import type { Seed } from '@/lib/types'
 
 interface MapResultProps {
@@ -39,6 +40,14 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     return normalizeNightlordKey(seedData?.nightlord)
   }, [seedData?.nightlord])
 
+  const seedImageProvider = useMemo(() => {
+    return getSeedImageProvider(seedNumber)
+  }, [seedNumber])
+
+  const isDlcSeedImage = useMemo(() => {
+    return seedImageProvider.sourceLabel === 'kevins78'
+  }, [seedImageProvider.sourceLabel])
+
   useEffect(() => {
     if (!mapRef.current) return
 
@@ -62,8 +71,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       zoomDelta: 0.10,
     })
 
-    const seedImageUrl = `https://thefifthmatt.github.io/nightreign/pattern/${seedNumber}.jpg`
-    const seedOverlay = L.imageOverlay(seedImageUrl, imageBounds)
+    const seedOverlay = L.imageOverlay(seedImageProvider.imageUrl, imageBounds)
     seedOverlay.addTo(map)
 
     let eventMarker: L.Marker | null = null
@@ -109,17 +117,54 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       })
     }
 
+    const createNightlordIcon = (zoom: number): L.DivIcon | null => {
+      const nightlordIconUrl = nightlordStatusKey ? nightlordIcons[nightlordStatusKey] : undefined
+      if (!nightlordIconUrl) return null
+
+      const baseIconSize = Math.max(24, containerSize * 0.04)
+      const zoomScale = Math.max(1.0, 1.0 + (zoom * 0.5))
+      const sizeMultiplier = 2.2
+
+      const size = Math.round(baseIconSize * sizeMultiplier * zoomScale)
+      const half = Math.round(size / 2)
+
+      return L.divIcon({
+        html: `<img src="${nightlordIconUrl}" alt="${nightlordStatusKey}" style="width: ${size}px; height: ${size}px; object-fit: contain; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));" />`,
+        className: 'nightlord-icon',
+        iconSize: [size, size],
+        iconAnchor: [half, half]
+      })
+    }
+
     map.fitBounds(imageBounds)
     map.setMaxBounds(imageBounds)
 
+    let nightlordMarker: L.Marker | null = null
+    if (isDlcSeedImage) {
+      const initialNightlordIcon = createNightlordIcon(map.getZoom())
+      if (initialNightlordIcon) {
+        const baseCoordinate = getNightlordCoordinate()
+        const leafletCoords = toLeafletCoordinates(baseCoordinate, containerSize)
+
+        nightlordMarker = L.marker(leafletCoords, {
+          icon: initialNightlordIcon,
+          interactive: false,
+          bubblingMouseEvents: false,
+          zIndexOffset: 500,
+        })
+
+        nightlordMarker.addTo(map)
+      }
+    }
+
     let nightlordStatusMarker: L.Marker | null = null
-    const initialNightlordIcon = createNightlordStatusIcon(map.getZoom())
-    if (initialNightlordIcon) {
+    const initialNightlordStatusIcon = createNightlordStatusIcon(map.getZoom())
+    if (initialNightlordStatusIcon) {
       const baseCoordinate = getNightlordStatusCardCoordinate()
       const leafletCoords = toLeafletCoordinates(baseCoordinate, containerSize)
 
       nightlordStatusMarker = L.marker(leafletCoords, {
-        icon: initialNightlordIcon,
+        icon: initialNightlordStatusIcon,
         interactive: true,
         bubblingMouseEvents: false,
         zIndexOffset: 600,
@@ -181,6 +226,12 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
     map.on('zoom', () => {
       map.panInsideBounds(imageBounds, { animate: false })
+      if (nightlordMarker) {
+        const updated = createNightlordIcon(map.getZoom())
+        if (updated) {
+          nightlordMarker.setIcon(updated)
+        }
+      }
       if (nightlordStatusMarker) {
         const updated = createNightlordStatusIcon(map.getZoom())
         if (updated) {
@@ -215,12 +266,16 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         nightlordStatusMarker.remove()
         nightlordStatusMarker = null
       }
+      if (nightlordMarker) {
+        nightlordMarker.remove()
+        nightlordMarker = null
+      }
       if (leafletMapRef.current) {
         leafletMapRef.current.remove()
         leafletMapRef.current = null
       }
     }
-  }, [isMobile, seedNumber, seedData, nightlordStatusKey])
+  }, [isMobile, seedNumber, seedData, nightlordStatusKey, seedImageProvider.imageUrl, isDlcSeedImage])
 
   useEffect(() => {
     if (!mapRef.current) return
@@ -260,7 +315,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         className="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-medium pointer-events-none z-[1000]"
         style={{ fontSize: isMobile ? '12px' : '14px' }}
       >
-        Map Pattern {seedNumber} - Source: thefifthmatt
+        Map Pattern {seedNumber} - Source: {seedImageProvider.sourceLabel}
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import { Seed } from '@/lib/types'
 import seedData from '../../../public/data/seed_data.json'
+import { normalizeSlotId } from '@/lib/map/slotIdUtils'
 
 const seeds: Seed[] = seedData as Seed[]
 
@@ -47,13 +48,14 @@ export function analyzePossibleSpawns(
 
     for (const [slotId, building] of Object.entries(currentBuildings)) {
       const current = building
-      if (
-        current &&
-        current !== 'empty' &&
-        Object.prototype.hasOwnProperty.call(seed.slots, slotId)
-      ) {
-        const val = seed.slots[slotId as keyof typeof seed.slots]
-        if (val !== current) {
+      const normalizedSlotId = normalizeSlotId(slotId)
+
+      if (current && current !== 'empty') {
+        const normalizedValue = seed.slots[normalizedSlotId as keyof typeof seed.slots]
+        const rawValue = seed.slots[slotId as keyof typeof seed.slots]
+        const value = normalizedValue ?? rawValue
+
+        if (value !== undefined && value !== current) {
           return false
         }
       }
@@ -85,7 +87,7 @@ export function analyzePossibleSpawns(
   const possibleSpawnSlots = Object.entries(spawnSlotCounts)
     .filter(([, count]) => count > 0)
     .map(([slot]) => slot)
-    .sort()
+    .sort((a, b) => Number(a) - Number(b))
 
   const confidence = possibleSpawnSlots.length > 0 
     ? Math.max(...Object.values(spawnSlotCounts)) / totalSeeds 
@@ -96,12 +98,6 @@ export function analyzePossibleSpawns(
     confidence,
     matchingSeedCount: totalSeeds
   }
-}
-
-function normalizeSlotId(slot: string): string {
-  const num = parseInt(slot, 10)
-  if (Number.isNaN(num)) return slot
-  return num < 10 ? `0${num}` : String(num)
 }
 
 function normalizeBuilding(value: string): string {

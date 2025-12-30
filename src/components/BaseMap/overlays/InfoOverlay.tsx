@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
 
 export interface InfoOverlayProps {
   seedNumber?: string
@@ -39,12 +40,14 @@ export default function InfoOverlay({
   const fontSize = isMobile ? '12px' : '14px'
 
   if (seedNumber) {
+    const seedImageProvider = getSeedImageProvider(seedNumber)
+
     return (
       <div 
         className={`${baseClasses} ${positionClasses} ${className}`}
         style={{ fontSize, ...style }}
       >
-        Map Pattern {seedNumber} - Source: thefifthmatt
+        Map Pattern {seedNumber} - Source: {seedImageProvider.sourceLabel}
       </div>
     )
   }

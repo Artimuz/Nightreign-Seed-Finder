@@ -9,7 +9,11 @@ import BugReportModal from './BugReportModal'
 export const Footer: React.FC = () => {
   const [isBugModalOpen, setIsBugModalOpen] = React.useState(false)
   const pathname = usePathname()
-  React.useEffect(() => { setIsBugModalOpen(false) }, [pathname])
+
+  React.useEffect(() => {
+    setIsBugModalOpen(false)
+  }, [pathname])
+
   return (
     <motion.footer
       className="fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm border-t border-gray-600/30"
@@ -26,7 +30,7 @@ export const Footer: React.FC = () => {
           title="Report a bug"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-            <path d="M19 8h-1.28a6.96 6.96 0 00-1.53-2.02l.91-.91a1 1 0 10-1.41-1.41l-1.2 1.2A6.95 6.95 0 0012 4c-1.07 0-2.09.25-2.98.7l-1.2-1.2a1 1 0 10-1.41 1.41l.91.91A6.96 6.96 0 005.28 8H4a1 1 0 100 2h1v2H4a1 1 0 100 2h1v1a4 4 0 004 4h6a4 4 0 004-4v-1h1a1 1 0 100-2h-1v-2h1a1 1 0 100-2zM7 10a5 5 0 0110 0v5a2 2 0 01-2 2H9a2 2 0 01-2-2v-5z"/>
+            <path d="M19 8h-1.28a6.96 6.96 0 00-1.53-2.02l.91-.91a1 1 0 10-1.41-1.41l-1.2 1.2A6.95 6.95 0 0012 4c-1.07 0-2.09.25-2.98.7l-1.2-1.2a1 1 0 10-1.41 1.41l.91.91A6.96 6.96 0 005.28 8H4a1 1 0 100 2h1v2H4a1 1 0 100 2h1v1a4 4 0 004 4h6a4 4 0 004-4v-1h1a1 1 0 100-2h-1v-2h1a1 1 0 100-2zM7 10a5 5 0 0110 0v5a2 2 0 01-2 2H9a2 2 0 01-2-2v-5z" />
           </svg>
           <span className="hidden sm:inline text-sm">Report</span>
         </button>
@@ -41,8 +45,9 @@ export const Footer: React.FC = () => {
             fill="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12" />
+            <path d="M12 0a12 12 0 00-3.79 23.39c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.31-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.47 11.47 0 016 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.87.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0012 0z" />
           </svg>
           <span className="text-sm font-medium">GitHub Repository</span>
           <svg

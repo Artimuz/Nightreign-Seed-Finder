@@ -1,6 +1,7 @@
 import { Seed } from '@/lib/types'
 import seedData from '../../../public/data/seed_data.json'
 import { filterSeedsBySpawn } from '@/lib/map/spawnAnalysis'
+import { normalizeSlotId } from '@/lib/map/slotIdUtils'
 
 const seeds: Seed[] = seedData as Seed[]
 
@@ -44,14 +45,16 @@ export const searchSeeds = (criteria: SearchCriteria): Seed[] => {
     }
 
     for (const [slotId, building] of Object.entries(slots)) {
-      if (!Object.prototype.hasOwnProperty.call(slots, slotId)) continue;
-      if (
-        building &&
-        building !== 'empty' &&
-        Object.prototype.hasOwnProperty.call(seed.slots, slotId)
-      ) {
-        const val = seed.slots[slotId as keyof typeof seed.slots]
-        if (val !== building) {
+      if (!Object.prototype.hasOwnProperty.call(slots, slotId)) continue
+
+      const normalizedSlotId = normalizeSlotId(slotId)
+
+      if (building && building !== 'empty') {
+        const normalizedValue = seed.slots[normalizedSlotId as keyof typeof seed.slots]
+        const rawValue = seed.slots[slotId as keyof typeof seed.slots]
+        const value = normalizedValue ?? rawValue
+
+        if (value !== undefined && value !== building) {
           return false
         }
       }
@@ -97,7 +100,8 @@ export const getAvailableBuildingsForSlot = (
   const availableBuildings = new Set<string>()
   
   matchingSeeds.forEach(seed => {
-    const building = seed.slots[targetSlotId as keyof typeof seed.slots]
+    const normalizedTargetSlotId = normalizeSlotId(targetSlotId)
+    const building = seed.slots[normalizedTargetSlotId as keyof typeof seed.slots] ?? seed.slots[targetSlotId as keyof typeof seed.slots]
     if (building && building !== 'empty' && building.trim() !== '') {
       availableBuildings.add(building)
     }
@@ -130,7 +134,8 @@ export const getAvailableBuildingsForSlotForGhost = (
   const availableBuildings = new Set<string>()
   
   matchingSeeds.forEach(seed => {
-    const building = seed.slots[targetSlotId as keyof typeof seed.slots]
+    const normalizedTargetSlotId = normalizeSlotId(targetSlotId)
+    const building = seed.slots[normalizedTargetSlotId as keyof typeof seed.slots] ?? seed.slots[targetSlotId as keyof typeof seed.slots]
     if (building && building !== 'empty' && building.trim() !== '') {
       availableBuildings.add(building)
     }

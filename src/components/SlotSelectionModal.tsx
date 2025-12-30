@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
-import { buildingIconOrder, nightlordIconOrder } from '@/lib/constants/icons'
+import { buildingIconOrder, nightlordIconOrder, nightlordIcons } from '@/lib/constants/icons'
 
 interface SlotSelectionModalProps {
   isOpen: boolean
@@ -73,19 +73,13 @@ export default function SlotSelectionModal({
 
   const getIconPath = (building: string) => {
     if (!building || building === 'empty') {
-      if (isNightlordModal) {
-        return pagesWebpUrl('/Images/nightlordIcons/empty_nightlord.webp')
-      }
-      return pagesWebpUrl('/Images/buildingIcons/empty.webp')
+      return isNightlordModal ? pagesWebpUrl('/Images/nightlordIcons/empty_nightlord.webp') : pagesWebpUrl('/Images/buildingIcons/empty.webp')
     }
-    
-    if (building.includes('_Gladius') || building.includes('_Adel') || 
-        building.includes('_Gnoster') || building.includes('_Maris') ||
-        building.includes('_Libra') || building.includes('_Fulghor') ||
-        building.includes('_Caligo') || building.includes('_Heolstor')) {
+
+    if (Object.prototype.hasOwnProperty.call(nightlordIcons, building)) {
       return pagesWebpUrl(`/Images/nightlordIcons/${building}.webp`)
     }
-    
+
     return pagesWebpUrl(`/Images/buildingIcons/${building}.webp`)
   }
 
@@ -94,12 +88,7 @@ export default function SlotSelectionModal({
     uniqueOptions.unshift('empty')
   }
 
-  const isNightlordModal = slotId === 'nightlord' || uniqueOptions.some(option => 
-    option.includes('_Gladius') || option.includes('_Adel') || 
-    option.includes('_Gnoster') || option.includes('_Maris') ||
-    option.includes('_Libra') || option.includes('_Fulghor') ||
-    option.includes('_Caligo') || option.includes('_Heolstor')
-  )
+  const isNightlordModal = slotId === 'nightlord' || uniqueOptions.some(option => Object.prototype.hasOwnProperty.call(nightlordIcons, option))
 
   const filteredOptions = uniqueOptions.filter(option => {
 

@@ -1,13 +1,17 @@
 import ClientMapResult from '../../../components/ClientMapResult'
 import { notFound } from 'next/navigation'
+import seedData from '../../../../public/data/seed_data.json'
+
+type SeedRecord = {
+  seed_id: string
+}
+
+const seeds = seedData as SeedRecord[]
+const seedIdSet = new Set(seeds.map((seed) => seed.seed_id))
 
 export async function generateStaticParams() {
-  const seedIds = Array.from({ length: 320 }, (_, i) => 
-    i.toString().padStart(3, '0')
-  )
-  
-  return seedIds.map((id) => ({
-    id: id,
+  return seeds.map((seed) => ({
+    id: seed.seed_id,
   }))
 }
 
@@ -20,14 +24,18 @@ interface ResultPageProps {
 export default async function ResultPage({ params }: ResultPageProps) {
   const { id: seedId } = await params
 
-  // Validate seed ID (should be 000-319)
-  const seedNumber = parseInt(seedId)
-  if (isNaN(seedNumber) || seedNumber < 0 || seedNumber > 319) {
+  const parsedSeedId = Number(seedId)
+  if (!Number.isFinite(parsedSeedId) || !Number.isInteger(parsedSeedId) || parsedSeedId < 0) {
     notFound()
   }
 
-  // Format seed number to 3 digits with leading zeros
-  const formattedSeedNumber = seedId.padStart(3, '0')
+  const canonicalSeedId = parsedSeedId <= 319
+    ? String(parsedSeedId).padStart(3, '0')
+    : String(parsedSeedId)
+
+  if (!seedIdSet.has(canonicalSeedId)) {
+    notFound()
+  }
 
   return (
     <div 
@@ -44,7 +52,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
       }}
     >
       <ClientMapResult 
-        seedNumber={formattedSeedNumber}
+        seedNumber={canonicalSeedId}
       />
     </div>
   )

@@ -133,6 +133,10 @@ export const MapSelectionCards: React.FC = () => {
           })()}
         </div>
 
+        <div className="mt-10 flex justify-center text-center text-white/80 text-sm">
+          ** DLC content added to Limveld **
+        </div>
+
         <motion.div
           ref={mobileContainerRef}
           className={`mobile-map-icons-container block md:hidden${hasClicked && clickedCard ? ' icon-clicked' : ''}`}
