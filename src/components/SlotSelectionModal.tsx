@@ -88,7 +88,7 @@ export default function SlotSelectionModal({
     uniqueOptions.unshift('empty')
   }
 
-  const isNightlordModal = slotId === 'nightlord' || uniqueOptions.some(option => Object.prototype.hasOwnProperty.call(nightlordIcons, option))
+  const isNightlordModal = slotId === 'nightlord' || uniqueOptions.some(option => option !== 'empty' && Object.prototype.hasOwnProperty.call(nightlordIcons, option))
 
   const filteredOptions = uniqueOptions.filter(option => {
 
