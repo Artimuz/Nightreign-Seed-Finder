@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { checkRateLimit } from '@/lib/rateLimit';
+import seedData from '../../../../public/data/seed_data.json';
+
+type SeedRecord = {
+  seed_id: string;
+}
 interface LogRequestData {
   seed_id: string;
   timezone?: string;
@@ -21,8 +26,20 @@ function sanitizeInput(input: string, maxLength: number): string {
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
     .trim();
 }
+const seeds = seedData as SeedRecord[];
+const seedIdSet = new Set(seeds.map((seed) => seed.seed_id));
+
+function toCanonicalSeedId(seedId: string): string | null {
+  const parsed = Number(seedId);
+  if (!Number.isFinite(parsed) || !Number.isInteger(parsed) || parsed < 0) return null;
+
+  return parsed <= 319 ? String(parsed).padStart(3, '0') : String(parsed);
+}
+
 function validateSeedId(seedId: string): boolean {
-  return /^[0-9]{3}$/.test(seedId);
+  const canonical = toCanonicalSeedId(seedId);
+  if (!canonical) return false;
+  return seedIdSet.has(canonical);
 }
 function validateTimezone(timezone: string): boolean {
   return /^[A-Za-z]+\/[A-Za-z_]+$/.test(timezone) && timezone.length <= 50;
@@ -75,6 +92,11 @@ export async function POST(request: NextRequest) {
     if (!body.seed_id || typeof body.seed_id !== 'string' || !validateSeedId(body.seed_id)) {
       return genericError('Invalid seed_id format', 400);
     }
+
+    const canonicalSeedId = toCanonicalSeedId(body.seed_id);
+    if (!canonicalSeedId) {
+      return genericError('Invalid seed_id format', 400);
+    }
     if (body.timezone && (!validateTimezone(body.timezone))) {
       return genericError('Invalid timezone format', 400);
     }
@@ -88,7 +110,7 @@ export async function POST(request: NextRequest) {
       return genericError('Invalid session duration', 400);
     }
     const logEntry = {
-      seed_id: body.seed_id,
+      seed_id: canonicalSeedId,
       timezone: body.timezone || null,
       bug_report: false,
       session_duration: Math.floor(body.session_duration),
