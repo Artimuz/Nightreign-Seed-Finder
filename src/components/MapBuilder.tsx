@@ -10,7 +10,7 @@ import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
 
 interface MapBuilderProps {
-  mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'forsaken'
+  mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'greatHollow'
 }
 
 const MAP_IMAGES = {
@@ -19,7 +19,7 @@ const MAP_IMAGES = {
   'mountaintop': pagesWebpUrl('/Images/mapTypes/Mountaintop.webp'),
   'noklateo': pagesWebpUrl('/Images/mapTypes/Noklateo, the Shrouded City.webp'),
   'rotted': pagesWebpUrl('/Images/mapTypes/Rotted Woods.webp'),
-  'forsaken': pagesWebpUrl('/Images/mapTypes/Forsaken.webp')
+  'greatHollow': pagesWebpUrl('/Images/mapTypes/greatHollow.webp')
 }
 
 export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
@@ -614,9 +614,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
           return
         }
 
-        // Use Phase 1 coordinate constants instead of JSON loading
-        const { INTERACTIVE_COORDINATES } = await import('@/lib/constants/mapCoordinates')
-        const coordsData = INTERACTIVE_COORDINATES
+        const { getInteractiveCoordinates } = await import('@/lib/constants/mapCoordinates')
+        const coordsData = getInteractiveCoordinates(mapType)
         
 
         const containerWidth = mapRef.current?.offsetWidth || 1000

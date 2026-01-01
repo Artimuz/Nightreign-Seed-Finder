@@ -13,11 +13,20 @@ interface MapResultProps {
   seedNumber: string
 }
 
+const normalizeMapTypeKey = (value?: string | null): string => {
+  return (value ?? '').toLowerCase().replace(/\s+/g, '').replace(',', '')
+}
+
 export default function MapResult({ seedNumber }: MapResultProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const leafletMapRef = useRef<L.Map | null>(null)
+  const undergroundControlButtonRef = useRef<HTMLButtonElement | null>(null)
+  const undergroundOverlayRef = useRef<L.ImageOverlay | null>(null)
+  const undergroundShadeRef = useRef<L.Rectangle | null>(null)
+
   const [isMobile, setIsMobile] = useState(false)
   const [seedData, setSeedData] = useState<Seed | null>(null)
+  const [isUndergroundEnabled, setIsUndergroundEnabled] = useState(false)
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -36,6 +45,16 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     setSeedData(seed ?? null)
   }, [seedNumber])
 
+  const isGreatHollowSeed = useMemo(() => {
+    return normalizeMapTypeKey(seedData?.map_type) === 'greathollow'
+  }, [seedData?.map_type])
+
+  useEffect(() => {
+    if (!isGreatHollowSeed) {
+      setIsUndergroundEnabled(false)
+    }
+  }, [isGreatHollowSeed])
+
   const nightlordStatusKey = useMemo(() => {
     return normalizeNightlordKey(seedData?.nightlord)
   }, [seedData?.nightlord])
@@ -49,6 +68,13 @@ export default function MapResult({ seedNumber }: MapResultProps) {
   }, [seedImageProvider.sourceLabel])
 
   useEffect(() => {
+    if (!isGreatHollowSeed) return
+
+    const img = new Image()
+    img.src = seedImageProvider.undergroundImageUrl
+  }, [isGreatHollowSeed, seedImageProvider.undergroundImageUrl])
+
+  useEffect(() => {
     if (!mapRef.current) return
 
     const containerSize = Math.min(mapRef.current.offsetWidth, mapRef.current.offsetHeight) || 1000
@@ -56,7 +82,12 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
     if (leafletMapRef.current) {
       leafletMapRef.current.remove()
+      leafletMapRef.current = null
     }
+
+    undergroundControlButtonRef.current = null
+    undergroundOverlayRef.current = null
+    undergroundShadeRef.current = null
 
     const zoomConfig = isMobile
       ? { minZoom: 0, maxZoom: 3 }
@@ -71,8 +102,61 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       zoomDelta: 0.10,
     })
 
-    const seedOverlay = L.imageOverlay(seedImageProvider.imageUrl, imageBounds)
-    seedOverlay.addTo(map)
+    if (!isGreatHollowSeed) {
+      const surfaceOverlay = L.imageOverlay(seedImageProvider.surfaceImageUrl, imageBounds)
+      surfaceOverlay.addTo(map)
+    }
+
+    if (isGreatHollowSeed) {
+      map.createPane('greatHollowSurfacePane')
+      map.createPane('greatHollowShadePane')
+      map.createPane('greatHollowUndergroundPane')
+
+      const surfacePane = map.getPane('greatHollowSurfacePane')
+      const shadePane = map.getPane('greatHollowShadePane')
+      const undergroundPane = map.getPane('greatHollowUndergroundPane')
+
+      if (surfacePane) surfacePane.style.zIndex = '200'
+      if (shadePane) shadePane.style.zIndex = '250'
+      if (undergroundPane) undergroundPane.style.zIndex = '300'
+
+      const surfaceOverlay = L.imageOverlay(seedImageProvider.surfaceImageUrl, imageBounds, { pane: 'greatHollowSurfacePane' })
+      surfaceOverlay.addTo(map)
+
+      const shadeOverlay = L.rectangle(imageBounds, {
+        interactive: false,
+        stroke: false,
+        fill: true,
+        fillColor: '#000',
+        fillOpacity: 0.8,
+        pane: 'greatHollowShadePane'
+      })
+
+      const undergroundOverlay = L.imageOverlay(seedImageProvider.undergroundImageUrl, imageBounds, { pane: 'greatHollowUndergroundPane' })
+
+      undergroundShadeRef.current = shadeOverlay
+      undergroundOverlayRef.current = undergroundOverlay
+
+      const control = new L.Control({ position: 'topright' })
+
+      control.onAdd = () => {
+        const container = L.DomUtil.create('div', 'leaflet-great-hollow-toggle')
+        const button = L.DomUtil.create('button', 'leaflet-great-hollow-toggle__button', container)
+        button.type = 'button'
+        button.onclick = () => {
+          setIsUndergroundEnabled(previous => !previous)
+        }
+
+        L.DomEvent.disableClickPropagation(container)
+        L.DomEvent.disableScrollPropagation(container)
+
+        undergroundControlButtonRef.current = button
+
+        return container
+      }
+
+      control.addTo(map)
+    }
 
     let eventMarker: L.Marker | null = null
     if (seedData?.Event && Events[seedData.Event]) {
@@ -275,14 +359,58 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         leafletMapRef.current = null
       }
     }
-  }, [isMobile, seedNumber, seedData, nightlordStatusKey, seedImageProvider.imageUrl, isDlcSeedImage])
+  }, [
+    isMobile,
+    seedNumber,
+    seedData,
+    nightlordStatusKey,
+    seedImageProvider.surfaceImageUrl,
+    seedImageProvider.undergroundImageUrl,
+    isDlcSeedImage,
+    isGreatHollowSeed
+  ])
+
+  useEffect(() => {
+    const map = leafletMapRef.current
+    if (!map) return
+
+    const undergroundOverlay = undergroundOverlayRef.current
+    const shadeOverlay = undergroundShadeRef.current
+
+    if (!isGreatHollowSeed || !undergroundOverlay || !shadeOverlay) return
+
+    const button = undergroundControlButtonRef.current
+    if (button) {
+      button.textContent = isUndergroundEnabled ? 'Underground: ON' : 'Underground: OFF'
+      if (isUndergroundEnabled) {
+        button.classList.add('leaflet-great-hollow-toggle__button--active')
+      } else {
+        button.classList.remove('leaflet-great-hollow-toggle__button--active')
+      }
+    }
+
+    if (isUndergroundEnabled) {
+      if (!map.hasLayer(shadeOverlay)) {
+        shadeOverlay.addTo(map)
+      }
+      if (!map.hasLayer(undergroundOverlay)) {
+        undergroundOverlay.addTo(map)
+      }
+    } else {
+      if (map.hasLayer(undergroundOverlay)) {
+        undergroundOverlay.removeFrom(map)
+      }
+      if (map.hasLayer(shadeOverlay)) {
+        shadeOverlay.removeFrom(map)
+      }
+    }
+  }, [isGreatHollowSeed, isUndergroundEnabled])
 
   useEffect(() => {
     if (!mapRef.current) return
 
     const resizeObserver = new ResizeObserver(() => {
       if (leafletMapRef.current) {
-
         setTimeout(() => {
           leafletMapRef.current?.invalidateSize()
         }, 100)
@@ -298,10 +426,10 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
   return (
     <div className="relative">
-      <div 
-        ref={mapRef} 
+      <div
+        ref={mapRef}
         className="overflow-hidden"
-        style={{ 
+        style={{
           height: 'calc(100vh - 160px)',
           width: 'min(100vw, calc(100vh - 160px))',
           aspectRatio: '1',
@@ -309,9 +437,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
           background: 'transparent'
         }}
       />
-      
-      {}
-      <div 
+      <div
         className="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-medium pointer-events-none z-[1000]"
         style={{ fontSize: isMobile ? '12px' : '14px' }}
       >

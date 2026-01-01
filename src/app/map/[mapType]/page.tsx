@@ -1,7 +1,7 @@
 import ClientMapBuilder from '../../../components/ClientMapBuilder'
 import { redirect } from 'next/navigation'
 
-const VALID_MAP_TYPES = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'forsaken'] as const
+const VALID_MAP_TYPES = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'greatHollow'] as const
 type ValidMapType = typeof VALID_MAP_TYPES[number]
 
 export async function generateStaticParams() {

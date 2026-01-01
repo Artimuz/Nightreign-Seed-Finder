@@ -31,6 +31,7 @@ export default function BuildingSlotOverlay({
 }: BuildingSlotOverlayProps) {
   const { markers } = useMarkerManager({
     map,
+    mapType,
     selectedBuildings,
     selectedNightlord,
     onSlotClick,

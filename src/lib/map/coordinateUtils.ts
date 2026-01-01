@@ -1,12 +1,25 @@
-// Re-exports from mapCoordinates.ts for backward compatibility and enhanced utilities
-export { 
-  scaleCoordinate, 
+export {
+  scaleCoordinate,
   toLeafletCoordinates,
-  INTERACTIVE_COORDINATES,
-  EVENT_COORDINATE
+  EVENT_COORDINATE,
+  getBuildingSlotCoordinates,
+  getInteractiveCoordinates,
+  getAllMapCoordinates,
+  getCoordinateById,
+  getNightlordCoordinate,
+  getEventCoordinate,
+  isBuildingSlot,
+  isNightlordSlot,
+  isEventSlot
 } from '@/lib/constants/mapCoordinates'
 
-import { INTERACTIVE_COORDINATES, EVENT_COORDINATE } from '@/lib/constants/mapCoordinates'
+import {
+  EVENT_COORDINATE,
+  getBuildingSlotCoordinates as getBuildingSlotCoordinatesForMap,
+  getNightlordCoordinate as getNightlordCoordinateShared,
+  getEventCoordinate as getEventCoordinateShared,
+  getInteractiveCoordinates as getInteractiveCoordinatesForMap
+} from '@/lib/constants/mapCoordinates'
 
 // Additional utility functions for coordinate manipulation
 
@@ -30,50 +43,34 @@ export function scaleCoordinates(
   return [scaledX, scaledY]
 }
 
-export function getCoordinateById(id: string): Coordinate | null {
-  const allCoordinates = [
-    ...getBuildingSlotCoordinates(),
-    getNightlordCoordinate(),
-    getEventCoordinate()
-  ]
-  
-  return allCoordinates.find(coord => coord.id === id) || null
+export function getCoordinateByIdCompat(id: string, mapType?: string): Coordinate | null {
+  const coords = getAllMapCoordinatesCompat(mapType)
+  return coords.find(coord => coord.id === id) || null
 }
 
-export function getBuildingSlotCoordinates(): Coordinate[] {
-  return INTERACTIVE_COORDINATES.filter(coord => coord.id !== 'nightlord')
+export function getBuildingSlotCoordinatesCompat(mapType?: string): Coordinate[] {
+  return getBuildingSlotCoordinatesForMap(mapType)
 }
 
-export function getNightlordCoordinate(): Coordinate {
-  return INTERACTIVE_COORDINATES.find(coord => coord.id === 'nightlord') || { id: 'nightlord', x: 500, y: 200 }
+export function getNightlordCoordinateCompat(): Coordinate {
+  return getNightlordCoordinateShared()
 }
 
-export function getEventCoordinate(): Coordinate {
-  return EVENT_COORDINATE
+export function getEventCoordinateCompat(): Coordinate {
+  return getEventCoordinateShared()
 }
 
-export function getInteractiveCoordinates(): Coordinate[] {
-  return INTERACTIVE_COORDINATES
+export function getInteractiveCoordinatesCompat(mapType?: string): Coordinate[] {
+  return getInteractiveCoordinatesForMap(mapType)
 }
 
-export function getAllMapCoordinates(): Coordinate[] {
-  return [
-    ...getBuildingSlotCoordinates(),
-    getNightlordCoordinate(),
-    getEventCoordinate()
-  ]
+export function getAllMapCoordinatesCompat(mapType?: string): Coordinate[] {
+  const building = getBuildingSlotCoordinatesForMap(mapType)
+  return [...building, getNightlordCoordinateShared(), getEventCoordinateShared()]
 }
 
-export function isBuildingSlot(id: string): boolean {
-  return getBuildingSlotCoordinates().some(coord => coord.id === id)
-}
-
-export function isNightlordSlot(id: string): boolean {
-  return id === 'nightlord'
-}
-
-export function isEventSlot(id: string): boolean {
-  return id === 'event'
+export function isBuildingSlotCompat(id: string, mapType?: string): boolean {
+  return getBuildingSlotCoordinatesForMap(mapType).some(coord => coord.id === id)
 }
 
 export function normalizeCoordinate(

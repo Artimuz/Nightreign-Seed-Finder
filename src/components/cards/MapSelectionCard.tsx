@@ -41,7 +41,7 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
       'mountaintop': pagesWebpUrl('/Images/mapTypes/map_icon/mountainIcon.webp'),
       'noklateo': pagesWebpUrl('/Images/mapTypes/map_icon/noklateoIcon.webp'),
       'rotted': pagesWebpUrl('/Images/mapTypes/map_icon/rotIcon.webp'),
-      'forsaken': pagesWebpUrl('/Images/mapTypes/map_icon/forsakenIcon.webp')
+      'greathollow': pagesWebpUrl('/Images/mapTypes/map_icon/greatHollowIcon.webp')
     };
     return iconMap[mapType.toLowerCase()] || pagesWebpUrl('/Images/mapTypes/map_icon/normalIcon.webp');
   };

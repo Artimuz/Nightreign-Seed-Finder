@@ -21,7 +21,7 @@ L.Icon.Default.mergeOptions({
 })
 
 export interface BaseMapProps {
-  mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted'
+  mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'greatHollow'
   imageUrl?: string
   className?: string
   style?: React.CSSProperties

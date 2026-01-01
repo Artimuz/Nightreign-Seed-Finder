@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
-import { INTERACTIVE_COORDINATES, EVENT_COORDINATE } from '@/lib/constants/mapCoordinates'
+import { getInteractiveCoordinates, EVENT_COORDINATE } from '@/lib/constants/mapCoordinates'
 import { 
   createMarkerManager,
   createBuildingMarker,
@@ -12,6 +12,7 @@ import {
 
 export interface UseMarkerManagerProps {
   map: L.Map | null
+  mapType: string
   selectedBuildings: Record<string, string>
   selectedNightlord: string
   onSlotClick: (slotId: string) => void
@@ -23,6 +24,7 @@ export interface UseMarkerManagerProps {
 
 export function useMarkerManager({
   map,
+  mapType,
   selectedBuildings,
   selectedNightlord,
   onSlotClick,
@@ -43,7 +45,8 @@ export function useMarkerManager({
 
     const addMarkersWhenReady = () => {
       try {
-        const coordinates = coordinateType === 'interactive' ? INTERACTIVE_COORDINATES : [...INTERACTIVE_COORDINATES, EVENT_COORDINATE]
+        const interactive = getInteractiveCoordinates(mapType)
+        const coordinates = coordinateType === 'interactive' ? interactive : [...interactive, EVENT_COORDINATE]
 
         coordinates.forEach((coord) => {
           const building = coord.id === 'nightlord' ? selectedNightlord : selectedBuildings[coord.id]
@@ -75,7 +78,7 @@ export function useMarkerManager({
       clearTimeout(timeoutId)
       markerManager.clearAll()
     }
-  }, [map, selectedBuildings, selectedNightlord, coordinateType, containerSize, iconConfig, currentZoom])
+  }, [map, mapType, selectedBuildings, selectedNightlord, coordinateType, containerSize, iconConfig, currentZoom])
 
   useEffect(() => {
     if (!map) return

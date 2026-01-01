@@ -7,7 +7,7 @@ export interface ValidationResult {
 }
 
 export function validateMapType(mapType: string): ValidationResult {
-  const validTypes = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted']
+  const validTypes = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'greatHollow']
   const result: ValidationResult = {
     isValid: validTypes.includes(mapType),
     errors: [],

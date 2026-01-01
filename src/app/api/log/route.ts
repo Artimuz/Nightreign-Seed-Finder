@@ -48,8 +48,9 @@ function validateNightlord(nightlord: string): boolean {
   return /^[A-Za-z]{1,20}$/.test(nightlord);
 }
 function validateMapType(mapType: string): boolean {
-  const validMapTypes = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted'];
-  return validMapTypes.includes(mapType);
+  const normalized = mapType.toLowerCase().replace(/\s+/g, '').replace(',', '')
+  const validMapTypes = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'greathollow']
+  return validMapTypes.includes(normalized)
 }
 function sanitizePathTaken(obj: unknown): Record<string, string> | null {
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return null;

@@ -36,8 +36,8 @@ export const MAP_TYPES = [
     cardImage: pagesWebpUrl('/Images/mapTypes/craterIcon.webp')
   },
   {
-    key: 'forsaken',
-    title: '*Coming Soon*',
-    cardImage: pagesWebpUrl('/Images/mapTypes/forsakenIcon.webp')
+    key: 'greatHollow',
+    title: 'Great Hollow',
+    cardImage: pagesWebpUrl('/Images/mapTypes/greatHollowIcon.webp')
   }
 ]

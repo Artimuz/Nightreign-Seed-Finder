@@ -28,7 +28,7 @@ export const searchSeeds = (criteria: SearchCriteria): Seed[] => {
       'mountaintop': ['mountaintop', 'mountain'],
       'noklateo': ['noklateo', 'noklateo,theshroudedcity', 'noklateo the shrouded city'],
       'rotted': ['rotted', 'rottedwoods', 'rotted woods'],
-      'forsaken': ['forsaken', 'forsakenhollows', 'forsaken hollows', 'the forsaken hollows']
+      'greathollow': ['greathollow', 'great hollow', 'the great hollow', 'forsaken', 'forsakenhollows', 'forsaken hollows', 'the forsaken hollows']
     }
     
     const validMappings = mapTypeMapping[searchMapType] || [searchMapType]

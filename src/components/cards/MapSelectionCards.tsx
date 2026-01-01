@@ -50,7 +50,7 @@ export const MapSelectionCards: React.FC = () => {
 
   const handleCardClick = (mapKey: string, event: React.MouseEvent) => {
     event.preventDefault();
-    if (!hasClicked && mapKey !== 'forsaken') {
+    if (!hasClicked) {
       setHasClicked(true);
       setClickedCard(mapKey);
       router.push(`/map/${mapKey}`);
@@ -107,7 +107,7 @@ export const MapSelectionCards: React.FC = () => {
               'normal': 0,
               'rotted': 0.2,
               'crater': 0.4,
-              'forsaken': 0.6
+              'greatHollow': 0.6
             };
             return MAP_TYPES.map((mapData) => {
               const delay = delayMap[mapData.key as keyof typeof delayMap];
@@ -125,7 +125,7 @@ export const MapSelectionCards: React.FC = () => {
                     title={mapData.title}
                     imageSrc={mapData.cardImage}
                     onClick={(event) => handleCardClick(mapData.key, event)}
-                    isLocked={mapData.key === 'forsaken'}
+                    isLocked={false}
                   />
                 </motion.div>
               );
@@ -134,7 +134,7 @@ export const MapSelectionCards: React.FC = () => {
         </div>
 
         <div className="mt-10 flex justify-center text-center text-white/80 text-sm">
-          ** DLC content added to Limveld **
+          ** DLC content added to Limveld and the Great Hollow **
         </div>
 
         <motion.div
@@ -159,22 +159,15 @@ export const MapSelectionCards: React.FC = () => {
                 >
                   <div className="relative">
                     <Image
-                      src={pagesWebpUrl(`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key === 'forsaken' ? 'forsaken' : mapData.key}Icon.webp`)}
+                      src={pagesWebpUrl(`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`)}
                       alt={mapData.title}
                       width={mobileIconSize}
                       height={mobileIconSize}
-                      className={`mobile-icon-image ${mapData.key === 'forsaken' ? 'saturate-0' : ''}`}
+                      className="mobile-icon-image"
                       unoptimized
                     />
-                    {mapData.key === 'forsaken' && (
-                      <div className="absolute top-1 right-1 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
-                        <svg width="12" height="12" viewBox="0 0 24 24" className="text-white">
-                          <path fill="currentColor" d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
-                        </svg>
-                      </div>
-                    )}
                   </div>
-                  <span className={`mobile-icon-title ${mapData.key === 'forsaken' ? 'text-gray-500' : ''}`}>{mapData.title}</span>
+                  <span className="mobile-icon-title">{mapData.title}</span>
                 </motion.div>
               );
             })}
@@ -195,22 +188,15 @@ export const MapSelectionCards: React.FC = () => {
                 >
                   <div className="relative">
                     <Image
-                      src={pagesWebpUrl(`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key === 'forsaken' ? 'forsaken' : mapData.key}Icon.webp`)}
+                      src={pagesWebpUrl(`/Images/mapTypes/map_icon/${mapData.key === 'rotted' ? 'rot' : mapData.key === 'mountaintop' ? 'mountain' : mapData.key}Icon.webp`)}
                       alt={mapData.title}
                       width={mobileIconSize}
                       height={mobileIconSize}
-                      className={`mobile-icon-image ${mapData.key === 'forsaken' ? 'saturate-0' : ''}`}
+                      className="mobile-icon-image"
                       unoptimized
                     />
-                    {mapData.key === 'forsaken' && (
-                      <div className="absolute top-1 right-1 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
-                        <svg width="12" height="12" viewBox="0 0 24 24" className="text-white">
-                          <path fill="currentColor" d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
-                        </svg>
-                      </div>
-                    )}
                   </div>
-                  <span className={`mobile-icon-title ${mapData.key === 'forsaken' ? 'text-gray-500' : ''}`}>{mapData.title}</span>
+                  <span className="mobile-icon-title">{mapData.title}</span>
                 </motion.div>
               );
             })}

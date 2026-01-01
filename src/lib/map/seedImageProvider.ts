@@ -1,5 +1,6 @@
 export type SeedImageProvider = {
-  imageUrl: string
+  surfaceImageUrl: string
+  undergroundImageUrl: string
   sourceLabel: string
 }
 
@@ -20,8 +21,12 @@ export function getSeedImageProvider(seedId: string): SeedImageProvider {
 
   const provider = Number.isFinite(parsedSeedId) && parsedSeedId >= 0 && parsedSeedId <= 319 ? baseProvider : dlcProvider
 
+  const surfaceImageUrl = `${provider.baseUrl}${seedId}.${provider.fileExtension}`
+  const undergroundImageUrl = `${provider.baseUrl}${seedId}_under.${provider.fileExtension}`
+
   return {
-    imageUrl: `${provider.baseUrl}${seedId}.${provider.fileExtension}`,
+    surfaceImageUrl,
+    undergroundImageUrl,
     sourceLabel: provider.sourceLabel
   }
 }

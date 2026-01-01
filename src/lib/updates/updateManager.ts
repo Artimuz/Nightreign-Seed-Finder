@@ -3,6 +3,17 @@ import { pagesWebpUrl } from '@/lib/pagesAssets'
 
 const updatePosts: UpdatePost[] = [
   {
+    "id": "update-1.2.0",
+    "version": "1.2.0",
+    "title": "Great Hollow is finally here",
+    "content": "Great Hollow has officially arrived in the app!\n\n### Highlights:\n- **New map: Great Hollow**: Fully available in map selection\n- **More complete results**: Great Hollow now supports an **Underground toggle** on the result map\n- **Clearer layering**: Underground shows on top with a darkened layer to help readability\n\n### Special thanks:\n- Huge thanks to **Kevins78** for providing the source data that made this update possible.\n\nThanks for using SeedFinder. Let me know what you want added next.",
+    "priority": "high",
+    "publishDate": "2026-01-01T00:00:00Z",
+    "category": "feature",
+    "showInModal": true,
+    "tags": ["great-hollow", "map", "slots", "results", "underground"]
+  },
+  {
     "id": "update-1.1.15",
     "version": "1.1.15",
     "title": "Spawn Location Selection Feature",
