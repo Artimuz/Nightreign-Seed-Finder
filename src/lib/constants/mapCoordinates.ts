@@ -38,7 +38,7 @@ export const BUILDING_SLOT_COORDINATES_27: Coordinate[] = [
   { id: '27', x: 566, y: 795 }
 ]
 
-export const BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_13: Coordinate[] = [
+export const BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_20: Coordinate[] = [
   { id: '1', x: 347, y: 312 },
   { id: '2', x: 733, y: 347 },
   { id: '3', x: 770, y: 414 },
@@ -51,7 +51,14 @@ export const BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_13: Coordinate[] = [
   { id: '10', x: 453, y: 779 },
   { id: '11', x: 921, y: 806 },
   { id: '12', x: 881, y: 898 },
-  { id: '13', x: 685, y: 931 }
+  { id: '13', x: 685, y: 931 },
+  { id: '14', x: 397, y: 390 },
+  { id: '15', x: 723, y: 475 },
+  { id: '16', x: 436, y: 551 },
+  { id: '17', x: 319, y: 636 },
+  { id: '18', x: 362, y: 741 },
+  { id: '19', x: 893, y: 816 },
+  { id: '20', x: 811, y: 908 }
 ]
 
 export const NIGHTLORD_COORDINATE: Coordinate = {
@@ -74,7 +81,7 @@ export const EVENT_COORDINATE: Coordinate = {
 
 export const getBuildingSlotCoordinates = (mapType?: string): Coordinate[] => {
   const normalized = normalizeMapTypeKey(mapType)
-  if (normalized === 'greathollow') return BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_13
+  if (normalized === 'greathollow') return BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_20
   return BUILDING_SLOT_COORDINATES_27
 }
 

@@ -46,6 +46,7 @@ export const buildingIcons: Record<string, string> = {
   EUF_rot: pagesWebpUrl("/Images/buildingIcons/EUF_rot.webp"),
   WUF_fire: pagesWebpUrl("/Images/buildingIcons/WUF_fire.webp"),
   WUF_magic: pagesWebpUrl("/Images/buildingIcons/WUF_magic.webp"),
+  ScaleBearingMerchant: pagesWebpUrl("/Images/buildingIcons/ScaleBearingMerchant.webp"),
 }
 
 export const buildingIconOrder: string[] = [
@@ -94,6 +95,7 @@ export const buildingIconOrder: string[] = [
   "EUF_rot",
   "WUF_fire",
   "WUF_magic",
+  "ScaleBearingMerchant",
 ]
 
 export const nightlordIcons: Record<string, string> = {

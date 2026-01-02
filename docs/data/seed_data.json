@@ -15415,7 +15415,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "1_Gladius",
     "Event": ""
@@ -15436,7 +15443,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "1_Gladius",
     "Event": "caligoRaid"
@@ -15457,7 +15471,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "1_Gladius",
     "Event": "frenzytower"
@@ -15478,7 +15499,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "1_Gladius",
     "Event": "extraboss"
@@ -15499,7 +15527,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "1_Gladius",
     "Event": ""
@@ -15520,7 +15555,14 @@
       "10": "",
       "11": "",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": "ScaleBearingMerchant"
     },
     "nightlord": "2_Adel",
     "Event": "gladiusRaid"
@@ -15541,7 +15583,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "2_Adel",
     "Event": "extraboss"
@@ -15562,7 +15611,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "2_Adel",
     "Event": ""
@@ -15583,7 +15639,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "2_Adel",
     "Event": ""
@@ -15604,7 +15667,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "2_Adel",
     "Event": "caligoRaid"
@@ -15625,7 +15695,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "3_Gnoster",
     "Event": ""
@@ -15646,7 +15723,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "3_Gnoster",
     "Event": "frenzytower"
@@ -15667,7 +15751,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "ScaleBearingMerchant",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "3_Gnoster",
     "Event": "gladiusRaid"
@@ -15688,7 +15779,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "ScaleBearingMerchant",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "3_Gnoster",
     "Event": ""
@@ -15709,7 +15807,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "ScaleBearingMerchant",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "3_Gnoster",
     "Event": "augurraid"
@@ -15730,7 +15835,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "ScaleBearingMerchant",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "4_Maris",
     "Event": "extraboss"
@@ -15751,7 +15863,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "4_Maris",
     "Event": ""
@@ -15772,7 +15891,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "ScaleBearingMerchant",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "4_Maris",
     "Event": "gnosterplague"
@@ -15793,7 +15919,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "4_Maris",
     "Event": "caligoRaid"
@@ -15814,7 +15947,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "4_Maris",
     "Event": ""
@@ -15835,7 +15975,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "5_Libra",
     "Event": "gnosterplague"
@@ -15856,7 +16003,14 @@
       "10": "",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "5_Libra",
     "Event": "frenzytower"
@@ -15877,7 +16031,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "5_Libra",
     "Event": "frenzytower"
@@ -15898,7 +16059,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "5_Libra",
     "Event": ""
@@ -15919,7 +16087,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "5_Libra",
     "Event": ""
@@ -15940,7 +16115,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "6_Fulghor",
     "Event": "libracurse"
@@ -15961,7 +16143,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "ScaleBearingMerchant",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "6_Fulghor",
     "Event": ""
@@ -15982,7 +16171,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "6_Fulghor",
     "Event": "gladiusRaid"
@@ -16003,7 +16199,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "6_Fulghor",
     "Event": ""
@@ -16024,7 +16227,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "6_Fulghor",
     "Event": "extraboss"
@@ -16045,7 +16255,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "7_Caligo",
     "Event": "extraboss"
@@ -16066,7 +16283,14 @@
       "10": "",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "7_Caligo",
     "Event": "libracurse"
@@ -16087,7 +16311,14 @@
       "10": "empty_spawn",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "7_Caligo",
     "Event": "augurraid"
@@ -16108,7 +16339,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "7_Caligo",
     "Event": ""
@@ -16129,7 +16367,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "7_Caligo",
     "Event": ""
@@ -16150,7 +16395,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "8_Heolstor",
     "Event": ""
@@ -16171,7 +16423,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "8_Heolstor",
     "Event": ""
@@ -16192,7 +16451,14 @@
       "10": "",
       "11": "",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "8_Heolstor",
     "Event": "gladiusRaid"
@@ -16213,7 +16479,14 @@
       "10": "empty_spawn",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "8_Heolstor",
     "Event": "extraboss"
@@ -16234,7 +16507,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "8_Heolstor",
     "Event": "caligoRaid"
@@ -16255,7 +16535,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "ScaleBearingMerchant",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16276,7 +16563,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "gladiusRaid"
@@ -16297,7 +16591,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "ScaleBearingMerchant",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "frenzytower"
@@ -16318,7 +16619,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "ScaleBearingMerchant",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "extraboss"
@@ -16339,7 +16647,14 @@
       "10": "",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "ScaleBearingMerchant",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "caligoRaid"
@@ -16360,7 +16675,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "ScaleBearingMerchant",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "extraboss"
@@ -16381,7 +16703,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16402,7 +16731,14 @@
       "10": "",
       "11": "",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16423,7 +16759,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16444,7 +16787,14 @@
       "10": "empty_spawn",
       "11": "",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "ScaleBearingMerchant",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "frenzytower"
@@ -16465,7 +16815,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "ScaleBearingMerchant",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "gladiusRaid"
@@ -16486,7 +16843,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "caligoRaid"
@@ -16507,7 +16871,14 @@
       "10": "",
       "11": "",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16528,7 +16899,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16549,7 +16927,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "gladiusRaid"
@@ -16570,7 +16955,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "ScaleBearingMerchant",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": ""
@@ -16591,7 +16983,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": "ScaleBearingMerchant"
     },
     "nightlord": "9_Balancers",
     "Event": "gladiusRaid"
@@ -16612,7 +17011,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "gladiusRaid"
@@ -16633,7 +17039,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "ScaleBearingMerchant",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "gladiusRaid"
@@ -16654,7 +17067,14 @@
       "10": "empty_spawn",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "ScaleBearingMerchant",
+      "19": "",
+      "20": ""
     },
     "nightlord": "9_Balancers",
     "Event": "caligoRaid"
@@ -16675,7 +17095,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "ScaleBearingMerchant",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "frenzytower"
@@ -16696,7 +17123,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "augurraid"
@@ -16717,7 +17151,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -16738,7 +17179,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "caligoRaid"
@@ -16759,7 +17207,14 @@
       "10": "",
       "11": "",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "gladiusRaid"
@@ -16780,7 +17235,14 @@
       "10": "",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "libracurse"
@@ -16801,7 +17263,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "ScaleBearingMerchant",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -16822,7 +17291,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "extraboss"
@@ -16843,7 +17319,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -16864,7 +17347,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "ScaleBearingMerchant",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -16885,7 +17375,14 @@
       "10": "",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "extraboss"
@@ -16906,7 +17403,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "libracurse"
@@ -16927,7 +17431,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "caligoRaid"
@@ -16948,7 +17459,14 @@
       "10": "empty_spawn",
       "11": "sorcerers",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "ScaleBearingMerchant",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "augurraid"
@@ -16969,7 +17487,14 @@
       "10": "empty_spawn",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -16990,7 +17515,14 @@
       "10": "",
       "11": "",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "ScaleBearingMerchant",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "extraboss"
@@ -17011,7 +17543,14 @@
       "10": "",
       "11": "sorcerers",
       "12": "ruins_magic",
-      "13": "greatchurch_frostbite"
+      "13": "greatchurch_frostbite",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -17032,7 +17571,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_sleep",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": "gnosterplague"
@@ -17053,7 +17599,14 @@
       "10": "",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": "ScaleBearingMerchant"
     },
     "nightlord": "10_Greg",
     "Event": ""
@@ -17074,7 +17627,14 @@
       "10": "empty_spawn",
       "11": "church",
       "12": "ruins_magic",
-      "13": "greatchurch_holy"
+      "13": "greatchurch_holy",
+      "14": "",
+      "15": "",
+      "16": "",
+      "17": "",
+      "18": "",
+      "19": "",
+      "20": ""
     },
     "nightlord": "10_Greg",
     "Event": ""
