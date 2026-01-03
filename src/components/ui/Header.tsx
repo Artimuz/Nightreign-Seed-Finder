@@ -11,14 +11,7 @@ export const Header: React.FC = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
-  let triggerUpdateModal: (() => void) | undefined;
-  try {
-    const updateContext = useGlobalUpdateContext();
-    triggerUpdateModal = updateContext.triggerUpdateModal;
-  } catch {
-    // Context not available
-    triggerUpdateModal = undefined;
-  }
+  const { triggerUpdateModal } = useGlobalUpdateContext()
 
   const isHomepage = pathname === '/';
   

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { APP_VERSION } from '@/lib/constants/version'
 
 interface VersionResponse {
@@ -29,6 +29,8 @@ interface VersionCheckState {
 
 const STORAGE_KEY = 'nightreign_version_check'
 const CHECK_INTERVAL = 60 * 60 * 1000
+const VISIBILITY_THROTTLE_MS = 5 * 60 * 1000
+const MIN_STARTUP_DELAY_MS = 1500
 const CLIENT_VERSION = APP_VERSION
 
 export function useVersionCheck() {
@@ -137,28 +139,70 @@ export function useVersionCheck() {
     }
   }, [])
 
+  const timeUntilNextCheck = useMemo(() => {
+    if (!state.lastChecked) return 0
+    return Math.max(0, CHECK_INTERVAL - (Date.now() - state.lastChecked))
+  }, [state.lastChecked])
+
   useEffect(() => {
     loadStoredData()
-    
-    if (shouldCheck()) {
-      checkVersion()
+
+    const now = Date.now()
+
+    let lastVisibilityCheckAt = 0
+
+    const maybeCheck = async (detailed: boolean) => {
+      if (!shouldCheck()) return
+      if (state.isChecking) return
+      await checkVersion(detailed)
     }
-    
-    const interval = setInterval(() => {
-      if (shouldCheck()) {
-        checkVersion()
-      }
-    }, CHECK_INTERVAL)
-    
-    return () => clearInterval(interval)
-  }, [checkVersion, shouldCheck, loadStoredData])
+
+    const scheduleNextCheck = () => {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      const lastChecked = stored ? (JSON.parse(stored) as { lastChecked?: number }).lastChecked : undefined
+      const referenceTime = typeof lastChecked === 'number' ? lastChecked : now
+      const delay = Math.max(MIN_STARTUP_DELAY_MS, CHECK_INTERVAL - (Date.now() - referenceTime))
+
+      const timeoutId = window.setTimeout(() => {
+        void maybeCheck(false)
+      }, delay)
+
+      return timeoutId
+    }
+
+    const timeoutId = scheduleNextCheck()
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== 'visible') return
+      const ts = Date.now()
+      if (ts - lastVisibilityCheckAt < VISIBILITY_THROTTLE_MS) return
+      lastVisibilityCheckAt = ts
+      void maybeCheck(false)
+    }
+
+    const onFocus = () => {
+      const ts = Date.now()
+      if (ts - lastVisibilityCheckAt < VISIBILITY_THROTTLE_MS) return
+      lastVisibilityCheckAt = ts
+      void maybeCheck(false)
+    }
+
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    window.addEventListener('focus', onFocus)
+
+    void maybeCheck(false)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [checkVersion, shouldCheck, loadStoredData, state.isChecking])
 
   return {
     ...state,
     checkVersion: forceCheck,
     clearUpdateFlag,
-    timeUntilNextCheck: state.lastChecked 
-      ? Math.max(0, CHECK_INTERVAL - (Date.now() - state.lastChecked))
-      : 0
+    timeUntilNextCheck
   }
 }

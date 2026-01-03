@@ -23,7 +23,7 @@ const isStaticAsset = (url) => {
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(APP_CACHE).then((cache) =>
-      cache.addAll(['/', '/manifest.webmanifest?v=' + CACHE_VERSION, '/manifest.webmanifest']).catch(() => undefined)
+      cache.addAll(['/', '/manifest.webmanifest']).catch(() => undefined)
     )
   )
   self.skipWaiting()
