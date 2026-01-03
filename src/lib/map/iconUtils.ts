@@ -22,25 +22,19 @@ export function getIconPath(building: string, isNightlord: boolean = false): str
 }
 
 export function calculateIconSize(
-  containerSize: number, 
-  zoom: number = 0, 
+  containerSize: number,
+  _zoom: number = 0,
   isMobile: boolean = false,
   isNightlord: boolean = false
 ): IconSize {
   const config = isMobile ? MAP_CONFIG.iconSizes.mobile : MAP_CONFIG.iconSizes.desktop
   const baseSize = isNightlord ? config.nightlord : config.base
-  
-  // Calculate responsive size based on container
+
   const containerWidth = containerSize || MAP_CONFIG.container.defaultSize
   const responsiveSize = Math.max(baseSize, containerWidth * 0.04)
-  
-  // Apply zoom scaling
-  const zoomScale = Math.max(1.0, 1.0 + (zoom * 0.5))
-  const finalSize = Math.round(responsiveSize * zoomScale)
-  
-  // Apply nightlord multiplier
+  const finalSize = Math.round(responsiveSize)
   const multipliedSize = isNightlord ? finalSize * 1.5 : finalSize
-  
+
   return {
     width: multipliedSize,
     height: multipliedSize,

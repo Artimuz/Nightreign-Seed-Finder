@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
-import { EVENT_COORDINATE } from '@/lib/constants/mapCoordinates'
+import { getEventCoordinateForSource } from '@/lib/constants/mapCoordinates'
 import { Events } from '@/lib/constants/icons'
 import { createEventMarker } from '@/lib/map'
 
@@ -13,6 +13,7 @@ export interface EventOverlayProps {
   useEventCoordinate?: boolean
   customPosition?: { x: number; y: number }
   containerSize: number
+  sourceLabel?: string
 }
 
 export default function EventOverlay({
@@ -21,7 +22,8 @@ export default function EventOverlay({
   iconSize,
   useEventCoordinate = true,
   customPosition,
-  containerSize
+  containerSize,
+  sourceLabel
 }: EventOverlayProps) {
   const eventMarkerRef = useRef<L.Marker | null>(null)
 
@@ -44,7 +46,7 @@ export default function EventOverlay({
 
     const addEventMarker = () => {
       try {
-        const coordinate = customPosition ? { ...customPosition, id: 'event' } : EVENT_COORDINATE
+        const coordinate = customPosition ? { ...customPosition, id: 'event' } : getEventCoordinateForSource(sourceLabel)
         
         const eventMarker = createEventMarker({
           coordinate,
@@ -70,7 +72,7 @@ export default function EventOverlay({
         eventMarkerRef.current = null
       }
     }
-  }, [map, eventType, iconSize, useEventCoordinate, customPosition, containerSize])
+  }, [map, eventType, iconSize, useEventCoordinate, customPosition, containerSize, sourceLabel])
 
   return null
 }

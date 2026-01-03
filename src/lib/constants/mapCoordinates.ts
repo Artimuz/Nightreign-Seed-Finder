@@ -73,11 +73,25 @@ export const NIGHTLORD_STATUS_CARD_COORDINATE: Coordinate = {
   y: 940
 }
 
-export const EVENT_COORDINATE: Coordinate = {
+export const EVENT_COORDINATE_THEFIFTHMATT: Coordinate = {
   id: 'event',
   x: 900,
-  y: 100
+  y: 900
 }
+
+export const EVENT_COORDINATE_KEVINS78: Coordinate = {
+  id: 'event',
+  x: 900,
+  y: 820
+}
+
+export const getEventCoordinateForSource = (sourceLabel?: string): Coordinate => {
+  const normalized = (sourceLabel ?? '').toLowerCase()
+  if (normalized === 'kevins78') return EVENT_COORDINATE_KEVINS78
+  return EVENT_COORDINATE_THEFIFTHMATT
+}
+
+export const EVENT_COORDINATE: Coordinate = EVENT_COORDINATE_THEFIFTHMATT
 
 export const getBuildingSlotCoordinates = (mapType?: string): Coordinate[] => {
   const normalized = normalizeMapTypeKey(mapType)
@@ -94,7 +108,7 @@ export const getAllMapCoordinates = (mapType?: string): Coordinate[] => {
     ...getBuildingSlotCoordinates(mapType),
     NIGHTLORD_COORDINATE,
     NIGHTLORD_STATUS_CARD_COORDINATE,
-    EVENT_COORDINATE
+    EVENT_COORDINATE_THEFIFTHMATT
   ]
 }
 
@@ -111,7 +125,7 @@ export const getNightlordStatusCardCoordinate = (): Coordinate => {
 }
 
 export const getEventCoordinate = (): Coordinate => {
-  return EVENT_COORDINATE
+  return EVENT_COORDINATE_THEFIFTHMATT
 }
 
 export const isBuildingSlot = (id: string, mapType?: string): boolean => {

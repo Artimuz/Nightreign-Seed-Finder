@@ -8,13 +8,13 @@ export {
   getCoordinateById,
   getNightlordCoordinate,
   getEventCoordinate,
+  getEventCoordinateForSource,
   isBuildingSlot,
   isNightlordSlot,
   isEventSlot
 } from '@/lib/constants/mapCoordinates'
 
 import {
-  EVENT_COORDINATE,
   getBuildingSlotCoordinates as getBuildingSlotCoordinatesForMap,
   getNightlordCoordinate as getNightlordCoordinateShared,
   getEventCoordinate as getEventCoordinateShared,

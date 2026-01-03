@@ -5,7 +5,7 @@ import L from 'leaflet'
 import { Events, nightlordIcons, nightlordStatusCards } from '@/lib/constants/icons'
 import { getAllSeeds } from '@/lib/data/seedSearch'
 import { normalizeNightlordKey } from '@/lib/map/nightlordUtils'
-import { getNightlordCoordinate, getNightlordStatusCardCoordinate, toLeafletCoordinates } from '@/lib/constants/mapCoordinates'
+import { getEventCoordinateForSource, getNightlordCoordinate, getNightlordStatusCardCoordinate, toLeafletCoordinates } from '@/lib/constants/mapCoordinates'
 import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
 import type { Seed } from '@/lib/types'
 
@@ -158,33 +158,47 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       control.addTo(map)
     }
 
-    let eventMarker: L.Marker | null = null
-    if (seedData?.Event && Events[seedData.Event]) {
-      const eventIconSize = Math.round(containerSize * 0.16)
+    map.fitBounds(imageBounds)
+    map.setMaxBounds(imageBounds)
+
+    const baseZoom = map.getZoom()
+
+    const getZoomScale = () => map.getZoomScale(map.getZoom(), baseZoom)
+
+    const createEventIcon = (): L.DivIcon | null => {
+      if (!seedData?.Event) return null
+      const eventUrl = Events[seedData.Event]
+      if (!eventUrl) return null
+
+      const zoomScale = getZoomScale()
+      const eventIconSize = Math.round(containerSize * 0.128 * zoomScale)
       const halfIconSize = eventIconSize / 2
 
-      const eventX = (900 / 1000) * containerSize
-      const eventY = (100 / 1000) * containerSize
-
-      const eventIcon = L.divIcon({
-        html: `<img src=\"${Events[seedData.Event]}\" alt=\"${seedData.Event}\" style=\"width: ${eventIconSize}px; height: ${eventIconSize}px; object-fit: contain; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));\" />`,
+      return L.divIcon({
+        html: `<img src=\"${eventUrl}\" alt=\"${seedData.Event}\" style=\"width: ${eventIconSize}px; height: ${eventIconSize}px; object-fit: contain; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));\" />`,
         className: 'event-icon',
         iconSize: [eventIconSize, eventIconSize],
         iconAnchor: [halfIconSize, halfIconSize]
       })
+    }
 
-      eventMarker = L.marker([eventY, eventX], { icon: eventIcon, interactive: false })
+    let eventMarker: L.Marker | null = null
+    const initialEventIcon = createEventIcon()
+    if (initialEventIcon) {
+      const eventCoordinate = getEventCoordinateForSource(seedImageProvider.sourceLabel)
+      const leafletCoords = toLeafletCoordinates(eventCoordinate, containerSize)
+      eventMarker = L.marker(leafletCoords, { icon: initialEventIcon, interactive: false })
       eventMarker.addTo(map)
     }
 
-    const createNightlordStatusIcon = (zoom: number): L.DivIcon | null => {
+    const createNightlordStatusIcon = (): L.DivIcon | null => {
       const statusUrl = nightlordStatusKey ? nightlordStatusCards[nightlordStatusKey] : undefined
       if (!statusUrl) return null
 
       const baseIconSize = Math.max(24, containerSize * 0.04)
-      const zoomScale = Math.max(1.0, 1.0 + (zoom * 0.5))
       const statusCardScale = 4.5
 
+      const zoomScale = getZoomScale()
       const width = Math.round(baseIconSize * statusCardScale * zoomScale)
       const height = Math.round(width * 0.72)
 
@@ -201,14 +215,14 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       })
     }
 
-    const createNightlordIcon = (zoom: number): L.DivIcon | null => {
+    const createNightlordIcon = (): L.DivIcon | null => {
       const nightlordIconUrl = nightlordStatusKey ? nightlordIcons[nightlordStatusKey] : undefined
       if (!nightlordIconUrl) return null
 
       const baseIconSize = Math.max(24, containerSize * 0.04)
-      const zoomScale = Math.max(1.0, 1.0 + (zoom * 0.5))
       const sizeMultiplier = 2.2
 
+      const zoomScale = getZoomScale()
       const size = Math.round(baseIconSize * sizeMultiplier * zoomScale)
       const half = Math.round(size / 2)
 
@@ -220,12 +234,9 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       })
     }
 
-    map.fitBounds(imageBounds)
-    map.setMaxBounds(imageBounds)
-
     let nightlordMarker: L.Marker | null = null
     if (isDlcSeedImage) {
-      const initialNightlordIcon = createNightlordIcon(map.getZoom())
+      const initialNightlordIcon = createNightlordIcon()
       if (initialNightlordIcon) {
         const baseCoordinate = getNightlordCoordinate()
         const leafletCoords = toLeafletCoordinates(baseCoordinate, containerSize)
@@ -242,7 +253,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     }
 
     let nightlordStatusMarker: L.Marker | null = null
-    const initialNightlordStatusIcon = createNightlordStatusIcon(map.getZoom())
+    const initialNightlordStatusIcon = createNightlordStatusIcon()
     if (initialNightlordStatusIcon) {
       const baseCoordinate = getNightlordStatusCardCoordinate()
       const leafletCoords = toLeafletCoordinates(baseCoordinate, containerSize)
@@ -311,16 +322,22 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     map.on('zoom', () => {
       map.panInsideBounds(imageBounds, { animate: false })
       if (nightlordMarker) {
-        const updated = createNightlordIcon(map.getZoom())
+        const updated = createNightlordIcon()
         if (updated) {
           nightlordMarker.setIcon(updated)
         }
       }
       if (nightlordStatusMarker) {
-        const updated = createNightlordStatusIcon(map.getZoom())
+        const updated = createNightlordStatusIcon()
         if (updated) {
           nightlordStatusMarker.setIcon(updated)
           attachHoverHandlers()
+        }
+      }
+      if (eventMarker) {
+        const updated = createEventIcon()
+        if (updated) {
+          eventMarker.setIcon(updated)
         }
       }
     })

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
-import { getInteractiveCoordinates, EVENT_COORDINATE } from '@/lib/constants/mapCoordinates'
+import { getEventCoordinateForSource, getInteractiveCoordinates } from '@/lib/constants/mapCoordinates'
 import { 
   createMarkerManager,
   createBuildingMarker,
@@ -46,7 +46,7 @@ export function useMarkerManager({
     const addMarkersWhenReady = () => {
       try {
         const interactive = getInteractiveCoordinates(mapType)
-        const coordinates = coordinateType === 'interactive' ? interactive : [...interactive, EVENT_COORDINATE]
+        const coordinates = coordinateType === 'interactive' ? interactive : [...interactive, getEventCoordinateForSource()]
 
         coordinates.forEach((coord) => {
           const building = coord.id === 'nightlord' ? selectedNightlord : selectedBuildings[coord.id]

@@ -1,4 +1,5 @@
 // Validation utilities for map components and configurations
+import { Events } from '@/lib/constants/icons'
 
 export interface ValidationResult {
   isValid: boolean
@@ -139,16 +140,21 @@ export function validateNightlordType(nightlord: string): ValidationResult {
 }
 
 export function validateEventType(eventType: string): ValidationResult {
-  const validEvents = [
-    'augurraid', 'extraboss', 'fellomen', 'frenzytower', 'gnosterplague',
-    'libracurse', 'mausoleum', 'meteorstrike', 'nighthorde', 'sorcerersrise'
-  ]
-
   const result: ValidationResult = {
-    isValid: validEvents.includes(eventType),
+    isValid: true,
     errors: [],
     warnings: []
   }
+
+  if (!eventType) {
+    result.isValid = false
+    result.errors.push('Event type is required')
+    return result
+  }
+
+  const validEvents = Object.keys(Events)
+
+  result.isValid = validEvents.includes(eventType)
 
   if (!result.isValid) {
     result.errors.push(`Invalid event type: ${eventType}`)

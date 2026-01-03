@@ -2,7 +2,7 @@
   {
     "seed_id": "000",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "greatchurch",
@@ -142,7 +142,7 @@
   {
     "seed_id": "004",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "fort_magic",
@@ -177,7 +177,7 @@
   {
     "seed_id": "005",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay1",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "greatchurch",
@@ -282,7 +282,7 @@
   {
     "seed_id": "008",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "ruins_blight",
@@ -352,7 +352,7 @@
   {
     "seed_id": "010",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "fort_magic",
@@ -387,7 +387,7 @@
   {
     "seed_id": "011",
     "map_type": "Normal",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "fort_magic",
@@ -562,7 +562,7 @@
   {
     "seed_id": "016",
     "map_type": "Normal",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay1",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "ruins_poison",
@@ -632,7 +632,7 @@
   {
     "seed_id": "018",
     "map_type": "Normal",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay1",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "",
@@ -702,7 +702,7 @@
   {
     "seed_id": "020",
     "map_type": "Mountaintop",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "",
@@ -737,7 +737,7 @@
   {
     "seed_id": "021",
     "map_type": "Mountaintop",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay1",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "",
@@ -982,7 +982,7 @@
   {
     "seed_id": "028",
     "map_type": "Crater",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "",
@@ -1017,7 +1017,7 @@
   {
     "seed_id": "029",
     "map_type": "Crater",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay1",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "",
@@ -1122,7 +1122,7 @@
   {
     "seed_id": "032",
     "map_type": "Rotted",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "fort_magic",
@@ -1157,7 +1157,7 @@
   {
     "seed_id": "033",
     "map_type": "Rotted",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "fort",
@@ -1227,7 +1227,7 @@
   {
     "seed_id": "035",
     "map_type": "Noklateo",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay1",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "ruins_poison",
@@ -1297,7 +1297,7 @@
   {
     "seed_id": "037",
     "map_type": "Noklateo",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay2",
     "nightlord": "1_Gladius",
     "slots": {
       "1": "ruins_frostbite",
@@ -1507,7 +1507,7 @@
   {
     "seed_id": "043",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "ruins_holy",
@@ -1577,7 +1577,7 @@
   {
     "seed_id": "045",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "ruins_magic",
@@ -1612,7 +1612,7 @@
   {
     "seed_id": "046",
     "map_type": "Normal",
-    "Event": "extraboss",
+    "Event": "extrabossDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "mainencampment_madness",
@@ -1647,7 +1647,7 @@
   {
     "seed_id": "047",
     "map_type": "Normal",
-    "Event": "extraboss",
+    "Event": "extrabossDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "fort_magic",
@@ -1822,7 +1822,7 @@
   {
     "seed_id": "052",
     "map_type": "Normal",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "ruins_poison",
@@ -1857,7 +1857,7 @@
   {
     "seed_id": "053",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "mainencampment",
@@ -1997,7 +1997,7 @@
   {
     "seed_id": "057",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "greatchurch_fire",
@@ -2032,7 +2032,7 @@
   {
     "seed_id": "058",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "ruins",
@@ -2137,7 +2137,7 @@
   {
     "seed_id": "061",
     "map_type": "Mountaintop",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "",
@@ -2207,7 +2207,7 @@
   {
     "seed_id": "063",
     "map_type": "Mountaintop",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "",
@@ -2347,7 +2347,7 @@
   {
     "seed_id": "067",
     "map_type": "Crater",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "",
@@ -2382,7 +2382,7 @@
   {
     "seed_id": "068",
     "map_type": "Crater",
-    "Event": "extraboss",
+    "Event": "extrabossDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "",
@@ -2452,7 +2452,7 @@
   {
     "seed_id": "070",
     "map_type": "Rotted",
-    "Event": "extraboss",
+    "Event": "extrabossDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "mainencampment_fire",
@@ -2487,7 +2487,7 @@
   {
     "seed_id": "071",
     "map_type": "Rotted",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "mainencampment_fire",
@@ -2522,7 +2522,7 @@
   {
     "seed_id": "072",
     "map_type": "Rotted",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay2",
     "nightlord": "2_Adel",
     "slots": {
       "1": "mainencampment_fire",
@@ -2732,7 +2732,7 @@
   {
     "seed_id": "078",
     "map_type": "Noklateo",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "2_Adel",
     "slots": {
       "1": "fort_magic",
@@ -2872,7 +2872,7 @@
   {
     "seed_id": "082",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "ruins_frostbite",
@@ -2977,7 +2977,7 @@
   {
     "seed_id": "085",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "ruins_frostbite",
@@ -3082,7 +3082,7 @@
   {
     "seed_id": "088",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "mainencampment",
@@ -3292,7 +3292,7 @@
   {
     "seed_id": "094",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "fort",
@@ -3362,7 +3362,7 @@
   {
     "seed_id": "096",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "ruins_poison",
@@ -3467,7 +3467,7 @@
   {
     "seed_id": "099",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "ruins_poison",
@@ -3572,7 +3572,7 @@
   {
     "seed_id": "102",
     "map_type": "Mountaintop",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "",
@@ -3642,7 +3642,7 @@
   {
     "seed_id": "104",
     "map_type": "Mountaintop",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "",
@@ -3712,7 +3712,7 @@
   {
     "seed_id": "106",
     "map_type": "Crater",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "",
@@ -3957,7 +3957,7 @@
   {
     "seed_id": "113",
     "map_type": "Rotted",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "greatchurch_holy",
@@ -4027,7 +4027,7 @@
   {
     "seed_id": "115",
     "map_type": "Noklateo",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "mainencampment",
@@ -4097,7 +4097,7 @@
   {
     "seed_id": "117",
     "map_type": "Noklateo",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "3_Gnoster",
     "slots": {
       "1": "mainencampment",
@@ -4237,7 +4237,7 @@
   {
     "seed_id": "121",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "4_Maris",
     "slots": {
       "1": "ruins_frostbite",
@@ -4272,7 +4272,7 @@
   {
     "seed_id": "122",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "4_Maris",
     "slots": {
       "1": "mainencampment",
@@ -4727,7 +4727,7 @@
   {
     "seed_id": "135",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay1",
     "nightlord": "4_Maris",
     "slots": {
       "1": "greatchurch",
@@ -4762,7 +4762,7 @@
   {
     "seed_id": "136",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "4_Maris",
     "slots": {
       "1": "ruins_poison",
@@ -4797,7 +4797,7 @@
   {
     "seed_id": "137",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "4_Maris",
     "slots": {
       "1": "mainencampment_madness",
@@ -4867,7 +4867,7 @@
   {
     "seed_id": "139",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "4_Maris",
     "slots": {
       "1": "fort",
@@ -4902,7 +4902,7 @@
   {
     "seed_id": "140",
     "map_type": "Mountaintop",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay1",
     "nightlord": "4_Maris",
     "slots": {
       "1": "",
@@ -5007,7 +5007,7 @@
   {
     "seed_id": "143",
     "map_type": "Mountaintop",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "4_Maris",
     "slots": {
       "1": "",
@@ -5182,7 +5182,7 @@
   {
     "seed_id": "148",
     "map_type": "Crater",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "4_Maris",
     "slots": {
       "1": "",
@@ -5252,7 +5252,7 @@
   {
     "seed_id": "150",
     "map_type": "Rotted",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "4_Maris",
     "slots": {
       "1": "mainencampment",
@@ -5462,7 +5462,7 @@
   {
     "seed_id": "156",
     "map_type": "Noklateo",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "4_Maris",
     "slots": {
       "1": "fort",
@@ -5532,7 +5532,7 @@
   {
     "seed_id": "158",
     "map_type": "Noklateo",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "4_Maris",
     "slots": {
       "1": "mainencampment_fire",
@@ -5637,7 +5637,7 @@
   {
     "seed_id": "161",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "5_Libra",
     "slots": {
       "1": "fort",
@@ -5882,7 +5882,7 @@
   {
     "seed_id": "168",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "5_Libra",
     "slots": {
       "1": "mainencampment",
@@ -6057,7 +6057,7 @@
   {
     "seed_id": "173",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "5_Libra",
     "slots": {
       "1": "mainencampment_fire",
@@ -6127,7 +6127,7 @@
   {
     "seed_id": "175",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "5_Libra",
     "slots": {
       "1": "fort",
@@ -6337,7 +6337,7 @@
   {
     "seed_id": "181",
     "map_type": "Mountaintop",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "5_Libra",
     "slots": {
       "1": "",
@@ -6547,7 +6547,7 @@
   {
     "seed_id": "187",
     "map_type": "Crater",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "5_Libra",
     "slots": {
       "1": "",
@@ -6792,7 +6792,7 @@
   {
     "seed_id": "194",
     "map_type": "Rotted",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "5_Libra",
     "slots": {
       "1": "fort",
@@ -6862,7 +6862,7 @@
   {
     "seed_id": "196",
     "map_type": "Noklateo",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "5_Libra",
     "slots": {
       "1": "mainencampment_fire",
@@ -7037,7 +7037,7 @@
   {
     "seed_id": "201",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "fort",
@@ -7072,7 +7072,7 @@
   {
     "seed_id": "202",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "mainencampment_fire",
@@ -7142,7 +7142,7 @@
   {
     "seed_id": "204",
     "map_type": "Normal",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "fort_magic",
@@ -7212,7 +7212,7 @@
   {
     "seed_id": "206",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "ruins_holy",
@@ -7317,7 +7317,7 @@
   {
     "seed_id": "209",
     "map_type": "Normal",
-    "Event": "extraboss",
+    "Event": "extrabossDay2",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "greatchurch_fire",
@@ -7387,7 +7387,7 @@
   {
     "seed_id": "211",
     "map_type": "Normal",
-    "Event": "extraboss",
+    "Event": "extrabossDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "mainencampment",
@@ -7492,7 +7492,7 @@
   {
     "seed_id": "214",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "ruins_poison",
@@ -7527,7 +7527,7 @@
   {
     "seed_id": "215",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "ruins_eletric",
@@ -7702,7 +7702,7 @@
   {
     "seed_id": "220",
     "map_type": "Mountaintop",
-    "Event": "extraboss",
+    "Event": "extrabossDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "",
@@ -7842,7 +7842,7 @@
   {
     "seed_id": "224",
     "map_type": "Mountaintop",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "",
@@ -7877,7 +7877,7 @@
   {
     "seed_id": "225",
     "map_type": "Crater",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "",
@@ -7947,7 +7947,7 @@
   {
     "seed_id": "227",
     "map_type": "Crater",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay2",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "",
@@ -8087,7 +8087,7 @@
   {
     "seed_id": "231",
     "map_type": "Rotted",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "mainencampment_fire",
@@ -8192,7 +8192,7 @@
   {
     "seed_id": "234",
     "map_type": "Rotted",
-    "Event": "extraboss",
+    "Event": "extrabossDay2",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "mainencampment_madness",
@@ -8227,7 +8227,7 @@
   {
     "seed_id": "235",
     "map_type": "Noklateo",
-    "Event": "nighthorde",
+    "Event": "nighthordeDay1",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "mainencampment",
@@ -8367,7 +8367,7 @@
   {
     "seed_id": "239",
     "map_type": "Noklateo",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "6_Fulghor",
     "slots": {
       "1": "mainencampment",
@@ -8402,7 +8402,7 @@
   {
     "seed_id": "240",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "mainencampment_fire",
@@ -8472,7 +8472,7 @@
   {
     "seed_id": "242",
     "map_type": "Normal",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay1",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "greatchurch_fire",
@@ -8577,7 +8577,7 @@
   {
     "seed_id": "245",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "greatchurch_holy",
@@ -8717,7 +8717,7 @@
   {
     "seed_id": "249",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "fort",
@@ -8822,7 +8822,7 @@
   {
     "seed_id": "252",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "fort_magic",
@@ -8927,7 +8927,7 @@
   {
     "seed_id": "255",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "mainencampment",
@@ -8997,7 +8997,7 @@
   {
     "seed_id": "257",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "fort",
@@ -9102,7 +9102,7 @@
   {
     "seed_id": "260",
     "map_type": "Mountaintop",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "",
@@ -9172,7 +9172,7 @@
   {
     "seed_id": "262",
     "map_type": "Mountaintop",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "",
@@ -9312,7 +9312,7 @@
   {
     "seed_id": "266",
     "map_type": "Crater",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "",
@@ -9522,7 +9522,7 @@
   {
     "seed_id": "272",
     "map_type": "Rotted",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "greatchurch_fire",
@@ -9627,7 +9627,7 @@
   {
     "seed_id": "275",
     "map_type": "Noklateo",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "ruins",
@@ -9732,7 +9732,7 @@
   {
     "seed_id": "278",
     "map_type": "Noklateo",
-    "Event": "meteorstrike",
+    "Event": "meteorstrikeDay2",
     "nightlord": "7_Caligo",
     "slots": {
       "1": "mainencampment",
@@ -9977,7 +9977,7 @@
   {
     "seed_id": "285",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "mainencampment",
@@ -10047,7 +10047,7 @@
   {
     "seed_id": "287",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "greatchurch",
@@ -10082,7 +10082,7 @@
   {
     "seed_id": "288",
     "map_type": "Normal",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "ruins_eletric",
@@ -10222,7 +10222,7 @@
   {
     "seed_id": "292",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "ruins_poison",
@@ -10257,7 +10257,7 @@
   {
     "seed_id": "293",
     "map_type": "Normal",
-    "Event": "augurraid",
+    "Event": "augurraidDay1",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "greatchurch_holy",
@@ -10327,7 +10327,7 @@
   {
     "seed_id": "295",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "ruins_eletric",
@@ -10362,7 +10362,7 @@
   {
     "seed_id": "296",
     "map_type": "Normal",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "ruins_poison",
@@ -10432,7 +10432,7 @@
   {
     "seed_id": "298",
     "map_type": "Normal",
-    "Event": "libracurse",
+    "Event": "libracurseDay1",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "fort",
@@ -10502,7 +10502,7 @@
   {
     "seed_id": "300",
     "map_type": "Mountaintop",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "",
@@ -10572,7 +10572,7 @@
   {
     "seed_id": "302",
     "map_type": "Mountaintop",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "",
@@ -10712,7 +10712,7 @@
   {
     "seed_id": "306",
     "map_type": "Crater",
-    "Event": "gnosterplague",
+    "Event": "gnosterplagueDay1",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "",
@@ -10817,7 +10817,7 @@
   {
     "seed_id": "309",
     "map_type": "Crater",
-    "Event": "fellomen",
+    "Event": "fellomenDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "",
@@ -10922,7 +10922,7 @@
   {
     "seed_id": "312",
     "map_type": "Rotted",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "mainencampment",
@@ -10957,7 +10957,7 @@
   {
     "seed_id": "313",
     "map_type": "Rotted",
-    "Event": "fellomen",
+    "Event": "fellomenDay1",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "mainencampment_eletric",
@@ -11062,7 +11062,7 @@
   {
     "seed_id": "316",
     "map_type": "Noklateo",
-    "Event": "augurraid",
+    "Event": "augurraidDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "ruins_eletric",
@@ -11167,7 +11167,7 @@
   {
     "seed_id": "319",
     "map_type": "Noklateo",
-    "Event": "libracurse",
+    "Event": "libracurseDay2",
     "nightlord": "8_Heolstor",
     "slots": {
       "1": "mainencampment_fire",
@@ -11232,7 +11232,7 @@
       "27": "township"
     },
     "nightlord": "1_Gladius",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1001",
@@ -11302,7 +11302,7 @@
       "27": ""
     },
     "nightlord": "1_Gladius",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1003",
@@ -11372,7 +11372,7 @@
       "27": "church"
     },
     "nightlord": "1_Gladius",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1010",
@@ -11407,7 +11407,7 @@
       "27": "church"
     },
     "nightlord": "2_Adel",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1011",
@@ -11442,7 +11442,7 @@
       "27": "church"
     },
     "nightlord": "2_Adel",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1012",
@@ -11477,7 +11477,7 @@
       "27": ""
     },
     "nightlord": "2_Adel",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1013",
@@ -11617,7 +11617,7 @@
       "27": "township"
     },
     "nightlord": "3_Gnoster",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1022",
@@ -11687,7 +11687,7 @@
       "27": "church"
     },
     "nightlord": "3_Gnoster",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1024",
@@ -11722,7 +11722,7 @@
       "27": "church"
     },
     "nightlord": "3_Gnoster",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1030",
@@ -11827,7 +11827,7 @@
       "27": "sorcerers"
     },
     "nightlord": "4_Maris",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1033",
@@ -11862,7 +11862,7 @@
       "27": ""
     },
     "nightlord": "4_Maris",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1034",
@@ -11897,7 +11897,7 @@
       "27": "sorcerers"
     },
     "nightlord": "4_Maris",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1040",
@@ -11932,7 +11932,7 @@
       "27": "church"
     },
     "nightlord": "5_Libra",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1041",
@@ -12002,7 +12002,7 @@
       "27": "church"
     },
     "nightlord": "5_Libra",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1043",
@@ -12037,7 +12037,7 @@
       "27": "church"
     },
     "nightlord": "5_Libra",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1044",
@@ -12107,7 +12107,7 @@
       "27": "church"
     },
     "nightlord": "6_Fulghor",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1051",
@@ -12212,7 +12212,7 @@
       "27": ""
     },
     "nightlord": "6_Fulghor",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1054",
@@ -12247,7 +12247,7 @@
       "27": ""
     },
     "nightlord": "6_Fulghor",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1060",
@@ -12282,7 +12282,7 @@
       "27": ""
     },
     "nightlord": "7_Caligo",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1061",
@@ -12317,7 +12317,7 @@
       "27": ""
     },
     "nightlord": "7_Caligo",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1062",
@@ -12422,7 +12422,7 @@
       "27": "township"
     },
     "nightlord": "7_Caligo",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1070",
@@ -12457,7 +12457,7 @@
       "27": "church"
     },
     "nightlord": "8_Heolstor",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1071",
@@ -12527,7 +12527,7 @@
       "27": "sorcerers"
     },
     "nightlord": "8_Heolstor",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1073",
@@ -12597,7 +12597,7 @@
       "27": "church"
     },
     "nightlord": "8_Heolstor",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1080",
@@ -12667,7 +12667,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1082",
@@ -12702,7 +12702,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1083",
@@ -12842,7 +12842,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1087",
@@ -12877,7 +12877,7 @@
       "27": "sorcerers"
     },
     "nightlord": "9_Balancers",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1088",
@@ -12912,7 +12912,7 @@
       "27": "sorcerers"
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1089",
@@ -12947,7 +12947,7 @@
       "27": "church"
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1090",
@@ -13052,7 +13052,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1093",
@@ -13122,7 +13122,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1095",
@@ -13157,7 +13157,7 @@
       "27": "church"
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1096",
@@ -13192,7 +13192,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "meteorstrike"
+    "Event": "meteorstrikeDay2"
   },
   {
     "seed_id": "1097",
@@ -13262,7 +13262,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1099",
@@ -13332,7 +13332,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "nighthorde"
+    "Event": "nighthordeDay2"
   },
   {
     "seed_id": "1101",
@@ -13367,7 +13367,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1102",
@@ -13402,7 +13402,7 @@
       "27": "township"
     },
     "nightlord": "9_Balancers",
-    "Event": "extraboss"
+    "Event": "extrabossDay1"
   },
   {
     "seed_id": "1103",
@@ -13507,7 +13507,7 @@
       "27": "church"
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1106",
@@ -13577,7 +13577,7 @@
       "27": "church"
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1108",
@@ -13682,7 +13682,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1111",
@@ -13717,7 +13717,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1112",
@@ -13822,7 +13822,7 @@
       "27": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "meteorstrike"
+    "Event": "meteorstrikeDay2"
   },
   {
     "seed_id": "1135",
@@ -13857,7 +13857,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1136",
@@ -13962,7 +13962,7 @@
       "27": "church"
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1139",
@@ -14032,7 +14032,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "10_Greg",
-    "Event": "gnosterplague"
+    "Event": "gnosterplagueDay1"
   },
   {
     "seed_id": "1141",
@@ -14102,7 +14102,7 @@
       "27": "church"
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1143",
@@ -14242,7 +14242,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1147",
@@ -14277,7 +14277,7 @@
       "27": "church"
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1148",
@@ -14312,7 +14312,7 @@
       "27": "sorcerers"
     },
     "nightlord": "10_Greg",
-    "Event": "libracurse"
+    "Event": "libracurseDay2"
   },
   {
     "seed_id": "1149",
@@ -14347,7 +14347,7 @@
       "27": "church"
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1150",
@@ -14417,7 +14417,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1152",
@@ -14452,7 +14452,7 @@
       "27": "church"
     },
     "nightlord": "10_Greg",
-    "Event": "fellomen"
+    "Event": "fellomenDay1"
   },
   {
     "seed_id": "1153",
@@ -14522,7 +14522,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "10_Greg",
-    "Event": "augurraid"
+    "Event": "augurraidDay2"
   },
   {
     "seed_id": "1155",
@@ -14557,7 +14557,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1156",
@@ -14592,7 +14592,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1157",
@@ -14662,7 +14662,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1159",
@@ -14697,7 +14697,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "10_Greg",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay1"
   },
   {
     "seed_id": "1160",
@@ -14732,7 +14732,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "libracurse"
+    "Event": "libracurseDay2"
   },
   {
     "seed_id": "1161",
@@ -14767,7 +14767,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "fellomen"
+    "Event": "fellomenDay1"
   },
   {
     "seed_id": "1162",
@@ -14802,7 +14802,7 @@
       "27": "township"
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1163",
@@ -14907,7 +14907,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1166",
@@ -14942,7 +14942,7 @@
       "27": "empty_spawn"
     },
     "nightlord": "10_Greg",
-    "Event": "augurraid"
+    "Event": "augurraidDay1"
   },
   {
     "seed_id": "1167",
@@ -14977,7 +14977,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1168",
@@ -15082,7 +15082,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1171",
@@ -15117,7 +15117,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "gnosterplague"
+    "Event": "gnosterplagueDay2"
   },
   {
     "seed_id": "1172",
@@ -15152,7 +15152,7 @@
       "27": ""
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1173",
@@ -15292,7 +15292,7 @@
       "27": "church"
     },
     "nightlord": "10_Greg",
-    "Event": "fellomen"
+    "Event": "fellomenDay2"
   },
   {
     "seed_id": "1197",
@@ -15327,7 +15327,7 @@
       "27": "township"
     },
     "nightlord": "10_Greg",
-    "Event": "balancersRaid"
+    "Event": "balancersRaidDay1"
   },
   {
     "seed_id": "1198",
@@ -15397,7 +15397,7 @@
       "27": "church"
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1005",
@@ -15453,7 +15453,7 @@
       "20": ""
     },
     "nightlord": "1_Gladius",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1007",
@@ -15509,7 +15509,7 @@
       "20": ""
     },
     "nightlord": "1_Gladius",
-    "Event": "extraboss"
+    "Event": "extrabossDay1"
   },
   {
     "seed_id": "1009",
@@ -15565,7 +15565,7 @@
       "20": "ScaleBearingMerchant"
     },
     "nightlord": "2_Adel",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1016",
@@ -15593,7 +15593,7 @@
       "20": ""
     },
     "nightlord": "2_Adel",
-    "Event": "extraboss"
+    "Event": "extrabossDay1"
   },
   {
     "seed_id": "1017",
@@ -15677,7 +15677,7 @@
       "20": ""
     },
     "nightlord": "2_Adel",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1025",
@@ -15761,7 +15761,7 @@
       "20": ""
     },
     "nightlord": "3_Gnoster",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1028",
@@ -15817,7 +15817,7 @@
       "20": ""
     },
     "nightlord": "3_Gnoster",
-    "Event": "augurraid"
+    "Event": "augurraidDay2"
   },
   {
     "seed_id": "1035",
@@ -15845,7 +15845,7 @@
       "20": ""
     },
     "nightlord": "4_Maris",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1036",
@@ -15901,7 +15901,7 @@
       "20": ""
     },
     "nightlord": "4_Maris",
-    "Event": "gnosterplague"
+    "Event": "gnosterplagueDay1"
   },
   {
     "seed_id": "1038",
@@ -15929,7 +15929,7 @@
       "20": ""
     },
     "nightlord": "4_Maris",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1039",
@@ -15985,7 +15985,7 @@
       "20": ""
     },
     "nightlord": "5_Libra",
-    "Event": "gnosterplague"
+    "Event": "gnosterplagueDay2"
   },
   {
     "seed_id": "1046",
@@ -16125,7 +16125,7 @@
       "20": ""
     },
     "nightlord": "6_Fulghor",
-    "Event": "libracurse"
+    "Event": "libracurseDay1"
   },
   {
     "seed_id": "1056",
@@ -16181,7 +16181,7 @@
       "20": ""
     },
     "nightlord": "6_Fulghor",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1058",
@@ -16237,7 +16237,7 @@
       "20": ""
     },
     "nightlord": "6_Fulghor",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1065",
@@ -16265,7 +16265,7 @@
       "20": ""
     },
     "nightlord": "7_Caligo",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1066",
@@ -16293,7 +16293,7 @@
       "20": ""
     },
     "nightlord": "7_Caligo",
-    "Event": "libracurse"
+    "Event": "libracurseDay2"
   },
   {
     "seed_id": "1067",
@@ -16321,7 +16321,7 @@
       "20": ""
     },
     "nightlord": "7_Caligo",
-    "Event": "augurraid"
+    "Event": "augurraidDay1"
   },
   {
     "seed_id": "1068",
@@ -16461,7 +16461,7 @@
       "20": ""
     },
     "nightlord": "8_Heolstor",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1078",
@@ -16489,7 +16489,7 @@
       "20": ""
     },
     "nightlord": "8_Heolstor",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1079",
@@ -16517,7 +16517,7 @@
       "20": ""
     },
     "nightlord": "8_Heolstor",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1115",
@@ -16573,7 +16573,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1117",
@@ -16629,7 +16629,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1119",
@@ -16657,7 +16657,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1120",
@@ -16685,7 +16685,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "extraboss"
+    "Event": "extrabossDay1"
   },
   {
     "seed_id": "1121",
@@ -16825,7 +16825,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1126",
@@ -16853,7 +16853,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1127",
@@ -16937,7 +16937,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1130",
@@ -16993,7 +16993,7 @@
       "20": "ScaleBearingMerchant"
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1132",
@@ -17021,7 +17021,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1133",
@@ -17049,7 +17049,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1134",
@@ -17077,7 +17077,7 @@
       "20": ""
     },
     "nightlord": "9_Balancers",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay1"
   },
   {
     "seed_id": "1175",
@@ -17133,7 +17133,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "augurraid"
+    "Event": "augurraidDay2"
   },
   {
     "seed_id": "1177",
@@ -17189,7 +17189,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1179",
@@ -17217,7 +17217,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "gladiusRaid"
+    "Event": "gladiusRaidDay2"
   },
   {
     "seed_id": "1180",
@@ -17245,7 +17245,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "libracurse"
+    "Event": "libracurseDay2"
   },
   {
     "seed_id": "1181",
@@ -17301,7 +17301,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "extraboss"
+    "Event": "extrabossDay1"
   },
   {
     "seed_id": "1183",
@@ -17385,7 +17385,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "extraboss"
+    "Event": "extrabossDay1"
   },
   {
     "seed_id": "1186",
@@ -17413,7 +17413,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "libracurse"
+    "Event": "libracurseDay2"
   },
   {
     "seed_id": "1187",
@@ -17441,7 +17441,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "caligoRaid"
+    "Event": "caligoRaidDay2"
   },
   {
     "seed_id": "1188",
@@ -17469,7 +17469,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "augurraid"
+    "Event": "augurraidDay1"
   },
   {
     "seed_id": "1189",
@@ -17525,7 +17525,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "extraboss"
+    "Event": "extrabossDay2"
   },
   {
     "seed_id": "1191",
@@ -17581,7 +17581,7 @@
       "20": ""
     },
     "nightlord": "10_Greg",
-    "Event": "gnosterplague"
+    "Event": "gnosterplagueDay1"
   },
   {
     "seed_id": "1193",

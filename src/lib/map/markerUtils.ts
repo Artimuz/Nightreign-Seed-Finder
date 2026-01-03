@@ -1,5 +1,6 @@
 import L from 'leaflet'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
+import { Events } from '@/lib/constants/icons'
 import { 
   getIconPath, 
   calculateIconSize, 
@@ -93,8 +94,11 @@ export function createEventMarker(config: EventMarkerConfig): L.Marker {
   const halfIconSize = eventIconSize / 2
   const leafletCoords = toLeafletCoordinates(coordinate, containerSize)
 
+  const eventIconUrl = Events[eventType] || pagesWebpUrl(`/Images/events/${eventType}.webp`)
+
   const eventIcon = createDivIcon(
-    `<img src="${pagesWebpUrl(`/Images/events/${eventType}.webp`)}" alt="${eventType}" style="width: ${eventIconSize}px; height: ${eventIconSize}px; object-fit: contain; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));" />`,
+    `<img src="${eventIconUrl}" alt="${eventType}" style="width: ${eventIconSize}px; height: ${eventIconSize}px; object-fit: contain; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));" />`,
+
     {
       width: eventIconSize,
       height: eventIconSize,
