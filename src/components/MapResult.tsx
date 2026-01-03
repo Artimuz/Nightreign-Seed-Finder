@@ -15,7 +15,7 @@ interface MapResultProps {
   seedNumber: string
 }
 
-type CrystalSlotState = 'unknown' | 'confirmed'
+type CrystalSlotState = 'unknown' | 'confirmed' | 'cleared'
 
 const normalizeMapTypeKey = (value?: string | null): string => {
   return (value ?? '').toLowerCase().replace(/\s+/g, '').replace(',', '')
@@ -92,12 +92,23 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       .filter(([, state]) => state === 'confirmed')
       .map(([slotId]) => slotId)
 
-    if (confirmedSlotIds.length === 0) return crystalLayouts
+    const clearedSlotIds = Array.from(crystalSlotStates.entries())
+      .filter(([, state]) => state === 'cleared')
+      .map(([slotId]) => slotId)
+
+    if (confirmedSlotIds.length === 0 && clearedSlotIds.length === 0) return crystalLayouts
 
     return crystalLayouts.filter((layout) => {
-      return confirmedSlotIds.every((slotId) => {
+      const matchesConfirmed = confirmedSlotIds.every((slotId) => {
         const expectedValue = layout.slots.get(slotId) ?? ''
         return expectedValue === 'Crystal' || expectedValue === 'CrystalUnder'
+      })
+
+      if (!matchesConfirmed) return false
+
+      return clearedSlotIds.every((slotId) => {
+        const expectedValue = layout.slots.get(slotId) ?? ''
+        return expectedValue !== 'Crystal' && expectedValue !== 'CrystalUnder'
       })
     })
   }, [crystalLayouts, crystalSlotStates])
@@ -488,6 +499,15 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
     if (!isGreatHollowSeed || !undergroundOverlay || !shadeOverlay) return
 
+    const container = map.getContainer()
+
+    const suppressContextMenu = (event: Event) => {
+      if (!isCrystalFinderEnabled) return
+      event.preventDefault()
+    }
+
+    container.addEventListener('contextmenu', suppressContextMenu)
+
     const button = undergroundControlButtonRef.current
     if (button) {
       button.textContent = isUndergroundEnabled ? 'Underground: ON' : 'Underground: OFF'
@@ -531,12 +551,28 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         shadeOverlay.removeFrom(map)
       }
     }
+
+    return () => {
+      container.removeEventListener('contextmenu', suppressContextMenu)
+    }
   }, [isCrystalFinderEnabled, isGreatHollowSeed, isUndergroundEnabled])
 
-  const nextCrystalSlotState = (previous: CrystalSlotState | undefined): CrystalSlotState => {
-    if (!previous || previous === 'unknown') return 'confirmed'
-    return 'confirmed'
+  const setCrystalSlotState = (slotId: string, state: CrystalSlotState) => {
+    setCrystalSlotStates((previous) => {
+      const current = previous.get(slotId) ?? 'unknown'
+      if (current === state) return previous
+      const nextStates = new Map(previous)
+      nextStates.set(slotId, state)
+      return nextStates
+    })
   }
+
+  useEffect(() => {
+    if (!isCrystalFinderEnabled) return
+    if (!resolvedCrystalLayout) return
+
+    setIsCrystalFinderHelpOpen(false)
+  }, [isCrystalFinderEnabled, resolvedCrystalLayout])
 
   useEffect(() => {
     const map = leafletMapRef.current
@@ -604,14 +640,24 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       if (resolvedCrystalLayout) {
         const expectedValue = resolvedCrystalLayout.slots.get(slotId) ?? ''
 
-        if (state === 'confirmed') {
-          if (expectedValue === 'CrystalUnder') return buildingIcons.brokenCrystalUnder
-          return buildingIcons.brokenCrystal
+        if (expectedValue === 'Crystal') {
+          if (state === 'confirmed') return buildingIcons.brokenCrystal
+          return buildingIcons.Crystal
         }
 
-        if (expectedValue === 'Crystal') return buildingIcons.Crystal
-        if (expectedValue === 'CrystalUnder') return buildingIcons.CrystalUnder
+        if (expectedValue === 'CrystalUnder') {
+          if (state === 'confirmed') return buildingIcons.brokenCrystalUnder
+          return buildingIcons.CrystalUnder
+        }
+
         return null
+      }
+
+      if (state === 'cleared') {
+        const kind = getCrystalKindForSlot(crystalLayouts, slotId)
+        const isUndergroundOnly = kind.anyUnderground && !kind.anySurface
+        if (isUndergroundOnly) return buildingIcons.possibleCrystalUnder
+        return buildingIcons.possibleCrystal
       }
 
       const kind = getCrystalKindForSlot(remainingCrystalLayouts, slotId)
@@ -639,8 +685,14 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       const iconUrl = getIconForSlot(slotId)
       if (!iconUrl) return null
 
+      const state = crystalSlotStates.get(slotId) ?? 'unknown'
+
+      const overlay = state === 'cleared' && !resolvedCrystalLayout
+        ? `<div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #ff3b3b; font-size: ${Math.round(iconSize * 0.85)}px; line-height: 1; text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000;">×</div>`
+        : ''
+
       return L.divIcon({
-        html: `<img src="${iconUrl}" alt="crystal" style="width: ${iconSize}px; height: ${iconSize}px; object-fit: contain; filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff) drop-shadow(2px 2px 4px rgba(0,0,0,0.5));" />`,
+        html: `<div style="position: relative; width: ${iconSize}px; height: ${iconSize}px;"><img src="${iconUrl}" alt="crystal" style="width: ${iconSize}px; height: ${iconSize}px; object-fit: contain; filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff) drop-shadow(2px 2px 4px rgba(0,0,0,0.5));" />${overlay}</div>`,
         className: 'crystal-icon',
         iconSize: [iconSize, iconSize],
         iconAnchor: [iconHalf, iconHalf],
@@ -675,20 +727,32 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       })
 
       marker.on('click', () => {
-        setCrystalSlotStates((previous) => {
-          const current = previous.get(coord.id) ?? 'unknown'
-          const next = nextCrystalSlotState(current)
-          if (next === current) return previous
-          const nextStates = new Map(previous)
-          nextStates.set(coord.id, next)
-          return nextStates
-        })
+        setCrystalSlotState(coord.id, 'confirmed')
+      })
+
+      marker.on('contextmenu', (event: L.LeafletMouseEvent) => {
+        const originalEvent = event.originalEvent
+        if (originalEvent instanceof MouseEvent) {
+          originalEvent.preventDefault()
+          originalEvent.stopPropagation()
+        }
+
+        if (resolvedCrystalLayout) return
+
+        const currentState = crystalSlotStates.get(coord.id) ?? 'unknown'
+        if (currentState !== 'unknown') return
+
+        const iconUrl = getIconForSlot(coord.id)
+        const isPossible = iconUrl === buildingIcons.possibleCrystal || iconUrl === buildingIcons.possibleCrystalUnder
+        if (!isPossible) return
+
+        setCrystalSlotState(coord.id, 'cleared')
       })
 
       marker.addTo(map)
       crystalMarkersRef.current.set(coord.id, marker)
     })
-  }, [isCrystalFinderEnabled, isGreatHollowSeed, remainingCrystalLayouts, resolvedCrystalLayout, seedData?.map_type, crystalSlotStates])
+  }, [isCrystalFinderEnabled, isGreatHollowSeed, crystalLayouts, remainingCrystalLayouts, resolvedCrystalLayout, seedData?.map_type, crystalSlotStates])
 
   useEffect(() => {
     if (!mapRef.current) return

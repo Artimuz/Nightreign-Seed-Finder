@@ -43,7 +43,7 @@ export default function CrystalFinderHelpModal({ isOpen, onClose }: CrystalFinde
         </div>
         <div className="p-4 space-y-5 max-h-[70vh] overflow-y-auto scrollbar-custom">
           <div className="text-sm text-gray-200 leading-relaxed">
-            Mark the Crystals you find and the pattern will be formed automatically.
+            Left click a location to confirm a Crystal. Right click a location to confirm there is no Crystal there.
           </div>
 
           <div className="space-y-2">
