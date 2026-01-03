@@ -61,6 +61,30 @@ export const BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_20: Coordinate[] = [
   { id: '20', x: 811, y: 908 }
 ]
 
+export const CRYSTAL_SLOT_COORDINATES_GREAT_HOLLOW_21: Coordinate[] = [
+  { id: '1', x: 451, y: 326 },
+  { id: '2', x: 705, y: 348 },
+  { id: '3', x: 531, y: 439 },
+  { id: '4', x: 370, y: 449 },
+  { id: '5', x: 639, y: 471 },
+  { id: '6', x: 727, y: 472 },
+  { id: '7', x: 418, y: 480 },
+  { id: '8', x: 265, y: 482 },
+  { id: '9', x: 453, y: 580 },
+  { id: '10', x: 294, y: 591 },
+  { id: '11', x: 237, y: 613 },
+  { id: '12', x: 401, y: 613 },
+  { id: '13', x: 512, y: 667 },
+  { id: '14', x: 357, y: 749 },
+  { id: '15', x: 419, y: 793 },
+  { id: '16', x: 713, y: 523 },
+  { id: '17', x: 667, y: 603 },
+  { id: '18', x: 765, y: 624 },
+  { id: '19', x: 615, y: 667 },
+  { id: '20', x: 763, y: 741 },
+  { id: '21', x: 625, y: 743 }
+]
+
 export const NIGHTLORD_COORDINATE: Coordinate = {
   id: 'nightlord',
   x: 111,
@@ -97,6 +121,12 @@ export const getBuildingSlotCoordinates = (mapType?: string): Coordinate[] => {
   const normalized = normalizeMapTypeKey(mapType)
   if (normalized === 'greathollow') return BUILDING_SLOT_COORDINATES_GREAT_HOLLOW_20
   return BUILDING_SLOT_COORDINATES_27
+}
+
+export const getCrystalSlotCoordinates = (mapType?: string): Coordinate[] => {
+  const normalized = normalizeMapTypeKey(mapType)
+  if (normalized === 'greathollow') return CRYSTAL_SLOT_COORDINATES_GREAT_HOLLOW_21
+  return []
 }
 
 export const getInteractiveCoordinates = (mapType?: string): Coordinate[] => {

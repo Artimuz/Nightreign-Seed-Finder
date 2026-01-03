@@ -47,6 +47,12 @@ export const buildingIcons: Record<string, string> = {
   WUF_fire: pagesWebpUrl("/Images/buildingIcons/WUF_fire.webp"),
   WUF_magic: pagesWebpUrl("/Images/buildingIcons/WUF_magic.webp"),
   ScaleBearingMerchant: pagesWebpUrl("/Images/buildingIcons/ScaleBearingMerchant.webp"),
+  Crystal: pagesWebpUrl("/Images/buildingIcons/Crystal.webp"),
+  CrystalUnder: pagesWebpUrl("/Images/buildingIcons/CrystalUnder.webp"),
+  brokenCrystal: pagesWebpUrl("/Images/buildingIcons/brokenCrystal.webp"),
+  brokenCrystalUnder: pagesWebpUrl("/Images/buildingIcons/brokenCrystalUnder.webp"),
+  possibleCrystal: pagesWebpUrl("/Images/buildingIcons/possibleCrystal.webp"),
+  possibleCrystalUnder: pagesWebpUrl("/Images/buildingIcons/possibleCrystalUnder.webp"),
 }
 
 export const buildingIconOrder: string[] = [

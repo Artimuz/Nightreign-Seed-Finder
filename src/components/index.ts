@@ -28,6 +28,7 @@ export { default as MapResult } from './MapResult'
 export { default as SlotSelectionModal } from './SlotSelectionModal'
 export { default as VersionNotification } from './VersionNotification'
 export { default as VersionStatus } from './VersionStatus'
+export { default as CrystalFinderHelpModal } from './CrystalFinderHelpModal'
 
 // Background Components
 export { GlobalBackground } from './backgrounds/GlobalBackground'

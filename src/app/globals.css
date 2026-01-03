@@ -98,6 +98,9 @@ body {
   background: rgba(0, 0, 0, 0.65);
   border-radius: 8px;
   padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .leaflet-great-hollow-toggle__button {
@@ -115,4 +118,44 @@ body {
 .leaflet-great-hollow-toggle__button--active {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.55);
+}
+
+.leaflet-great-hollow-toggle__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaflet-great-hollow-toggle__children {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.leaflet-great-hollow-toggle__child-button {
+  appearance: none;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 5px 10px;
+  user-select: none;
+}
+
+.leaflet-great-hollow-toggle__child-button:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+@media (max-width: 768px) {
+  .leaflet-top.leaflet-right .leaflet-great-hollow-toggle {
+    margin-top: 39px;
+  }
+
+  .mapresult-seed-label {
+    transform: translateY(39px);
+  }
 }
