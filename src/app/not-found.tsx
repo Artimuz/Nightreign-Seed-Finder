@@ -31,7 +31,7 @@ export default function NotFound() {
         decoding="async"
       />
       <p style={{ color: 'white', textAlign: 'center' }}>
-        Page not found. Return to <Link href="/" prefetch={false}>Home</Link>
+        Page not found. Return to <Link href="/">Home</Link>
       </p>
     </div>
   )

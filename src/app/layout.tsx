@@ -4,6 +4,7 @@ import { Header } from '@/components/ui/Header'
 import { Footer } from '@/components/ui/Footer'
 import { GlobalBackground } from '@/components/backgrounds/GlobalBackground'
 import { GlobalUpdateProvider } from '@/components/providers/GlobalUpdateProvider'
+import { PwaServiceWorkerRegister } from '@/components/PwaServiceWorkerRegister'
 import { pagesIcoUrl } from '@/lib/pagesAssets'
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   keywords: 'nightreign, seed finder, game seeds, map builder',
   authors: [{ name: 'Nightreign Seed Finder Team' }],
   robots: 'index, follow',
+  manifest: '/manifest.webmanifest',
   icons: {
     icon: pagesIcoUrl('/favicon.ico')
   },
@@ -35,6 +37,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased overflow-x-hidden">
         <GlobalUpdateProvider>
+          <PwaServiceWorkerRegister />
           <GlobalBackground />
           <Header />
           <main className="min-h-screen relative">

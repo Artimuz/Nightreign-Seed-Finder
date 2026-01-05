@@ -111,7 +111,6 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                   
                   <Link
                     href="/privacy-policy"
-                    prefetch={false}
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
                   >
