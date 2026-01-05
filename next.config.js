@@ -2,33 +2,24 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-// Automatically inject package.json version
 const packageJson = require('./package.json');
 
-const normalizeBaseUrl = (value) => {
-  const trimmed = String(value ?? '').trim();
-  if (!trimmed) return '';
-  return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed;
-};
+const deployTarget = process.env.NEXT_PUBLIC_DEPLOY_TARGET || (process.env.VERCEL ? 'vercel' : 'local')
+const isGitHubPages = deployTarget === 'github-pages'
 
-const defaultPagesAssetBaseUrl = 'https://artimuz.github.io';
-
-const gitHubPagesBasePath = process.env.NODE_ENV === 'production' ? '/Nightreign-Seed-Finder' : ''
-
-const assetPrefix = process.env.NODE_ENV === 'production'
-  ? gitHubPagesBasePath
-  : ''
+const gitHubPagesBasePath = isGitHubPages ? '/Nightreign-Seed-Finder' : ''
 
 const nextConfig = {
-  output: 'export',
+  ...(isGitHubPages ? { output: 'export' } : {}),
   basePath: gitHubPagesBasePath,
-  assetPrefix,
-  trailingSlash: true,
+  assetPrefix: gitHubPagesBasePath,
+  trailingSlash: isGitHubPages,
+
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
   images: {
-    unoptimized: true,
+    ...(isGitHubPages ? { unoptimized: true } : {}),
     remotePatterns: [
       {
         protocol: 'https',

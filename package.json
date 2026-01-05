@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm run sync:pages",
+    "build": "next build",
+    "build:pages": "NEXT_PUBLIC_DEPLOY_TARGET=github-pages next build && npm run sync:pages",
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
