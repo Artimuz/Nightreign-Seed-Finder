@@ -11,18 +11,24 @@ const normalizeBaseUrl = (value) => {
   return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed;
 };
 
-const defaultPagesAssetBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder';
+const defaultPagesAssetBaseUrl = 'https://artimuz.github.io';
 
-const pagesAssetBaseUrl = process.env.NODE_ENV === 'production'
-  ? (normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL) || defaultPagesAssetBaseUrl)
-  : '';
+const gitHubPagesBasePath = process.env.NODE_ENV === 'production' ? '/Nightreign-Seed-Finder' : ''
+
+const assetPrefix = process.env.NODE_ENV === 'production'
+  ? gitHubPagesBasePath
+  : ''
 
 const nextConfig = {
-  assetPrefix: pagesAssetBaseUrl,
+  output: 'export',
+  basePath: gitHubPagesBasePath,
+  assetPrefix,
+  trailingSlash: true,
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

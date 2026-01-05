@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-static';
 import { supabase } from '@/lib/supabaseClient';
 import { checkRateLimit } from '@/lib/rateLimit';
 import seedData from '../../../../public/data/seed_data.json';
