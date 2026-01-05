@@ -43,7 +43,6 @@ const main = async () => {
     throw new Error('Next static output not found')
   }
 
-  await fs.rm(targetRoot, { recursive: true, force: true })
   await ensureDir(targetRoot)
 
   const sourceFiles = await listFilesRecursive(sourceRoot)
@@ -56,6 +55,24 @@ const main = async () => {
       await fs.copyFile(sourceFilePath, targetFilePath)
     })
   )
+
+  const entries = await fs.readdir(targetRoot, { withFileTypes: true })
+  const buildDirs = []
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue
+    if (entry.name === 'chunks' || entry.name === 'css' || entry.name === 'media') continue
+    if (!/^[0-9a-f]{20,}$/.test(entry.name)) continue
+
+    const fullPath = path.join(targetRoot, entry.name)
+    const stats = await fs.stat(fullPath)
+    buildDirs.push({ name: entry.name, mtimeMs: stats.mtimeMs })
+  }
+
+  buildDirs.sort((a, b) => b.mtimeMs - a.mtimeMs)
+  const toRemove = buildDirs.slice(5)
+
+  await Promise.all(toRemove.map((entry) => fs.rm(path.join(targetRoot, entry.name), { recursive: true, force: true })))
 }
 
 await main()
