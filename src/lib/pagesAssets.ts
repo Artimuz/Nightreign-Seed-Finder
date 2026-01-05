@@ -36,8 +36,10 @@ const resolvePublicBaseUrl = (): string => {
   return `${base}/public`
 }
 
+const isPagesAssetsEnabled = String(process.env.NEXT_PUBLIC_ENABLE_PAGES_ASSETS ?? '').trim() === 'true'
+
 export const PAGES_BASE_URL = resolvePagesBaseUrl()
-export const PAGES_ASSET_BASE_URL = resolvePublicBaseUrl()
+export const PAGES_ASSET_BASE_URL = isPagesAssetsEnabled ? resolvePublicBaseUrl() : defaultDevBasePath
 
 const stripQuery = (value: string): string => (value.split('?')[0] ?? '')
 

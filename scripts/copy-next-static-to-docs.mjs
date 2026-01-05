@@ -3,7 +3,7 @@ import path from 'node:path'
 
 const projectRoot = process.cwd()
 const sourceRoot = path.join(projectRoot, '.next', 'static')
-const targetRoot = path.join(projectRoot, 'public', '_next', 'static')
+const targetRoot = path.join(projectRoot, 'docs', '_next', 'static')
 
 const pathExists = async (filePath) => {
   try {

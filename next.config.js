@@ -26,8 +26,17 @@ const resolvePagesPublicBaseUrl = () => {
 
 const pagesPublicBaseUrl = resolvePagesPublicBaseUrl()
 
+const resolvePagesChunksBaseUrl = () => {
+  const base = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_BASE_URL)
+  return base
+}
+
+const pagesChunksBaseUrl = resolvePagesChunksBaseUrl()
+
+const isPagesAssetsEnabled = String(process.env.NEXT_PUBLIC_ENABLE_PAGES_ASSETS || '').trim() === 'true'
+
 const nextConfig = {
-  assetPrefix: process.env.NODE_ENV === 'production' && pagesPublicBaseUrl ? pagesPublicBaseUrl : '',
+  assetPrefix: process.env.NODE_ENV === 'production' && isPagesAssetsEnabled && pagesChunksBaseUrl ? pagesChunksBaseUrl : '' ,
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
@@ -36,6 +45,12 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'thefifthmatt.github.io',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'kevins78.github.io',
         port: '',
         pathname: '/**',
       },
@@ -142,7 +157,17 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://artimuz.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline' https://artimuz.github.io; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self' https://artimuz.github.io; object-src 'none'; base-uri 'self'; form-action 'self';",
+            value: [
+              "default-src 'self';",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://artimuz.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;",
+              "style-src 'self' 'unsafe-inline' https://artimuz.github.io;",
+              "img-src 'self' data: blob: https:;",
+              "connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io;",
+              "font-src 'self' https://artimuz.github.io;",
+              "object-src 'none';",
+              "base-uri 'self';",
+              "form-action 'self';",
+            ].join(' '),
           },
           {
             key: 'X-Frame-Options',
