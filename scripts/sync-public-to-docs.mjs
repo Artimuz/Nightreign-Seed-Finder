@@ -87,6 +87,8 @@ const removeEmptyDirs = async (dirPath) => {
 }
 
 const main = async () => {
+  if (process.env.VERCEL) return
+
   if (!(await pathExists(sourceRoot))) {
     throw new Error('public folder not found')
   }

@@ -37,6 +37,8 @@ const listFilesRecursive = async (rootDir) => {
 const relativeFrom = (rootDir, filePath) => path.relative(rootDir, filePath).split(path.sep).join('/')
 
 const main = async () => {
+  if (process.env.VERCEL) return
+
   if (!(await pathExists(sourceRoot))) {
     throw new Error('Next static output not found')
   }
