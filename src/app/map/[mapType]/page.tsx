@@ -1,5 +1,5 @@
 import ClientMapBuilder from '../../../components/ClientMapBuilder'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 const VALID_MAP_TYPES = ['normal', 'crater', 'mountaintop', 'noklateo', 'rotted', 'greatHollow'] as const
 type ValidMapType = typeof VALID_MAP_TYPES[number]
@@ -20,7 +20,7 @@ export default async function MapPage({ params }: MapPageProps) {
   const { mapType: mapTypeParam } = await params
 
   if (!VALID_MAP_TYPES.includes(mapTypeParam as ValidMapType)) {
-    notFound()
+    redirect('/404')
   }
 
   return (

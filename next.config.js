@@ -14,7 +14,7 @@ const nextConfig = {
       config.optimization = config.optimization || {}
       config.optimization.splitChunks = {
         chunks: 'all',
-        maxInitialRequests: 2,
+        maxInitialRequests: 3,
         minSize: 0,
         cacheGroups: {
           default: false,
@@ -81,18 +81,6 @@ const nextConfig = {
   generateEtags: true,
   httpAgentOptions: {
     keepAlive: true,
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/index',
-        destination: '/',
-      },
-      {
-        source: '/index.html',
-        destination: '/',
-      },
-    ]
   },
   async headers() {
     return [
