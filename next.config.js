@@ -5,7 +5,20 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // Automatically inject package.json version
 const packageJson = require('./package.json');
 
+const normalizeBaseUrl = (value) => {
+  const trimmed = String(value ?? '').trim();
+  if (!trimmed) return '';
+  return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed;
+};
+
+const defaultPagesAssetBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder';
+
+const pagesAssetBaseUrl = process.env.NODE_ENV === 'production'
+  ? (normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL) || defaultPagesAssetBaseUrl)
+  : '';
+
 const nextConfig = {
+  assetPrefix: pagesAssetBaseUrl,
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
@@ -120,7 +133,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://artimuz.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline' https://artimuz.github.io; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
           },
           {
             key: 'X-Frame-Options',

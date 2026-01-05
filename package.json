@@ -1,10 +1,10 @@
 {
   "name": "nightreign-seed-finder-spa",
-  "version": "1.2.7",
+  "version": "1.2.10",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm run sync:pages",
+    "build": "next build && npm run sync:pages && node scripts/copy-next-static-to-docs.mjs",
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",

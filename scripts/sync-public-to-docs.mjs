@@ -7,6 +7,12 @@ const sourceRoot = path.join(projectRoot, 'public')
 const targetRoot = path.join(projectRoot, 'docs')
 
 const preservedTargetRelativePaths = new Set(['.nojekyll', 'index.html'])
+const preservedTargetRelativePrefixes = ['_next/static/']
+
+const shouldPreserveRelativePath = (relativePath) => {
+  if (preservedTargetRelativePaths.has(relativePath)) return true
+  return preservedTargetRelativePrefixes.some((prefix) => relativePath.startsWith(prefix))
+}
 
 const sha256 = async (filePath) => {
   const content = await fs.readFile(filePath)
@@ -66,7 +72,7 @@ const removeStaleTargets = async (sourceRelativeSet) => {
   const targetFiles = await listFilesRecursive(targetRoot)
   for (const targetFilePath of targetFiles) {
     const rel = relativeFrom(targetRoot, targetFilePath)
-    if (preservedTargetRelativePaths.has(rel)) continue
+    if (shouldPreserveRelativePath(rel)) continue
     if (!sourceRelativeSet.has(rel)) {
       await fs.unlink(targetFilePath)
     }
