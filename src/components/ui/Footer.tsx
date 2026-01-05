@@ -36,6 +36,7 @@ export const Footer: React.FC = () => {
         </button>
         <Link
           href="https://github.com/Artimuz/Nightreign-Seed-Finder"
+          prefetch={false}
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200"

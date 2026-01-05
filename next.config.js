@@ -9,6 +9,43 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization = config.optimization || {}
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        maxInitialRequests: 3,
+        minSize: 0,
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          framework: {
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|next)[\\/]/,
+            name: 'framework',
+            chunks: 'all',
+            enforce: true,
+            priority: 40,
+          },
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            chunks: 'all',
+            enforce: true,
+            priority: 30,
+          },
+          app: {
+            test: /[\\/]src[\\/]/,
+            name: 'app',
+            chunks: 'all',
+            enforce: true,
+            priority: 20,
+          },
+        },
+      }
+    }
+
+    return config
+  },
   images: {
     remotePatterns: [
       {
@@ -81,24 +118,6 @@ const nextConfig = {
       },
       {
         source: '/fonts/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/manifest.webmanifest',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/sw.js',
         headers: [
           {
             key: 'Cache-Control',
