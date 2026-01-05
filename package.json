@@ -1,11 +1,15 @@
 {
   "name": "nightreign-seed-finder-spa",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build && npm run pages:prepare",
     "start": "next start",
+    "start:pages": "node scripts/start-pages.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
+    "verify:pages": "node scripts/verify-pages-build.mjs",
+    "test:pages": "npm run build:pages && npm run verify:pages && npm run start:pages",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
     "lint:security": "eslint . --ext .ts,.tsx --config .eslintrc.security.json",

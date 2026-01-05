@@ -36,7 +36,8 @@ const resolvePublicBaseUrl = (): string => {
   return `${base}/public`
 }
 
-const isPagesAssetsEnabled = String(process.env.NEXT_PUBLIC_ENABLE_PAGES_ASSETS ?? '').trim() === 'true'
+const isPagesChunksDisabled = String(process.env.NEXT_PUBLIC_DISABLE_PAGES_CHUNKS ?? '').trim() === 'true'
+const isPagesAssetsEnabled = !isPagesChunksDisabled && process.env.NODE_ENV === 'production'
 
 export const PAGES_BASE_URL = resolvePagesBaseUrl()
 export const PAGES_ASSET_BASE_URL = isPagesAssetsEnabled ? resolvePublicBaseUrl() : defaultDevBasePath

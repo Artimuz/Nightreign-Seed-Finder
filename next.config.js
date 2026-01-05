@@ -33,10 +33,50 @@ const resolvePagesChunksBaseUrl = () => {
 
 const pagesChunksBaseUrl = resolvePagesChunksBaseUrl()
 
-const isPagesAssetsEnabled = String(process.env.NEXT_PUBLIC_ENABLE_PAGES_ASSETS || '').trim() === 'true'
+const isPagesChunksDisabled = String(process.env.NEXT_PUBLIC_DISABLE_PAGES_CHUNKS || '').trim() === 'true'
+const isPagesChunksEnabled = !isPagesChunksDisabled && !!pagesChunksBaseUrl
+
+const readGitHeadCommit = () => {
+  const fs = require('node:fs')
+  const path = require('node:path')
+
+  const headPath = path.join(process.cwd(), '.git', 'HEAD')
+  if (!fs.existsSync(headPath)) return ''
+
+  const head = String(fs.readFileSync(headPath, 'utf8')).trim()
+  if (!head) return ''
+
+  if (!head.startsWith('ref:')) {
+    return head
+  }
+
+  const refPath = head.replace('ref:', '').trim()
+  if (!refPath) return ''
+
+  const fullRefPath = path.join(process.cwd(), '.git', refPath)
+  if (!fs.existsSync(fullRefPath)) return ''
+
+  return String(fs.readFileSync(fullRefPath, 'utf8')).trim()
+}
+
+const resolveBuildId = () => {
+  const explicit = String(process.env.NEXT_PUBLIC_BUILD_ID || '').trim()
+  if (explicit) return explicit
+
+  const envSha = String(process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA || '').trim()
+  if (envSha) return envSha
+
+  const gitSha = readGitHeadCommit()
+  if (gitSha) return gitSha
+
+  return String(packageJson.version)
+}
+
+const buildId = resolveBuildId()
 
 const nextConfig = {
-  assetPrefix: process.env.NODE_ENV === 'production' && isPagesAssetsEnabled && pagesChunksBaseUrl ? pagesChunksBaseUrl : '' ,
+  generateBuildId: async () => buildId,
+  assetPrefix: process.env.NODE_ENV === 'production' && isPagesChunksEnabled ? pagesChunksBaseUrl : '',
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
