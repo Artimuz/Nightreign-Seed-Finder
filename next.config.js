@@ -2,24 +2,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+// Automatically inject package.json version
 const packageJson = require('./package.json');
 
-const deployTarget = process.env.NEXT_PUBLIC_DEPLOY_TARGET || (process.env.VERCEL ? 'vercel' : 'local')
-const isGitHubPages = deployTarget === 'github-pages'
-
-const gitHubPagesBasePath = isGitHubPages ? '/Nightreign-Seed-Finder' : ''
-
 const nextConfig = {
-  ...(isGitHubPages ? { output: 'export' } : {}),
-  basePath: gitHubPagesBasePath,
-  assetPrefix: gitHubPagesBasePath,
-  trailingSlash: isGitHubPages,
-
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
   images: {
-    ...(isGitHubPages ? { unoptimized: true } : {}),
     remotePatterns: [
       {
         protocol: 'https',
@@ -130,7 +120,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://artimuz.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline' https://artimuz.github.io; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
           },
           {
             key: 'X-Frame-Options',

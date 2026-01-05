@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import packageJson from '../../../../package.json'
-
-export const dynamic = 'force-static'
+export const runtime = 'edge'
 const APP_VERSION = packageJson.version
 const VERSION_HISTORY = [
   { version: '1.1.1', released: '2024-01-20', features: ['Vercel deployment fixes', 'Runtime configuration updates'] },

@@ -6,9 +6,7 @@ const normalizeBaseUrl = (value: string): string => {
   return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed
 }
 
-const defaultProdBasePath = '/' 
-
-const defaultGitHubPagesBasePath = '/Nightreign-Seed-Finder'
+const defaultProdBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder'
 
 const defaultDevBasePath = '/'
 
@@ -16,17 +14,11 @@ const resolveBaseUrl = (): string => {
   const configured = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? '')
   if (configured) return configured
 
-  const deployTarget = process.env.NEXT_PUBLIC_DEPLOY_TARGET ?? ''
-
   if (process.env.NODE_ENV !== 'production') {
     return defaultDevBasePath
   }
 
-  if (deployTarget === 'github-pages') {
-    return defaultGitHubPagesBasePath
-  }
-
-  return defaultProdBasePath
+  return defaultProdBaseUrl
 }
 
 export const PAGES_ASSET_BASE_URL = resolveBaseUrl()
