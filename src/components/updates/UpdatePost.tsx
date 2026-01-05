@@ -2,6 +2,7 @@
 
 import { UpdatePost as UpdatePostType } from '@/lib/updates/types'
 import Image from 'next/image'
+import { pagesStaticAssetUrl } from '@/lib/pagesAssets'
 
 interface UpdatePostProps {
   update: UpdatePostType
@@ -44,13 +45,13 @@ export default function UpdatePost({ update, isManualMode, isDismissed }: Update
       {update.image && (
         <div className="mb-6 rounded-lg overflow-hidden">
           <Image
-            src={update.image}
+            src={pagesStaticAssetUrl(update.image)}
             alt={`${update.title} - Update Image`}
             width={600}
             height={400}
             className="w-full h-auto object-cover"
             priority
-            unoptimized={update.image.startsWith('/')}
+            unoptimized
           />
         </div>
       )}

@@ -6,22 +6,38 @@ const normalizeBaseUrl = (value: string): string => {
   return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed
 }
 
-const defaultProdBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder'
+const defaultProdPagesBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder'
 
 const defaultDevBasePath = '/'
 
-const resolveBaseUrl = (): string => {
-  const configured = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? '')
+const resolvePagesBaseUrl = (): string => {
+  const configured = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_BASE_URL ?? '')
   if (configured) return configured
 
   if (process.env.NODE_ENV !== 'production') {
     return defaultDevBasePath
   }
 
-  return defaultProdBaseUrl
+  return defaultProdPagesBaseUrl
 }
 
-export const PAGES_ASSET_BASE_URL = resolveBaseUrl()
+const resolvePublicBaseUrl = (): string => {
+  const explicitPublic = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_PUBLIC_BASE_URL ?? '')
+  if (explicitPublic) return explicitPublic
+
+  const legacy = normalizeBaseUrl(process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? '')
+  if (legacy) {
+    if (legacy.endsWith('/public')) return legacy
+    return `${legacy}/public`
+  }
+
+  const base = resolvePagesBaseUrl()
+  if (base.startsWith('/')) return base
+  return `${base}/public`
+}
+
+export const PAGES_BASE_URL = resolvePagesBaseUrl()
+export const PAGES_ASSET_BASE_URL = resolvePublicBaseUrl()
 
 const stripQuery = (value: string): string => (value.split('?')[0] ?? '')
 
@@ -57,3 +73,12 @@ export const pagesWebpUrl = (pathValue: string): string => pagesAssetUrl(pathVal
 export const pagesPngUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.png'])
 export const pagesIcoUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.ico'])
 export const pagesJsonUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.json'])
+
+const isRemoteAssetUrl = (value: string): boolean => /^https?:\/\//i.test(value)
+
+export const pagesStaticAssetUrl = (pathValue: string): string => {
+  if (!pathValue) return pathValue
+  if (isRemoteAssetUrl(pathValue) || pathValue.startsWith('data:') || pathValue.startsWith('blob:')) return pathValue
+
+  return pagesAssetUrl(pathValue, ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.webm', '.otf', '.json'])
+}

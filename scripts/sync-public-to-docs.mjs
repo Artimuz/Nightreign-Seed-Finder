@@ -4,9 +4,9 @@ import path from 'node:path'
 
 const projectRoot = process.cwd()
 const sourceRoot = path.join(projectRoot, 'public')
-const targetRoot = path.join(projectRoot, 'docs')
+const targetRoot = path.join(projectRoot, 'docs', 'public')
 
-const preservedTargetRelativePaths = new Set(['.nojekyll', 'index.html'])
+const preservedTargetRelativePaths = new Set()
 
 const sha256 = async (filePath) => {
   const content = await fs.readFile(filePath)
