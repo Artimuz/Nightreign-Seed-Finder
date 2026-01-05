@@ -30,6 +30,8 @@ jobs:
 
       - run: npm run pages:prepare
 
+      - run: mkdir -p docs && touch docs/.nojekyll
+
       - run: |
           if git status --porcelain | grep .; then
             git config user.name "github-actions[bot]"
