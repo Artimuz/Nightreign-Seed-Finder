@@ -1,1 +1,0 @@
-self.__SSG_MANIFEST=new Set(["\u002Fmap\u002F[mapType]","\u002Fresult\u002F[id]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()

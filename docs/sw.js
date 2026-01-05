@@ -1,4 +1,4 @@
-const CACHE_VERSION = "1.2.10"
+const CACHE_VERSION = "1.2.11"
 const APP_CACHE = `app-${CACHE_VERSION}`
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`
 
