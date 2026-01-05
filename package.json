@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && npm run pages:prepare",
+    "build:ci": "next build",
     "start": "next start",
     "start:pages": "node scripts/start-pages.mjs",
     "build:pages": "node scripts/build-pages.mjs",
