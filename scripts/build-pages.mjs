@@ -16,9 +16,10 @@ if (!nextPublicPagesPublicBaseUrl) {
   throw new Error('NEXT_PUBLIC_PAGES_PUBLIC_BASE_URL is required')
 }
 
-const child = spawn('npx', ['next', 'build'], {
+const child = spawn('npm', ['run', 'build:ci'], {
   stdio: 'inherit',
   env,
+  shell: process.platform === 'win32',
 })
 
 child.on('exit', (code) => {
