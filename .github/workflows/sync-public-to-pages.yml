@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -19,11 +22,13 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build:ci
+      - run: npm run sync:pages
 
       - run: |
           if git status --porcelain | grep .; then
-            echo "Working tree is dirty after build. Please run 'npm run build' locally and commit the updated docs/public output."
-            git status --porcelain
-            exit 1
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add docs
+            git commit -m "chore(pages): sync public to docs"
+            git push
           fi

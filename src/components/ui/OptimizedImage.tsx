@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import Image from 'next/image';
-import { pagesStaticAssetUrl, PAGES_ASSET_BASE_URL } from '@/lib/pagesAssets';
+import { PAGES_ASSET_BASE_URL } from '@/lib/pagesAssets';
 
 interface CardImageProps {
   src: string;
@@ -10,14 +10,12 @@ interface CardImageProps {
 }
 
 export const CardImage: React.FC<CardImageProps> = ({ src, alt, priority = false }) => {
-  const resolvedSrc = pagesStaticAssetUrl(src)
-
-  const isLocalSrc = resolvedSrc.startsWith('/')
-  const isPagesSrc = PAGES_ASSET_BASE_URL ? resolvedSrc.startsWith(PAGES_ASSET_BASE_URL) : false
+  const isLocalSrc = src.startsWith('/')
+  const isPagesSrc = PAGES_ASSET_BASE_URL ? src.startsWith(PAGES_ASSET_BASE_URL) : false
 
   return (
     <Image
-      src={resolvedSrc}
+      src={src}
       alt={alt}
       fill
       className="map-card-image object-cover object-center"

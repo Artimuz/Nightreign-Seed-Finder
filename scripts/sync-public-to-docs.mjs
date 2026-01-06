@@ -4,9 +4,9 @@ import path from 'node:path'
 
 const projectRoot = process.cwd()
 const sourceRoot = path.join(projectRoot, 'public')
-const targetRoot = path.join(projectRoot, 'docs', 'public')
+const targetRoot = path.join(projectRoot, 'docs')
 
-const preservedTargetRelativePaths = new Set()
+const preservedTargetRelativePaths = new Set(['.nojekyll', 'index.html'])
 
 const sha256 = async (filePath) => {
   const content = await fs.readFile(filePath)
@@ -87,8 +87,6 @@ const removeEmptyDirs = async (dirPath) => {
 }
 
 const main = async () => {
-  if (process.env.VERCEL) return
-
   if (!(await pathExists(sourceRoot))) {
     throw new Error('public folder not found')
   }
