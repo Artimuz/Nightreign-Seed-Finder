@@ -6,7 +6,7 @@ const normalizeBaseUrl = (value: string): string => {
   return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed
 }
 
-const defaultProdBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder/public'
+const defaultProdBaseUrl = 'https://artimuz.github.io/Nightreign-Seed-Finder'
 
 const defaultDevBasePath = '/'
 

@@ -22,7 +22,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build
+      - run: npm run sync:pages
 
       - run: |
           if git status --porcelain | grep .; then
