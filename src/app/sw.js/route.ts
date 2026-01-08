@@ -4,12 +4,14 @@ export const runtime = 'nodejs'
 
 export function GET() {
   const version = process.env.NEXT_PUBLIC_APP_VERSION ?? 'dev'
+  const buildId = (process.env.GITHUB_SHA ?? process.env.VERCEL_GIT_COMMIT_SHA ?? '').trim()
+  const cacheVersion = buildId ? `${version}-${buildId}` : version
 
   const configuredPagesBase = (process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? 'https://artimuz.github.io/Nightreign-Seed-Finder/public').trim().replace(/\/$/, '')
   const pagesBaseWithoutPublic = configuredPagesBase.endsWith('/public') ? configuredPagesBase.slice(0, -'/public'.length) : configuredPagesBase
   const pagesChunksBaseUrl = `${pagesBaseWithoutPublic}/chunks`
 
-  const js = `const CACHE_VERSION = ${JSON.stringify(version)}
+  const js = `const CACHE_VERSION = ${JSON.stringify(cacheVersion)}
 const APP_CACHE = \`app-\${CACHE_VERSION}\`
 const RUNTIME_CACHE = \`runtime-\${CACHE_VERSION}\`
 const PAGES_CHUNKS_BASE_URL = ${JSON.stringify(pagesChunksBaseUrl)}
@@ -124,7 +126,7 @@ self.addEventListener('fetch', (event) => {
   return new NextResponse(js, {
     headers: {
       'Content-Type': 'application/javascript; charset=utf-8',
-      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
     },
   })
 }

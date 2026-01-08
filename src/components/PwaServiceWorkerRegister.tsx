@@ -14,8 +14,22 @@ export function PwaServiceWorkerRegister() {
         const expectedScriptUrl = new URL(`/sw.js?v=${APP_VERSION}`, window.location.href).toString()
 
         if (existingRegistration) {
-          const existingScriptUrl = existingRegistration.active?.scriptURL
-          if (existingScriptUrl === expectedScriptUrl) return
+          try {
+            const existingScriptUrl = existingRegistration.active?.scriptURL
+            if (existingScriptUrl) {
+              const existing = new URL(existingScriptUrl)
+              const expected = new URL(expectedScriptUrl)
+              if (existing.pathname === expected.pathname && existing.search === expected.search) {
+                await existingRegistration.update()
+                return
+              }
+            }
+          } catch {
+            await existingRegistration.update()
+            return
+          }
+
+          await existingRegistration.unregister()
         }
 
         await navigator.serviceWorker.register(`/sw.js?v=${APP_VERSION}`, { scope: '/' })
