@@ -1,30 +1,27 @@
 'use client'
 
 import { useEffect } from 'react'
-import { APP_VERSION } from '@/lib/constants/version'
 
 export function PwaServiceWorkerRegister() {
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') return
     if (!('serviceWorker' in navigator)) return
 
-    const register = async () => {
+    const unregister = async () => {
       try {
-        const existingRegistration = await navigator.serviceWorker.getRegistration('/')
-        const expectedScriptUrl = new URL(`/sw.js?v=${APP_VERSION}`, window.location.href).toString()
+        const registrations = await navigator.serviceWorker.getRegistrations()
+        await Promise.all(registrations.map((registration) => registration.unregister()))
 
-        if (existingRegistration) {
-          const existingScriptUrl = existingRegistration.active?.scriptURL
-          if (existingScriptUrl === expectedScriptUrl) return
+        if ('caches' in window) {
+          const cacheKeys = await caches.keys()
+          await Promise.all(cacheKeys.map((key) => caches.delete(key)))
         }
-
-        await navigator.serviceWorker.register(`/sw.js?v=${APP_VERSION}`, { scope: '/' })
       } catch {
         return
       }
     }
 
-    void register()
+    void unregister()
   }, [])
 
   return null

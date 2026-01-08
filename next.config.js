@@ -45,6 +45,30 @@ const nextConfig = {
   httpAgentOptions: {
     keepAlive: true,
   },
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      const oneMegabyteInBytes = 1024 * 1024;
+
+      config.optimization = {
+        ...config.optimization,
+        moduleIds: 'deterministic',
+        chunkIds: 'deterministic',
+        runtimeChunk: false,
+        splitChunks: {
+          chunks: 'all',
+          minSize: oneMegabyteInBytes,
+          maxInitialRequests: 1,
+          maxAsyncRequests: 1,
+          cacheGroups: {
+            default: false,
+            defaultVendors: false,
+          },
+        },
+      };
+    }
+
+    return config;
+  },
   async headers() {
     return [
       {
