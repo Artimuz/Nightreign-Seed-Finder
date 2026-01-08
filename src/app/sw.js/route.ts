@@ -7,9 +7,12 @@ export function GET() {
   const buildId = (process.env.GITHUB_SHA ?? process.env.VERCEL_GIT_COMMIT_SHA ?? '').trim()
   const cacheVersion = buildId ? `${version}-${buildId}` : version
 
-  const configuredPagesBase = (process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? 'https://artimuz.github.io/Nightreign-Seed-Finder/public').trim().replace(/\/$/, '')
-  const pagesBaseWithoutPublic = configuredPagesBase.endsWith('/public') ? configuredPagesBase.slice(0, -'/public'.length) : configuredPagesBase
-  const pagesChunksBaseUrl = `${pagesBaseWithoutPublic}/chunks`
+  const sha = (process.env.GITHUB_SHA ?? process.env.VERCEL_GIT_COMMIT_SHA ?? '').trim()
+  const jsDelivrBase = sha
+    ? `https://cdn.jsdelivr.net/gh/artimuz/Nightreign-Seed-Finder@${sha}/docs/chunks`
+    : 'https://cdn.jsdelivr.net/gh/artimuz/Nightreign-Seed-Finder@main/docs/chunks'
+
+  const pagesChunksBaseUrl = jsDelivrBase
 
   const js = `const CACHE_VERSION = ${JSON.stringify(cacheVersion)}
 const APP_CACHE = \`app-\${CACHE_VERSION}\`
@@ -40,8 +43,7 @@ const fetchWithFallback = async (request) => {
   if (isNextStaticAsset(url)) {
     try {
       const pagesUrl = buildPagesChunksUrl(url)
-      const pagesResponse = await fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'no-cors' })
-      if (pagesResponse.type === 'opaque') return pagesResponse
+      const pagesResponse = await fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'cors' })
       if (pagesResponse.ok) return pagesResponse
       const originResponse = await fetch(request)
       if (originResponse.ok) return originResponse
