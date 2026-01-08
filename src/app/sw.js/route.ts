@@ -40,13 +40,12 @@ const fetchWithFallback = async (request) => {
   if (isNextStaticAsset(url)) {
     try {
       const pagesUrl = buildPagesChunksUrl(url)
-      const pagesResponse = await fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'cors' })
-      if (pagesResponse.status === 200) return pagesResponse
-      if (pagesResponse.status !== 404) {
-        const originResponse = await fetch(request)
-        if (originResponse.ok) return originResponse
-        return pagesResponse
-      }
+      const pagesResponse = await fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'no-cors' })
+      if (pagesResponse.type === 'opaque') return pagesResponse
+      if (pagesResponse.ok) return pagesResponse
+      const originResponse = await fetch(request)
+      if (originResponse.ok) return originResponse
+      return pagesResponse
     } catch {
       return fetch(request)
     }
