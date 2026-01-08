@@ -5,9 +5,14 @@ export const runtime = 'nodejs'
 export function GET() {
   const version = process.env.NEXT_PUBLIC_APP_VERSION ?? 'dev'
 
+  const configuredPagesBase = (process.env.NEXT_PUBLIC_PAGES_ASSET_BASE_URL ?? 'https://artimuz.github.io/Nightreign-Seed-Finder/public').trim().replace(/\/$/, '')
+  const pagesBaseWithoutPublic = configuredPagesBase.endsWith('/public') ? configuredPagesBase.slice(0, -'/public'.length) : configuredPagesBase
+  const pagesChunksBaseUrl = `${pagesBaseWithoutPublic}/chunks`
+
   const js = `const CACHE_VERSION = ${JSON.stringify(version)}
 const APP_CACHE = \`app-\${CACHE_VERSION}\`
 const RUNTIME_CACHE = \`runtime-\${CACHE_VERSION}\`
+const PAGES_CHUNKS_BASE_URL = ${JSON.stringify(pagesChunksBaseUrl)}
 
 const isCacheableRequest = (request) => {
   if (request.method !== 'GET') return false
@@ -18,6 +23,34 @@ const isCacheableRequest = (request) => {
 
 const isStaticAsset = (url) => {
   return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/Images/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/data/') || url.pathname === '/manifest.webmanifest'
+}
+
+const isNextStaticAsset = (url) => url.pathname.startsWith('/_next/static/')
+
+const buildPagesChunksUrl = (url) => {
+  const base = PAGES_CHUNKS_BASE_URL.endsWith('/') ? PAGES_CHUNKS_BASE_URL.slice(0, -1) : PAGES_CHUNKS_BASE_URL
+  return base + url.pathname + url.search
+}
+
+const fetchWithFallback = async (request) => {
+  const url = new URL(request.url)
+
+  if (isNextStaticAsset(url)) {
+    try {
+      const pagesUrl = buildPagesChunksUrl(url)
+      const pagesResponse = await fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'cors' })
+      if (pagesResponse.status === 200) return pagesResponse
+      if (pagesResponse.status !== 404) {
+        const originResponse = await fetch(request)
+        if (originResponse.ok) return originResponse
+        return pagesResponse
+      }
+    } catch {
+      return fetch(request)
+    }
+  }
+
+  return fetch(request)
 }
 
 self.addEventListener('install', (event) => {
@@ -58,7 +91,7 @@ self.addEventListener('fetch', (event) => {
         const canonicalRequest = new Request(url.toString(), { method: 'GET' })
         const cachedCanonical = await cache.match(canonicalRequest, { ignoreVary: true })
         if (cachedCanonical) return cachedCanonical
-        const response = await fetch(request)
+        const response = await fetchWithFallback(request)
         if (response.status === 200 || response.type === 'opaque') {
           await cache.put(request, response.clone())
           await cache.put(canonicalRequest, response.clone())

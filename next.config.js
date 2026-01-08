@@ -5,7 +5,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // Automatically inject package.json version
 const packageJson = require('./package.json');
 
+const resolveBuildId = () => {
+  const value = (process.env.GITHUB_SHA ?? '').trim()
+  if (value) return value
+  const vercelValue = (process.env.VERCEL_GIT_COMMIT_SHA ?? '').trim()
+  if (vercelValue) return vercelValue
+  return packageJson.version
+}
+
 const nextConfig = {
+  generateBuildId: async () => resolveBuildId(),
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
