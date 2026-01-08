@@ -1,7 +1,7 @@
 {
   "regions": ["iad1"],
   "framework": "nextjs",
-  "buildCommand": "npm run build",
+  "buildCommand": "next build",
   "installCommand": "npm ci",
   "headers": [
     {
