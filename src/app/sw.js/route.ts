@@ -37,23 +37,71 @@ const buildPagesChunksUrl = (url) => {
   return base + url.pathname + url.search
 }
 
-const fetchWithFallback = async (request) => {
-  const url = new URL(request.url)
+const withChunkSourceHeader = (response, source) => {
+  const headers = new Headers(response.headers)
+  headers.set('x-chunk-source', source)
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  })
+}
 
-  if (isNextStaticAsset(url)) {
-    try {
-      const pagesUrl = buildPagesChunksUrl(url)
-      const pagesResponse = await fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'cors' })
-      if (pagesResponse.ok) return pagesResponse
-      const originResponse = await fetch(request)
-      if (originResponse.ok) return originResponse
-      return pagesResponse
-    } catch {
-      return fetch(request)
+const fetchFromCdn = async (request) => {
+  const url = new URL(request.url)
+  const pagesUrl = buildPagesChunksUrl(url)
+  return fetch(pagesUrl, { method: 'GET', credentials: 'omit', mode: 'cors' })
+}
+
+const fetchFromOrigin = async (request) => fetch(request)
+
+const fetchNextStaticCdnFirst = async ({ request, cache }) => {
+  const cached = await cache.match(request, { ignoreVary: true })
+  if (cached) return { response: cached, cacheHit: true }
+
+  try {
+    const cdnResponse = await fetchFromCdn(request)
+    if (cdnResponse.ok) {
+      const cdnWithHeader = withChunkSourceHeader(cdnResponse.clone(), 'jsdelivr')
+      await cache.put(request, cdnWithHeader.clone())
+      return { response: cdnWithHeader, cacheHit: false }
     }
+  } catch {
+    const originResponse = await fetchFromOrigin(request)
+    if (originResponse.ok) {
+      const originWithHeader = withChunkSourceHeader(originResponse.clone(), 'vercel')
+      await cache.put(request, originWithHeader.clone())
+      return { response: originWithHeader, cacheHit: false }
+    }
+    return { response: originResponse, cacheHit: false }
   }
 
-  return fetch(request)
+  const originResponse = await fetchFromOrigin(request)
+  if (originResponse.ok) {
+    const originWithHeader = withChunkSourceHeader(originResponse.clone(), 'vercel')
+    await cache.put(request, originWithHeader.clone())
+    return { response: originWithHeader, cacheHit: false }
+  }
+
+  return { response: originResponse, cacheHit: false }
+}
+
+const upgradeCachedNextStaticInBackground = async ({ request, cache }) => {
+  const cached = await cache.match(request, { ignoreVary: true })
+  if (!cached) return
+
+  const source = cached.headers.get('x-chunk-source')
+  if (source === 'jsdelivr') return
+
+  try {
+    const cdnResponse = await fetchFromCdn(request)
+    if (!cdnResponse.ok) return
+
+    const cdnWithHeader = withChunkSourceHeader(cdnResponse.clone(), 'jsdelivr')
+    await cache.put(request, cdnWithHeader)
+  } catch {
+    return
+  }
 }
 
 self.addEventListener('install', (event) => {
@@ -89,13 +137,25 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       (async () => {
         const cache = await caches.open(RUNTIME_CACHE)
+
+        if (isNextStaticAsset(url)) {
+          const { response, cacheHit } = await fetchNextStaticCdnFirst({ request, cache })
+          if (cacheHit) {
+            event.waitUntil(upgradeCachedNextStaticInBackground({ request, cache }))
+            const source = response.headers.get('x-chunk-source')
+            if (source) return response
+            return withChunkSourceHeader(response.clone(), 'cache')
+          }
+          return response
+        }
+
         const cachedDirect = await cache.match(request, { ignoreVary: true })
         if (cachedDirect) return cachedDirect
         const canonicalRequest = new Request(url.toString(), { method: 'GET' })
         const cachedCanonical = await cache.match(canonicalRequest, { ignoreVary: true })
         if (cachedCanonical) return cachedCanonical
-        const response = await fetchWithFallback(request)
-        if (response.status === 200 || response.type === 'opaque') {
+        const response = await fetch(request)
+        if (response.ok || response.type === 'opaque') {
           await cache.put(request, response.clone())
           await cache.put(canonicalRequest, response.clone())
         }
