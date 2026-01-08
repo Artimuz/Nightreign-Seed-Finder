@@ -7,21 +7,28 @@ export function PwaServiceWorkerRegister() {
     if (process.env.NODE_ENV !== 'production') return
     if (!('serviceWorker' in navigator)) return
 
-    const unregister = async () => {
+    const register = async () => {
       try {
-        const registrations = await navigator.serviceWorker.getRegistrations()
-        await Promise.all(registrations.map((registration) => registration.unregister()))
+        const registration = await navigator.serviceWorker.register('/sw.js', {
+          scope: '/',
+          updateViaCache: 'none',
+        })
 
-        if ('caches' in window) {
-          const cacheKeys = await caches.keys()
-          await Promise.all(cacheKeys.map((key) => caches.delete(key)))
+        if (registration.waiting) {
+          const onControllerChange = () => {
+            navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange)
+            window.location.reload()
+          }
+
+          navigator.serviceWorker.addEventListener('controllerchange', onControllerChange)
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' })
         }
       } catch {
         return
       }
     }
 
-    void unregister()
+    void register()
   }, [])
 
   return null
