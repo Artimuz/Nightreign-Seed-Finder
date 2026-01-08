@@ -58,7 +58,7 @@ const fetchWithFallback = async (request) => {
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(APP_CACHE).then((cache) =>
-      cache.addAll(['/', '/manifest.webmanifest']).catch(() => undefined)
+      cache.addAll(['/manifest.webmanifest']).catch(() => undefined)
     )
   )
   self.skipWaiting()
@@ -102,23 +102,6 @@ self.addEventListener('fetch', (event) => {
       })()
     )
     return
-  }
-
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      (async () => {
-        const cache = await caches.open(APP_CACHE)
-        try {
-          const response = await fetch(request)
-          if (response.ok) await cache.put('/', response.clone())
-          return response
-        } catch {
-          const cached = await cache.match('/')
-          if (cached) return cached
-          return new Response('Offline', { status: 503, statusText: 'Offline' })
-        }
-      })()
-    )
   }
 })
 `
