@@ -10,6 +10,7 @@ import { getCrystalSlotCoordinates, getEventCoordinateForSource, getNightlordCoo
 import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
 import type { Seed } from '@/lib/types'
 import crystalData from '../../public/data/crystal_data.json'
+import { trackAnalyticsEvent } from '@/lib/analytics/events'
 
 interface MapResultProps {
   seedNumber: string
@@ -727,6 +728,9 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       })
 
       marker.on('click', () => {
+        if (isGreatHollowSeed && isCrystalFinderEnabled) {
+          trackAnalyticsEvent('crystal_shattered', { seed_id: seedNumber, map_type: seedData?.map_type ?? null, slot_id: coord.id })
+        }
         setCrystalSlotState(coord.id, 'confirmed')
       })
 

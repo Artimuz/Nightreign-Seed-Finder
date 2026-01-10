@@ -8,6 +8,7 @@ import { getRemainingSeeds, getAvailableBuildingsForSlot, getAvailableNightlords
 import { useRateLimit } from '@/hooks/useRateLimit'
 import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
+import { trackAnalyticsEvent } from '@/lib/analytics/events'
 
 interface MapBuilderProps {
   mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'greatHollow'
@@ -365,6 +366,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
       
       
       if (remainingSeeds.length === 1) {
+        trackAnalyticsEvent('seed_pattern_found', { map_type: mapType, seed_id: remainingSeeds[0].seed_id })
         setPendingLogSeed(remainingSeeds[0].seed_id);
       }
     }, 0)
@@ -472,6 +474,10 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
     const targetSlot = forceSlotId || selectedSlot
 
+    if (targetSlot !== 'nightlord' && building !== 'empty' && building !== '') {
+      trackAnalyticsEvent('building_icon_added', { map_type: mapType, slot_id: targetSlot, icon: building })
+    }
+
     if (targetSlot === 'nightlord') {
       setSelectedNightlord(building)
     } else {
@@ -534,6 +540,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         
         
         if (remainingSeeds.length === 1) {
+          trackAnalyticsEvent('seed_pattern_found', { map_type: mapType, seed_id: remainingSeeds[0].seed_id })
           setPendingLogSeed(remainingSeeds[0].seed_id);
         }
       } else {
@@ -562,6 +569,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         
         
         if (remainingSeeds.length === 1) {
+          trackAnalyticsEvent('seed_pattern_found', { map_type: mapType, seed_id: remainingSeeds[0].seed_id })
           setPendingLogSeed(remainingSeeds[0].seed_id);
         }
       }
