@@ -5,6 +5,18 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // Automatically inject package.json version
 const packageJson = require('./package.json');
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://artimuz.github.io",
+  "font-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "frame-ancestors 'none'",
+].join('; ')
+
 const nextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
@@ -153,7 +165,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://artimuz.github.io; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';",
+            value: contentSecurityPolicy,
           },
           {
             key: 'X-Frame-Options',

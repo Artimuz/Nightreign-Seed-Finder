@@ -173,13 +173,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
             Nightlord: nightlordFromData
           };
 
-          fetch('/api/log', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(logData),
-          }).catch(() => {});
+          void logData
         } catch {}
       };
       
