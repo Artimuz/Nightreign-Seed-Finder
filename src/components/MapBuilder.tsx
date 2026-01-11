@@ -1037,7 +1037,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         
         {}
         <div 
-          className="absolute top-8 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-medium pointer-events-none z-[1000]"
+          className="absolute top-8 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-medium pointer-events-none z-[1000] mapbuilder-remaining-seeds"
           style={{ fontSize: isMobile ? '12px' : '14px' }}
         >
           {remainingSeedsCount} seeds remaining

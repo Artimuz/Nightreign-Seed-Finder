@@ -92,22 +92,18 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                   transition={{ delay: 0.1 }}
                   className="space-y-4"
                 >
-                  <button
-                    onClick={() => {
-                      if (onTriggerUpdates) {
-                        onTriggerUpdates()
-                      }
-                      onClose()
-                    }}
+                  <Link
+                    href="/updates"
+                    onClick={onClose}
                     className="block w-full p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-blue-400 transition-all duration-200 text-left"
                   >
                     <h3 className="text-lg font-semibold text-white hover:text-blue-400 transition-colors duration-200">
-                      Last Updates
+                      Updates
                     </h3>
                     <p className="text-sm text-gray-400 mt-1">
-                      View recent app updates and new features
+                      Browse release notes and new features
                     </p>
-                  </button>
+                  </Link>
                   
                   <Link
                     href="/faq"

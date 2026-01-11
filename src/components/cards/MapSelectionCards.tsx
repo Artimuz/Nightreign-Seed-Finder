@@ -13,8 +13,8 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
+      staggerChildren: 0.05,
+      delayChildren: 0.1
     }
   }
 };
@@ -24,7 +24,7 @@ const cardVariants = {
   visible: (delay: number) => ({
     opacity: 1,
     transition: {
-      duration: 0.3,
+      duration: 0.15,
       delay: delay,
       ease: "easeOut"
     }
@@ -35,7 +35,7 @@ const titleVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.3, ease: "easeOut" }
   }
 };
 
@@ -82,7 +82,7 @@ export const MapSelectionCards: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
+    <div className="flex flex-col items-center p-6 relative">
       <motion.div
         className="max-w-6xl w-full relative z-10"
         variants={containerVariants}
@@ -102,12 +102,12 @@ export const MapSelectionCards: React.FC = () => {
         <div className={`desktop-map-cards-container hidden md:flex${hasClicked && clickedCard ? ' card-clicked' : ''}`}>
           {(() => {
             const delayMap = {
-              'mountaintop': 0.4,
-              'noklateo': 0.2,
+              'mountaintop': 0.2,
+              'noklateo': 0.1,
               'normal': 0,
-              'rotted': 0.2,
-              'crater': 0.4,
-              'greatHollow': 0.6
+              'rotted': 0.1,
+              'crater': 0.2,
+              'greatHollow': 0.3
             };
             return MAP_TYPES.map((mapData) => {
               const delay = delayMap[mapData.key as keyof typeof delayMap];
@@ -131,10 +131,6 @@ export const MapSelectionCards: React.FC = () => {
               );
             });
           })()}
-        </div>
-
-        <div className="mt-10 flex justify-center text-center text-white/80 text-sm">
-          ** DLC content added to Limveld and the Great Hollow **
         </div>
 
         <motion.div

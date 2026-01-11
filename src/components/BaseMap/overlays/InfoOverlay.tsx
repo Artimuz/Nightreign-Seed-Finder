@@ -23,7 +23,7 @@ export default function InfoOverlay({
   const getPositionClasses = (pos: string) => {
     switch (pos) {
       case 'top-left':
-        return 'top-2 left-2'
+        return 'top-[150px] left-2'
       case 'top-right':
         return 'top-8 right-2'
       case 'bottom-left':

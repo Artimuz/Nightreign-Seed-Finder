@@ -150,12 +150,20 @@ body {
   background: rgba(255, 255, 255, 0.10);
 }
 
+.leaflet-top.leaflet-right .leaflet-great-hollow-toggle {
+  transform: translateY(36px);
+}
+
 @media (max-width: 768px) {
   .leaflet-top.leaflet-right .leaflet-great-hollow-toggle {
-    margin-top: 39px;
+    transform: translateY(80px);
   }
 
   .mapresult-seed-label {
     transform: translateY(39px);
+  }
+
+  .mapbuilder-remaining-seeds {
+    transform: translateY(55px);
   }
 }

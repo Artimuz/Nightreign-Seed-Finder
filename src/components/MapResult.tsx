@@ -779,6 +779,33 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     }
   }, [])
 
+  const [overlayOffset, setOverlayOffset] = useState<{ left: number; top: number } | null>(null)
+
+  useEffect(() => {
+    if (!mapRef.current) {
+      return
+    }
+
+    const updateOffset = () => {
+      if (!mapRef.current) {
+        return
+      }
+      const rect = mapRef.current.getBoundingClientRect()
+      const nextLeft = Math.max(8, rect.left + 8)
+      const nextTop = Math.max(8, rect.top + 48)
+      setOverlayOffset({ left: nextLeft, top: nextTop })
+    }
+
+    updateOffset()
+    window.addEventListener('resize', updateOffset)
+    window.addEventListener('scroll', updateOffset, true)
+
+    return () => {
+      window.removeEventListener('resize', updateOffset)
+      window.removeEventListener('scroll', updateOffset, true)
+    }
+  }, [])
+
   return (
     <div className="relative">
       <div
@@ -793,8 +820,13 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         }}
       />
       <div
-        className="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-medium pointer-events-none z-[1000] mapresult-seed-label"
-        style={{ fontSize: isMobile ? '12px' : '14px' }}
+        className="bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-medium pointer-events-none z-[1000] mapresult-seed-label"
+        style={{
+          fontSize: isMobile ? '12px' : '14px',
+          position: 'fixed',
+          top: overlayOffset ? `${overlayOffset.top}px` : '150px',
+          left: overlayOffset ? `${overlayOffset.left}px` : '8px'
+        }}
       >
         Map Pattern {seedNumber} - Source: {seedImageProvider.sourceLabel}
       </div>
