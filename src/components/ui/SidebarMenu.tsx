@@ -110,6 +110,58 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                   </button>
                   
                   <Link
+                    href="/faq"
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      FAQ
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Frequently asked questions
+                    </p>
+                  </Link>
+
+                  <Link
+                    href="/contact"
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      Contact
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      How to reach the author
+                    </p>
+                  </Link>
+
+                  <Link
+                    href="/about"
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      About
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      The story behind the project
+                    </p>
+                  </Link>
+
+                  <Link
+                    href="/how-to-use"
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      How to Use
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Step-by-step guide
+                    </p>
+                  </Link>
+
+                  <Link
                     href="/privacy-policy"
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
