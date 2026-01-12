@@ -94,6 +94,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                 >
                   <Link
                     href="/updates"
+                    prefetch={false}
                     onClick={onClose}
                     className="block w-full p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-blue-400 transition-all duration-200 text-left"
                   >
@@ -107,6 +108,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                   
                   <Link
                     href="/faq"
+                    prefetch={false}
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
                   >
@@ -120,6 +122,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
 
                   <Link
                     href="/contact"
+                    prefetch={false}
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
                   >
@@ -133,6 +136,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
 
                   <Link
                     href="/about"
+                    prefetch={false}
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
                   >
@@ -146,6 +150,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
 
                   <Link
                     href="/how-to-use"
+                    prefetch={false}
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
                   >
@@ -159,6 +164,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
 
                   <Link
                     href="/privacy-policy"
+                    prefetch={false}
                     onClick={onClose}
                     className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
                   >

@@ -11,8 +11,8 @@ export default function HomePage() {
           Nightreign Seed Finder is a tool to simplify navigation throughout map patterns and help players optimize in-game routes.
         </p>
         <p className="mt-5 text-gray-300 leading-snug sm:leading-normal">
-          Learn the workflow in <Link className="underline" href="/how-to-use">How to Use</Link>, or check common questions in{' '}
-          <Link className="underline" href="/faq">FAQ</Link>.
+          Learn the workflow in <Link className="underline" href="/how-to-use" prefetch={false}>How to Use</Link>, or check common questions in{' '}
+          <Link className="underline" href="/faq" prefetch={false}>FAQ</Link>.
         </p>
       </header>
 
