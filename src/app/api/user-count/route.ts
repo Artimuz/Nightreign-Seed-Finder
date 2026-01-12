@@ -15,11 +15,7 @@ export async function GET() {
         },
       }
     )
-  } catch (error) {
-    console.error('User count API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

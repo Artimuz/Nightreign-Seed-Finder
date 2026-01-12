@@ -41,11 +41,7 @@ export async function GET(request: Request) {
         },
       }
     )
-  } catch (error) {
-    console.error('Version API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
