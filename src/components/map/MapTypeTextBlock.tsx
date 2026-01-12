@@ -65,6 +65,7 @@ export function MapTypeTextBlock({ mapType }: { mapType: MapTypeKey }) {
             <div>
               <Link
                 href={mapText.sourceUrl}
+                prefetch={false}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-200 underline hover:text-white"

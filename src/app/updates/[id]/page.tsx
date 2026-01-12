@@ -106,7 +106,7 @@ export default async function UpdateDetailPage({ params }: UpdateDetailPageProps
           </div>
           <h1 className="mt-3 text-3xl font-semibold">{update.title}</h1>
           <div className="mt-4">
-            <Link className="text-sm text-gray-200 underline hover:text-white" href="/updates">
+            <Link className="text-sm text-gray-200 underline hover:text-white" href="/updates" prefetch={false}>
               Back to all updates
             </Link>
           </div>

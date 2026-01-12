@@ -33,6 +33,7 @@ export default function UpdatesPage() {
             <Link
               key={update.id}
               href={`/updates/${update.id}`}
+              prefetch={false}
               className="block rounded-lg border border-gray-600/40 bg-black/20 p-5 hover:border-gray-500"
             >
               <div className="flex flex-wrap items-center gap-2">

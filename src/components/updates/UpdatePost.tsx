@@ -40,7 +40,7 @@ export default function UpdatePost({ update, isManualMode, isDismissed }: Update
         <h2 className="text-2xl font-bold text-white mb-2">{update.title}</h2>
         <p className="text-gray-400 text-sm">Published on {formatDate(update.publishDate)}</p>
         <div className="mt-2">
-          <Link href={`/updates/${update.id}`} className="text-sm text-gray-200 underline hover:text-white">
+          <Link href={`/updates/${update.id}`} prefetch={false} className="text-sm text-gray-200 underline hover:text-white">
             Read full post
           </Link>
         </div>

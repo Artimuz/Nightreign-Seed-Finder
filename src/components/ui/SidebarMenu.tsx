@@ -175,6 +175,20 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                       Learn how we protect and handle your data
                     </p>
                   </Link>
+
+                  <Link
+                    href="/support-the-project"
+                    prefetch={false}
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-blue-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-blue-400 transition-colors duration-200">
+                      Support the Project
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Help keep the site sustainable
+                    </p>
+                  </Link>
                 </motion.div>
               </nav>
             </div>
