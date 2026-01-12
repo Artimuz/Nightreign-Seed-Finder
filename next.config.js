@@ -10,10 +10,11 @@ const contentSecurityPolicy = [
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
-  "connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://artimuz.github.io",
+  "connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://artimuz.github.io https://*.adtrafficquality.google",
   "font-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
+  "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
   "frame-ancestors 'none'",
 ].join('; ')
 

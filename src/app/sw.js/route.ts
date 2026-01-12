@@ -52,6 +52,12 @@ self.addEventListener('message', (event) => {
 
   if (data.type === 'SKIP_WAITING') {
     self.skipWaiting()
+    return
+  }
+
+  if (data.type === 'WARM_CACHE') {
+    const urls = Array.isArray(data.urls) ? data.urls : []
+    event.waitUntil(warmCache(urls, staticCacheName))
   }
 })
 
@@ -72,11 +78,11 @@ self.addEventListener('fetch', (event) => {
 })
 
 async function failOpenCacheFirst(cacheKey, request, cacheName) {
-  try {
-    const cache = await caches.open(cacheName)
-    const cached = await cache.match(cacheKey)
-    if (cached) return cached
+  const cache = await caches.open(cacheName)
+  const cached = await cache.match(cacheKey)
+  if (cached) return cached
 
+  try {
     const response = await fetch(request)
 
     if (response.ok && response.status === 200 && response.type === 'basic') {
@@ -91,6 +97,36 @@ async function failOpenCacheFirst(cacheKey, request, cacheName) {
   } catch {
     return fetch(request)
   }
+}
+
+async function warmCache(urls, cacheName) {
+  const cache = await caches.open(cacheName)
+  const uniqueUrls = Array.from(
+    new Set(
+      urls
+        .filter((url) => typeof url === 'string')
+        .map((url) => url.trim())
+        .filter((url) => url.length > 0)
+    )
+  )
+
+  await Promise.all(
+    uniqueUrls.map(async (url) => {
+      const requestUrl = new URL(url, self.location.origin)
+      if (requestUrl.origin !== self.location.origin) return
+      if (!shouldHandleRequest(requestUrl, 'GET')) return
+
+      const cacheKey = requestUrl.toString()
+      const cached = await cache.match(cacheKey)
+      if (cached) return
+
+      const response = await fetch(cacheKey, { cache: 'reload' })
+
+      if (response.ok && response.status === 200 && response.type === 'basic') {
+        await cache.put(cacheKey, response)
+      }
+    })
+  )
 }
 
 `
