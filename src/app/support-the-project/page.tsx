@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { pagesPngUrl, pagesWebpUrl } from '@/lib/pagesAssets'
 
 export const metadata: Metadata = {
-  title: 'Support the Project | Nightreign Seed Finder',
+  title: 'Support the Project',
   description: 'Help keep Nightreign Seed Finder sustainable as it grows and continues to receive updates.',
 }
 
@@ -24,7 +25,7 @@ export default function SupportTheProjectPage() {
           <div className="grid gap-6 sm:grid-cols-[260px_1fr] sm:items-start">
             <div className="overflow-hidden rounded-xl border border-gray-600/40 bg-black/20">
               <Image
-                src="/Images/support/remember-to-feed-your-local-revenant.webp"
+                src={pagesWebpUrl('/Images/support/remember-to-feed-your-local-revenant.webp')}
                 alt="Remember to feed your local revenant"
                 width={520}
                 height={520}
@@ -58,7 +59,7 @@ export default function SupportTheProjectPage() {
               className="inline-flex items-center justify-center rounded-lg border border-gray-500/60 bg-gray-700/40 px-5 py-3 font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:border-blue-400/80 hover:bg-gray-600/50"
             >
               <span className="flex items-center gap-2">
-                <Image src="/Images/support/KoFiIcon.png" alt="Ko-fi" width={18} height={18} unoptimized />
+                <Image src={pagesPngUrl('/Images/support/KoFiIcon.png')} alt="Ko-fi" width={18} height={18} unoptimized />
                 <span>Support on Ko-fi</span>
               </span>
             </Link>

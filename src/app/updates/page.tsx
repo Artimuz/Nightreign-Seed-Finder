@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getAllUpdates } from '@/lib/updates/updateManager'
 
 export const metadata: Metadata = {
-  title: 'Updates | Nightreign Seed Finder',
+  title: 'Updates',
   description: 'Browse release notes and updates for Nightreign Seed Finder.',
 }
 

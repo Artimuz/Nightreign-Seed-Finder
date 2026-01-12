@@ -6,10 +6,13 @@ import { Footer } from '@/components/ui/Footer'
 import { GlobalBackground } from '@/components/backgrounds/GlobalBackground'
 import { GlobalUpdateProvider } from '@/components/providers/GlobalUpdateProvider'
 import { PwaServiceWorkerRegister } from '@/components/PwaServiceWorkerRegister'
-import { pagesIcoUrl } from '@/lib/pagesAssets'
+import { pagesIcoUrl, pagesJpgUrl } from '@/lib/pagesAssets'
 
 export const metadata: Metadata = {
-  title: 'Nightreign Seed Finder',
+  title: {
+    default: 'Nightreign Seed Finder',
+    template: '%s | Nightreign Seed Finder',
+  },
   description: 'Mobile-friendly seed finder for Nightreign',
   keywords: 'nightreign, seed finder, game seeds, map builder',
   authors: [{ name: 'Nightreign Seed Finder Team' }],
@@ -26,6 +29,18 @@ export const metadata: Metadata = {
     title: 'Nightreign Seed Finder',
     description: 'Find optimal game seeds for Nightreign',
     type: 'website',
+    images: [
+      {
+        url: pagesJpgUrl('/Images/og/og_main.jpg'),
+        width: 1200,
+        height: 630,
+        alt: 'Nightreign Seed Finder',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [pagesJpgUrl('/Images/og/og_main.jpg')],
   },
 }
 

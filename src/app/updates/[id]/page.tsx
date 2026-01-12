@@ -71,13 +71,14 @@ export async function generateMetadata({ params }: UpdateDetailPageProps): Promi
 
   if (!update) {
     return {
-      title: 'Update not found | Nightreign Seed Finder',
+      title: 'Update not found',
       description: 'The requested update could not be found.',
     }
   }
 
   return {
-    title: `${update.title} | Updates | Nightreign Seed Finder`,
+    title: `${update.title} | Updates`,
+
     description: extractDescription(update.content),
   }
 }

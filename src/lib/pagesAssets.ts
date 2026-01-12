@@ -55,5 +55,6 @@ export const pagesAssetUrl = (pathValue: string, extensions: string[]): string =
 
 export const pagesWebpUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.webp'])
 export const pagesPngUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.png'])
+export const pagesJpgUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.jpg', '.jpeg'])
 export const pagesIcoUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.ico'])
 export const pagesJsonUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.json'])

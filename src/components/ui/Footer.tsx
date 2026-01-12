@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { APP_VERSION } from '@/lib/constants/version'
 import { usePathname } from 'next/navigation'
 import BugReportModal from './BugReportModal'
+import { pagesPngUrl } from '@/lib/pagesAssets'
 
 export const Footer: React.FC = () => {
   const [isBugModalOpen, setIsBugModalOpen] = React.useState(false)
@@ -41,7 +42,7 @@ export const Footer: React.FC = () => {
           className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200"
         >
           <Image
-            src="/Images/support/KoFiIcon.png"
+            src={pagesPngUrl('/Images/support/KoFiIcon.png')}
             alt="Ko-fi"
             width={18}
             height={18}

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About | Nightreign Seed Finder',
+  title: 'About',
   description: 'Learn the story behind Nightreign Seed Finder.',
 }
 
