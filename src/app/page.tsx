@@ -21,6 +21,24 @@ export default function HomePage() {
       </section>
 
       <HomeAutoUpdateModalTrigger />
+
+      <div className="h-[32rem]" />
+
+      <nav className="flex justify-center px-6 pb-10">
+        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-sm text-gray-300">
+          <Link className="underline" href="/legal" prefetch={false}>
+            Legal
+          </Link>
+          <span aria-hidden="true">•</span>
+          <Link className="underline" href="/privacy-policy" prefetch={false}>
+            Privacy Policy
+          </Link>
+          <span aria-hidden="true">•</span>
+          <Link className="underline" href="/terms" prefetch={false}>
+            Terms
+          </Link>
+        </div>
+      </nav>
     </div>
   )
 }

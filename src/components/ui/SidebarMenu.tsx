@@ -177,6 +177,34 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, onTri
                   </Link>
 
                   <Link
+                    href="/legal"
+                    prefetch={false}
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      Legal
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Disclaimers, trademarks, and takedown policy
+                    </p>
+                  </Link>
+
+                  <Link
+                    href="/terms"
+                    prefetch={false}
+                    onClick={onClose}
+                    className="block p-4 rounded-lg border border-gray-600/50 bg-gray-700/30 hover:bg-gray-600/50 hover:border-gray-400 transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-semibold text-white hover:text-gray-300 transition-colors duration-200">
+                      Terms
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Terms of service
+                    </p>
+                  </Link>
+
+                  <Link
                     href="/support-the-project"
                     prefetch={false}
                     onClick={onClose}

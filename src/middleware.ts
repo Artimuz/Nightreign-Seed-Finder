@@ -30,6 +30,21 @@ const toClientIp = (request: NextRequest): string => {
 
 const toUserAgent = (request: NextRequest): string => request.headers.get('user-agent') ?? ''
 
+const isGoogleCrawlerUserAgent = (userAgent: string): boolean => {
+  const ua = userAgent.toLowerCase()
+
+  const signals = [
+    'googlebot',
+    'adsbot-google',
+    'mediapartners-google',
+    'google-inspectiontool',
+    'apis-google',
+    'feedfetcher-google',
+  ]
+
+  return signals.some((signal) => ua.includes(signal))
+}
+
 const isLikelyAutomatedUserAgent = (userAgent: string): boolean => {
   const ua = userAgent.toLowerCase()
 
@@ -70,6 +85,10 @@ const decideBlocking = (request: NextRequest): BlockDecision => {
 
   if (!userAgent || userAgent.trim().length < 4) {
     return { shouldBlock: true, status: 403, reason: 'missing_user_agent' }
+  }
+
+  if (isGoogleCrawlerUserAgent(userAgent)) {
+    return { shouldBlock: false, status: 200, reason: 'allowed_google_crawler' }
   }
 
   if (isLikelyAutomatedUserAgent(userAgent)) {

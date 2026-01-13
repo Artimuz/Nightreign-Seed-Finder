@@ -6,7 +6,7 @@ export function GET() {
   const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? '0'
 
   const js = `const APP_VERSION = ${JSON.stringify(appVersion)}
-const SW_REVISION = '6'
+const SW_REVISION = '7'
 
 const staticCacheName = \`next-static-\${APP_VERSION}-\${SW_REVISION}\`
 

@@ -26,7 +26,12 @@ function writeVisibilityToStorage(visible: boolean) {
   }
 }
 
-export function MapTypeTextBlock({ mapType }: { mapType: MapTypeKey }) {
+type AdditionalTextSection = {
+  title: string
+  text: string
+}
+
+export function MapTypeTextBlock({ mapType, additionalSections }: { mapType: MapTypeKey; additionalSections?: AdditionalTextSection[] }) {
   const mapText = useMemo(() => getMapTypeText(mapType), [mapType])
   const [visible, setVisible] = useState(true)
 
@@ -73,6 +78,18 @@ export function MapTypeTextBlock({ mapType }: { mapType: MapTypeKey }) {
                 Source
               </Link>
             </div>
+
+            {additionalSections && additionalSections.length > 0 ? (
+              <div className="space-y-3 pt-1">
+                {additionalSections.map((section) => (
+                  <div key={section.title} className="space-y-1">
+                    <h3 className="text-sm font-semibold text-gray-100">{section.title}</h3>
+                    <p>{section.text}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
             <div className="pt-2">
               <button
                 type="button"

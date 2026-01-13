@@ -49,7 +49,15 @@ export const Footer: React.FC = () => {
             className="group-hover:scale-110 transition-transform duration-200"
             unoptimized
           />
-          <span className="text-sm font-medium">Support the project</span>
+          <span className="text-base font-semibold text-white">Support the project</span>
+          <Image
+            src={pagesPngUrl('/Images/support/KoFiIcon.png')}
+            alt="Ko-fi"
+            width={18}
+            height={18}
+            className="group-hover:scale-110 transition-transform duration-200"
+            unoptimized
+          />
         </Link>
         <BugReportModal isOpen={isBugModalOpen} onClose={() => setIsBugModalOpen(false)} />
       </div>
