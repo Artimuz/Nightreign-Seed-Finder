@@ -166,7 +166,7 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
               alt={title}
               priority
             />
-            <div className="map-card-title relative">
+            <div className="map-card-title">
               <h3 className="text-white text-base leading-tight text-center seed-finder-glow" style={{ fontFamily: 'Mantinia, serif' }}>
                 {title}
               </h3>
