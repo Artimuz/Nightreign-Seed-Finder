@@ -1,0 +1,5 @@
+# robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://nightreign-seed-finder.vercel.app/sitemap.xml

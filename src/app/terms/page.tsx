@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { DecoratedArticle } from '@/components'
 
 export const metadata: Metadata = {
   title: 'Terms',
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-6 pb-24 pt-28 text-gray-100">
-      <article className="rounded-xl border border-gray-600/40 bg-black/85 p-6 backdrop-blur-sm sm:p-10">
+      <DecoratedArticle>
         <header>
           <h1 className="text-3xl font-semibold">Terms of Service</h1>
         </header>
@@ -42,7 +43,7 @@ export default function TermsPage() {
             </p>
           </section>
         </div>
-      </article>
+      </DecoratedArticle>
     </div>
   )
 }

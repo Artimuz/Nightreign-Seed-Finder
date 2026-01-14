@@ -1,6 +1,6 @@
 :root {
   /* Card scaling variables */
-  --card-scale: 1;
+  --card-scale: 0.55;
   
   /* Desktop card variables - scaled by --card-scale */
   --card-width-desktop: calc(280px * var(--card-scale));
@@ -57,19 +57,17 @@
 .map-selection-card {
   position: relative;
   z-index: 1;
-  opacity: 0;
 }
 .map-selection-card:hover {
   z-index: 10 !important;
 }
 .map-card-image-container {
-  width: var(--card-width-desktop, 280px);
+  width: calc(var(--card-width-desktop, 280px) * 1.15);
   height: var(--card-height-desktop, 490px);
   overflow: hidden;
   position: relative;
   border-radius: calc(8px * var(--card-scale, 0.5));
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease-in-out;
 }
 .map-card-image-wrapper {
   position: relative;
@@ -77,26 +75,18 @@
   height: var(--card-height-desktop, 490px);
   left: 50%;
   transform: translateX(-50%);
-  transition: all 0.3s ease-in-out;
 }
 .map-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  transition: all 0.3s ease-in-out;
-  filter: saturate(0.8) brightness(0.9);
-}
-.map-selection-card:hover .map-card-image-container {
-  width: var(--card-expanded-width-desktop-scaled, 350px);
-  height: var(--card-height-desktop, 490px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-}
-.map-selection-card:hover .map-card-image-wrapper {
-  transform: translateX(calc(-1 * var(--card-expanded-width-desktop-scaled, 350px) / 2));
+  filter: saturate(0.6) brightness(0.9);
+  transition: filter 0.3s ease-in-out;
+  will-change: filter;
 }
 .map-selection-card:hover .map-card-image {
-  filter: saturate(1.3) brightness(1.15) hue-rotate(10deg);
+  filter: saturate(1.5) brightness(1.15) hue-rotate(10deg);
 }
 .map-card-title {
   position: absolute;
@@ -106,7 +96,7 @@
   background: none;
   padding: 20px 15px 15px;
   border-radius: 8px;
-  transition: all 0.3s ease-in-out;
+  isolation: isolate;
 }
 .map-selection-card:hover .map-card-title {
   background: none;

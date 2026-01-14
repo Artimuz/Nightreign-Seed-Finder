@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
 import { buildingIconOrder, nightlordIconOrder, nightlordIcons } from '@/lib/constants/icons'
+import DecoratedModal from './ui/DecoratedModal'
 
 interface SlotSelectionModalProps {
   isOpen: boolean
@@ -11,6 +12,7 @@ interface SlotSelectionModalProps {
   onSelect: (building: string) => void
   availableOptions: string[]
   currentBuilding?: string
+  borderHueRotate?: number
 }
 
 export default function SlotSelectionModal({ 
@@ -19,7 +21,8 @@ export default function SlotSelectionModal({
   slotId, 
   onSelect, 
   availableOptions,
-  currentBuilding
+  currentBuilding,
+  borderHueRotate = 0
 }: SlotSelectionModalProps) {
   const [mounted, setMounted] = useState(false)
   
@@ -44,18 +47,6 @@ export default function SlotSelectionModal({
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen])
 
   if (!mounted || !isOpen) return null
 
@@ -145,12 +136,13 @@ export default function SlotSelectionModal({
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/20"
       onClick={handleBackdropClick}
     >
-      <div 
-        className={`bg-black/95 rounded-2xl border border-gray-600/50 shadow-2xl ${getModalWidth()} w-full max-h-[80vh] overflow-hidden mx-4`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {}
-        <div className="p-6 border-b border-gray-700/50">
+      <div onClick={(e) => e.stopPropagation()} className="relative py-8">
+        <DecoratedModal 
+          className={`bg-black/95 rounded-2xl border border-gray-600/50 shadow-2xl ${getModalWidth()} w-full mx-4`}
+          hueRotate={borderHueRotate}
+        >
+          {}
+        <div className="p-6 border-b border-gray-700/50 max-h-[70vh] overflow-y-auto">
           <div className="flex justify-between items-center">
             <div>
               <h3 className="text-xl font-bold text-white">
@@ -228,6 +220,7 @@ export default function SlotSelectionModal({
         {}
         <div className="p-4 border-t border-gray-700/50 bg-black/30">
         </div>
+        </DecoratedModal>
       </div>
     </div>
   )

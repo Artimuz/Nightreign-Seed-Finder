@@ -48,17 +48,24 @@ export default function UpdatePost({ update, isManualMode, isDismissed }: Update
 
       {/* Image */}
       {update.image && (
-        <div className="mb-6 rounded-lg overflow-hidden">
-          <Image
-            src={update.image}
-            alt={`${update.title} - Update Image`}
-            width={600}
-            height={400}
-            className="w-full h-auto object-cover"
-            priority
-            unoptimized={update.image.startsWith('/')}
-          />
-        </div>
+        <figure className="mb-6">
+          <div className="rounded-lg overflow-hidden">
+            <Image
+              src={update.image}
+              alt={update.imageLabel || `${update.title} - Update Image`}
+              width={600}
+              height={400}
+              className="w-full h-auto object-contain"
+              priority
+              unoptimized={update.image.startsWith('/')}
+            />
+          </div>
+          {update.imageLabel && (
+            <figcaption className="mt-2 text-center text-sm text-gray-400">
+              {update.imageLabel}
+            </figcaption>
+          )}
+        </figure>
       )}
 
       {/* Content */}
@@ -77,6 +84,35 @@ export default function UpdatePost({ update, isManualMode, isDismissed }: Update
                   {line.replace('### ', '')}
                 </h3>
               )
+            }
+            
+            if (line.startsWith('![')) {
+              const match = line.match(/!\[(.*?)\]\((.*?)\)/)
+              if (match) {
+                const alt = match[1] ?? ''
+                const src = match[2] ?? ''
+                return (
+                  <figure key={key} className="my-6">
+                    <div className="flex justify-center">
+                      <div className="max-w-sm overflow-hidden rounded-lg border border-gray-600/40">
+                        <Image
+                          src={src}
+                          alt={alt}
+                          width={300}
+                          height={150}
+                          className="h-auto w-full object-contain"
+                          unoptimized={src.startsWith('/')}
+                        />
+                      </div>
+                    </div>
+                    {alt && (
+                      <figcaption className="mt-2 text-center text-xs text-gray-400">
+                        {alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                )
+              }
             }
             
             if (line.startsWith('- **')) {

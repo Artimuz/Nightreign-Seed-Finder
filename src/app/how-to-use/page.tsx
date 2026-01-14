@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { DecoratedArticle } from '@/components'
 
 export const metadata: Metadata = {
   title: 'How to Use',
@@ -46,7 +47,7 @@ const sections: HowToSection[] = [
 export default function HowToUsePage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-6 pb-24 pt-28 text-gray-100">
-      <article className="rounded-xl border border-gray-600/40 bg-black/85 p-6 backdrop-blur-sm sm:p-10">
+      <DecoratedArticle>
         <header>
           <h1 className="text-3xl font-semibold">Nightreign Seed Finder</h1>
           <p className="mt-1 text-lg font-medium text-gray-200">How to Use</p>
@@ -74,7 +75,7 @@ export default function HowToUsePage() {
             </section>
           ))}
         </div>
-      </article>
+      </DecoratedArticle>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { pagesPngUrl, pagesWebpUrl } from '@/lib/pagesAssets'
+import { DecoratedArticle } from '@/components'
 
 export const metadata: Metadata = {
   title: 'Support the Project',
@@ -13,7 +14,7 @@ const kofiUrl = 'https://ko-fi.com/nightreignseedfinder'
 export default function SupportTheProjectPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-6 pb-24 pt-28 text-gray-100">
-      <article className="rounded-xl border border-gray-600/40 bg-black/85 p-6 backdrop-blur-sm sm:p-10">
+      <DecoratedArticle>
         <header className="text-center">
           <h1 className="text-3xl font-semibold">Support Nightreign Seed Finder</h1>
           <p className="mt-3 text-gray-300">
@@ -65,7 +66,7 @@ export default function SupportTheProjectPage() {
             </Link>
           </div>
         </div>
-      </article>
+      </DecoratedArticle>
     </div>
   )
 }

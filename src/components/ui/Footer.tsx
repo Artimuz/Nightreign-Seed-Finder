@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
             unoptimized
           />
         </Link>
-        <BugReportModal isOpen={isBugModalOpen} onClose={() => setIsBugModalOpen(false)} />
+        <BugReportModal isOpen={isBugModalOpen} onClose={() => setIsBugModalOpen(false)} borderHueRotate={0} />
       </div>
     </motion.footer>
   )

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getAllUpdates, getUpdateById } from '@/lib/updates/updateManager'
+import { DecoratedArticle } from '@/components'
 
 interface UpdateDetailPageProps {
   params: Promise<{ id: string }>
@@ -35,6 +36,7 @@ type ContentBlock =
   | { type: 'paragraph'; text: string }
   | { type: 'heading'; text: string }
   | { type: 'bullet'; title: string; description: string | null }
+  | { type: 'image'; src: string; alt: string }
 
 function parseContent(content: string): ContentBlock[] {
   const blocks: ContentBlock[] = []
@@ -47,6 +49,16 @@ function parseContent(content: string): ContentBlock[] {
 
     if (line.startsWith('### ')) {
       blocks.push({ type: 'heading', text: line.replace('### ', '') })
+      continue
+    }
+
+    if (line.startsWith('![')) {
+      const match = line.match(/!\[(.*?)\]\((.*?)\)/)
+      if (match) {
+        const alt = match[1] ?? ''
+        const src = match[2] ?? ''
+        blocks.push({ type: 'image', src, alt })
+      }
       continue
     }
 
@@ -95,7 +107,7 @@ export default async function UpdateDetailPage({ params }: UpdateDetailPageProps
 
   return (
     <div className="mx-auto w-full max-w-4xl px-6 pb-24 pt-28 text-gray-100">
-      <article className="rounded-xl border border-gray-600/40 bg-black/85 p-6 backdrop-blur-sm sm:p-10">
+      <DecoratedArticle>
         <header>
           <div className="flex flex-wrap items-center gap-2">
             {update.version ? (
@@ -114,17 +126,24 @@ export default async function UpdateDetailPage({ params }: UpdateDetailPageProps
         </header>
 
         {update.image ? (
-          <div className="mt-8 overflow-hidden rounded-lg border border-gray-600/40">
-            <Image
-              src={update.image}
-              alt={`${update.title} - update image`}
-              width={1200}
-              height={800}
-              className="h-auto w-full object-cover"
-              priority
-              unoptimized={update.image.startsWith('/')}
-            />
-          </div>
+          <figure className="mt-8">
+            <div className="overflow-hidden rounded-lg border border-gray-600/40">
+              <Image
+                src={update.image}
+                alt={update.imageLabel || `${update.title} - update image`}
+                width={600}
+                height={400}
+                className="h-auto w-full object-contain"
+                priority
+                unoptimized={update.image.startsWith('/')}
+              />
+            </div>
+            {update.imageLabel && (
+              <figcaption className="mt-2 text-center text-sm text-gray-400">
+                {update.imageLabel}
+              </figcaption>
+            )}
+          </figure>
         ) : null}
 
         <div className="mt-10 space-y-4 text-gray-300">
@@ -136,6 +155,30 @@ export default async function UpdateDetailPage({ params }: UpdateDetailPageProps
                 <h2 key={key} className="pt-4 text-xl font-semibold text-white">
                   {block.text}
                 </h2>
+              )
+            }
+
+            if (block.type === 'image') {
+              return (
+                <figure key={key} className="my-6">
+                  <div className="flex justify-center">
+                    <div className="max-w-md overflow-hidden rounded-lg border border-gray-600/40">
+                      <Image
+                        src={block.src}
+                        alt={block.alt}
+                        width={400}
+                        height={200}
+                        className="h-auto w-full object-contain"
+                        unoptimized={block.src.startsWith('/')}
+                      />
+                    </div>
+                  </div>
+                  {block.alt && (
+                    <figcaption className="mt-2 text-center text-sm text-gray-400">
+                      {block.alt}
+                    </figcaption>
+                  )}
+                </figure>
               )
             }
 
@@ -163,7 +206,7 @@ export default async function UpdateDetailPage({ params }: UpdateDetailPageProps
             </div>
           </div>
         ) : null}
-      </article>
+      </DecoratedArticle>
     </div>
   )
 }

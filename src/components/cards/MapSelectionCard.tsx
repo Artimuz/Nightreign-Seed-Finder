@@ -12,16 +12,14 @@ interface MapSelectionCardProps {
   imageSrc: string;
   onClick?: (event: React.MouseEvent) => void;
   isLocked?: boolean;
+  seedCounts?: {
+    nightlordSeeds: number;
+    total: number;
+  };
 }
 
-const cardVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  selected: { opacity: 0 }
-};
-
 export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
-  mapType, title, imageSrc, onClick, isLocked = false
+  mapType, title, imageSrc, onClick, isLocked = false, seedCounts
 }) => {
   const [showMapIcon, setShowMapIcon] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -88,9 +86,6 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
   return (
     <motion.div
       ref={cardRef}
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
       whileHover={{
         zIndex: 10
       }}
@@ -171,10 +166,17 @@ export const MapSelectionCard: React.FC<MapSelectionCardProps> = ({
               alt={title}
               priority
             />
-            <div className="map-card-title">
-              <h3 className="text-white font-bold text-base leading-tight text-center seed-finder-glow">
+            <div className="map-card-title relative">
+              <h3 className="text-white text-base leading-tight text-center seed-finder-glow" style={{ fontFamily: 'Mantinia, serif' }}>
                 {title}
               </h3>
+              {seedCounts && (
+                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2" style={{ top: '100%', marginTop: '-8px' }}>
+                  <p className="text-white text-sm text-center seed-finder-glow whitespace-nowrap" style={{ fontFamily: 'Mantinia, serif' }}>
+                    {seedCounts.nightlordSeeds} / {seedCounts.total}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

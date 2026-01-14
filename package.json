@@ -1,15 +1,16 @@
 {
   "name": "nightreign-seed-finder-spa",
-  "version": "1.2.28",
+  "version": "1.2.29",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm run sync:pages",
+    "build": "next build && npm run sync:pages && npm run generate:seo",
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
     "lint:security": "eslint . --ext .ts,.tsx --config .eslintrc.security.json",
-    "sync:pages": "node scripts/sync-public-to-docs.mjs"
+    "sync:pages": "node scripts/sync-public-to-docs.mjs",
+    "generate:seo": "node scripts/generate-seo-files.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",

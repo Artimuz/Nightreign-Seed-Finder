@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { DecoratedArticle } from '@/components'
 
 export default function PrivacyPolicyPage() {
   const [mounted, setMounted] = useState(false)
@@ -31,7 +32,7 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Content */}
-        <div className="bg-black/40 backdrop-blur-sm rounded-lg border border-gray-600/30 p-8">
+        <DecoratedArticle className="bg-black/40 backdrop-blur-sm">
           <div className="prose prose-invert prose-lg max-w-none">
             
             {/* Information We Collect */}
@@ -149,7 +150,7 @@ export default function PrivacyPolicyPage() {
             </div>
 
           </div>
-        </div>
+        </DecoratedArticle>
       </div>
     </div>
   )

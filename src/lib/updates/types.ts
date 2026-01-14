@@ -4,6 +4,7 @@ export interface UpdatePost {
   title: string
   content: string
   image?: string
+  imageLabel?: string
   priority: 'low' | 'medium' | 'high' | 'critical'
   publishDate: string
   category: 'feature' | 'bugfix' | 'announcement' | 'security'

@@ -9,6 +9,7 @@ import { useRateLimit } from '@/hooks/useRateLimit'
 import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
 import { trackAnalyticsEvent } from '@/lib/analytics/events'
+import { getInteractiveCoordinates } from '@/lib/constants/mapCoordinates'
 
 interface MapBuilderProps {
   mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'greatHollow'
@@ -36,6 +37,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   const [selectedSlot, setSelectedSlot] = useState<string>('')
   const [currentZoom, setCurrentZoom] = useState<number>(0)
   const [pathTaken, setPathTaken] = useState<Record<string, string>>({})
+  const [isMapInitialized, setIsMapInitialized] = useState(false)
   const [remainingSeedsCount, setRemainingSeedsCount] = useState<number>(0)
   const [pendingLogSeed, setPendingLogSeed] = useState<string | null>(null)
   const router = useRouter()
@@ -151,6 +153,12 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
       const executeLogging = async () => {
 
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('preSelectedNightlord', 'empty')
+          window.dispatchEvent(new Event('storage'))
+          window.dispatchEvent(new Event('nightlord-reset'))
+        }
+
         router.push(`/result/${pendingLogSeed}`);
         
         const canMake = canMakeRequest();
@@ -187,6 +195,49 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     const sessionStartKey = 'seedfinder_session_start';
     if (!localStorage.getItem(sessionStartKey)) {
       localStorage.setItem(sessionStartKey, Date.now().toString());
+    }
+
+    if (typeof window !== 'undefined') {
+      const preSelected = localStorage.getItem('preSelectedNightlord')
+      if (preSelected && preSelected !== 'empty') {
+        setSelectedNightlord(preSelected)
+        setPathTaken(prev => ({ ...prev, nightlord: preSelected }))
+      } else {
+        setSelectedNightlord('empty')
+      }
+    }
+
+    const handleNightlordReset = () => {
+      setSelectedNightlord('empty')
+      setPathTaken(prev => {
+        const newPath = { ...prev }
+        delete newPath.nightlord
+        return newPath
+      })
+    }
+
+    const handleStorageChange = () => {
+      const stored = localStorage.getItem('preSelectedNightlord')
+      if (stored === 'empty' || !stored) {
+        setSelectedNightlord('empty')
+        setPathTaken(prev => {
+          const newPath = { ...prev }
+          delete newPath.nightlord
+          return newPath
+        })
+      }
+    }
+
+    window.addEventListener('nightlord-reset', handleNightlordReset)
+    window.addEventListener('storage', handleStorageChange)
+
+    setTimeout(() => {
+      setIsMapInitialized(true)
+    }, 100)
+
+    return () => {
+      window.removeEventListener('nightlord-reset', handleNightlordReset)
+      window.removeEventListener('storage', handleStorageChange)
     }
   }, [])
 
@@ -480,6 +531,13 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
     if (targetSlot === 'nightlord') {
       setSelectedNightlord(building)
+      if (typeof window !== 'undefined') {
+        if (building === 'empty' || building === '') {
+          localStorage.removeItem('preSelectedNightlord')
+        } else {
+          localStorage.setItem('preSelectedNightlord', building)
+        }
+      }
     } else {
       setSelectedBuildings(prev => ({
         ...prev,
@@ -579,7 +637,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   }
 
   useEffect(() => {
-    if (!mapRef.current) return
+    if (!mapRef.current || !isMapInitialized) return
 
     const containerSize = mapRef.current ? Math.min(mapRef.current.offsetWidth, mapRef.current.offsetHeight) : 1000
     const imageBounds: L.LatLngBoundsExpression = [[0, 0], [containerSize, containerSize]]
@@ -610,13 +668,12 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
     
     leafletMapRef.current = map
 
-    setTimeout(async () => {
+    setTimeout(() => {
       try {
         if (!leafletMapRef.current || !leafletMapRef.current.getContainer()) {
           return
         }
 
-        const { getInteractiveCoordinates } = await import('@/lib/constants/mapCoordinates')
         const coordsData = getInteractiveCoordinates(mapType)
         
 
@@ -772,7 +829,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         leafletMapRef.current = null
       }
     }
-  }, [mapType, router])
+  }, [mapType, router, isMapInitialized])
 
   useEffect(() => {
     if (!markersRef.current || !iconConfigRef.current || !leafletMapRef.current) return
@@ -1052,6 +1109,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
         availableOptions={getAvailableOptions(selectedSlot)}
         currentBuilding={selectedSlot === 'nightlord' ? selectedNightlord : 
           (Object.prototype.hasOwnProperty.call(selectedBuildings, selectedSlot) ? selectedBuildings[selectedSlot] : undefined)}
+        borderHueRotate={selectedSlot === 'nightlord' ? 90 : 175}
       />
     </>
   )

@@ -1,8 +1,13 @@
+'use client'
+
 import Link from 'next/link'
+import { useState } from 'react'
 import { MapSelectionCards } from '@/components/cards/MapSelectionCards'
-import { HomeAutoUpdateModalTrigger } from '@/components/HomeAutoUpdateModalTrigger'
+import PreNightlordSelector from '@/components/ui/PreNightlordSelector'
 
 export default function HomePage() {
+  const [selectedNightlord, setSelectedNightlord] = useState<string>('empty')
+
   return (
     <div className="mx-auto w-full max-w-7xl px-6 pb-24 pt-28 text-gray-100">
       <header className="mx-auto max-w-3xl text-center">
@@ -10,17 +15,24 @@ export default function HomePage() {
         <p className="mt-6 text-gray-300 leading-snug sm:leading-normal">
           Nightreign Seed Finder is a tool to simplify navigation throughout map patterns and help players optimize in-game routes.
         </p>
-        <p className="mt-5 text-gray-300 leading-snug sm:leading-normal">
+        <p className="mt-1 text-gray-300 leading-snug sm:leading-normal">
           Learn the workflow in <Link className="underline" href="/how-to-use" prefetch={false}>How to Use</Link>, or check common questions in{' '}
           <Link className="underline" href="/faq" prefetch={false}>FAQ</Link>.
         </p>
       </header>
 
-      <section className="mx-auto mt-0 w-full max-w-7xl md:mt-[4.5rem]">
-        <MapSelectionCards />
+      <section className="mx-auto mt-0 w-full max-w-7xl md:mt-[1.5rem]">
+        <MapSelectionCards selectedNightlord={selectedNightlord} />
       </section>
 
-      <HomeAutoUpdateModalTrigger />
+      <section className="mx-auto mt-8 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex items-center justify-center">
+          {/* Empty space on the left */}
+        </div>
+        <div className="flex items-center justify-center">
+          <PreNightlordSelector onNightlordChange={setSelectedNightlord} />
+        </div>
+      </section>
 
       <div className="h-[32rem]" />
 
