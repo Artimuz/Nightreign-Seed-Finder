@@ -111,7 +111,3 @@ export function cleanupMap(map: L.Map | null): void {
     map.remove()
   }
 }
-
-export function getMapImage(mapType: keyof typeof MAP_CONFIG.images): string {
-  return MAP_CONFIG.images[mapType] || MAP_CONFIG.images.normal
-}

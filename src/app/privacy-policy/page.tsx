@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { DecoratedArticle } from '@/components'
+import DecoratedArticle from '@/components/ui/DecoratedArticle'
 
 export default function PrivacyPolicyPage() {
   const [mounted, setMounted] = useState(false)

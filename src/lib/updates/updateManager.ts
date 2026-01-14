@@ -30,7 +30,7 @@ const updatePosts: UpdatePost[] = [
 
 Your Nightlord selection will be automatically applied and cleared after each search!`,
     priority: "medium",
-    publishDate: "2026-01-14T00:00:00Z",
+    publishDate: "2026-01-14T11:00:00Z",
     category: "feature",
     showInModal: false,
     tags: ["nightlord", "ui", "performance", "quality-of-life"]
