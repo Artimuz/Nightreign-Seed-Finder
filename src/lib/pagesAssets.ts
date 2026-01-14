@@ -46,11 +46,9 @@ export const pagesAssetUrl = (pathValue: string, extensions: string[]): string =
     return withBase.includes('v=') ? withBase : `${withBase}${separator}v=${encodeURIComponent(APP_VERSION)}`
   }
 
-  const url = new URL(`${base}${normalizedPath}`)
-  if (!url.searchParams.has('v')) {
-    url.searchParams.set('v', APP_VERSION)
-  }
-  return url.toString()
+  const fullUrl = `${base}${normalizedPath}`
+  const separator = fullUrl.includes('?') ? '&' : '?'
+  return fullUrl.includes('v=') ? fullUrl : `${fullUrl}${separator}v=${encodeURIComponent(APP_VERSION)}`
 }
 
 export const pagesWebpUrl = (pathValue: string): string => pagesAssetUrl(pathValue, ['.webp'])
