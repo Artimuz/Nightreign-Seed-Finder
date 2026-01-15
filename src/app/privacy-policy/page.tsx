@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import DecoratedArticle from '@/components/ui/DecoratedArticle'
+import PageNavButtons from '@/components/ui/PageNavButtons'
 
 export default function PrivacyPolicyPage() {
   const [mounted, setMounted] = useState(false)
@@ -150,6 +151,15 @@ export default function PrivacyPolicyPage() {
             </div>
 
           </div>
+
+          <PageNavButtons
+            title="Related pages"
+            links={[
+              { href: '/legal', label: 'Legal & Disclaimer' },
+              { href: '/terms', label: 'Terms of Service' },
+              { href: '/privacy-policy', label: 'Privacy Policy' },
+            ]}
+          />
         </DecoratedArticle>
       </div>
     </div>

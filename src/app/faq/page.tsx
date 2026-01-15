@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { DecoratedArticle } from '@/components'
+import { DecoratedArticle, PageNavButtons } from '@/components'
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -51,6 +51,16 @@ export default function FaqPage() {
             </section>
           ))}
         </div>
+
+        <PageNavButtons
+          title="More"
+          links={[
+            { href: '/how-to-use', label: 'How to Use' },
+            { href: '/faq', label: 'FAQ' },
+            { href: '/updates', label: 'Updates' },
+            { href: '/about', label: 'About' },
+          ]}
+        />
       </DecoratedArticle>
     </div>
   )

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { DecoratedArticle } from '@/components'
+import { DecoratedArticle, PageNavButtons } from '@/components'
 
 export const metadata: Metadata = {
   title: 'Terms',
@@ -43,6 +43,15 @@ export default function TermsPage() {
             </p>
           </section>
         </div>
+
+        <PageNavButtons
+          title="Related pages"
+          links={[
+            { href: '/legal', label: 'Legal & Disclaimer' },
+            { href: '/terms', label: 'Terms of Service' },
+            { href: '/privacy-policy', label: 'Privacy Policy' },
+          ]}
+        />
       </DecoratedArticle>
     </div>
   )

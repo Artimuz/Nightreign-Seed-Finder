@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getAllUpdates } from '@/lib/updates/updateManager'
-import { DecoratedArticle } from '@/components'
+import { DecoratedArticle, PageNavButtons } from '@/components'
 
 export const metadata: Metadata = {
   title: 'Updates',
@@ -41,7 +41,7 @@ export default function UpdatesPage() {
         <div className="mt-10 space-y-4">
           {updates.map((update) => {
             const firstImage = update.image || extractFirstImage(update.content)
-            
+
             return (
               <Link
                 key={update.id}
@@ -70,16 +70,16 @@ export default function UpdatesPage() {
                       </div>
                     ) : null}
                   </div>
-                  
+
                   {firstImage && (
                     <div className="flex-shrink-0">
-                      <div className="w-32 h-20 rounded overflow-hidden border border-gray-600/40">
+                      <div className="h-20 w-32 overflow-hidden rounded border border-gray-600/40">
                         <Image
                           src={typeof firstImage === 'string' ? firstImage : firstImage.src}
                           alt={typeof firstImage === 'string' ? 'Update thumbnail' : firstImage.alt}
                           width={128}
                           height={80}
-                          className="w-full h-full object-cover"
+                          className="h-full w-full object-cover"
                           unoptimized={(typeof firstImage === 'string' ? firstImage : firstImage.src).startsWith('/')}
                         />
                       </div>
@@ -90,6 +90,16 @@ export default function UpdatesPage() {
             )
           })}
         </div>
+
+        <PageNavButtons
+          title="More"
+          links={[
+            { href: '/how-to-use', label: 'How to Use' },
+            { href: '/faq', label: 'FAQ' },
+            { href: '/updates', label: 'Updates' },
+            { href: '/about', label: 'About' },
+          ]}
+        />
       </DecoratedArticle>
     </div>
   )

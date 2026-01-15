@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { DecoratedArticle } from '@/components'
+import { DecoratedArticle, PageNavButtons } from '@/components'
 
 export const metadata: Metadata = {
   title: 'How to Use',
@@ -14,11 +14,21 @@ type HowToSection = {
 
 const sections: HowToSection[] = [
   {
-    title: '1: Map type selection',
+    title: '1: Nightlord selection (optional)',
+    description:
+      'On the home page, you can choose a Nightlord before selecting a map. This helps reduce the amount of possible seeds and makes the search faster.',
+    bullets: [
+      'Open the Nightlord selector and pick your desired Nightlord.',
+      'Your selection is remembered and automatically applied when you start building your map.',
+      'After each search, the selection is cleared so the next search starts fresh.',
+    ],
+  },
+  {
+    title: '2: Map type selection',
     description: 'There are 6 types of maps in Elden Ring Nightreign, and they can contain exclusive events.',
   },
   {
-    title: '2: Map builder',
+    title: '3: Map builder',
     description:
       "With the map type selected, you can draw your map layout on the Map Builder canvas. You don't need to complete it—only until there is only 1 possible seed remaining.",
     bullets: [
@@ -27,7 +37,7 @@ const sections: HowToSection[] = [
     ],
   },
   {
-    title: '3: The map result',
+    title: '4: The map result',
     description: 'Once you find a result you will see the map with the whole information such as:',
     bullets: [
       'All buildings, and enemies on it.',
@@ -38,7 +48,7 @@ const sections: HowToSection[] = [
     ],
   },
   {
-    title: '4: Error report',
+    title: '5: Error report',
     description:
       'If any information or behavior appears to be wrong on the site, you can inform it at the bottom of the page, using the Report button. Feel free to use this feature to also message me or give any feedback.',
   },
@@ -75,6 +85,16 @@ export default function HowToUsePage() {
             </section>
           ))}
         </div>
+
+        <PageNavButtons
+          title="More"
+          links={[
+            { href: '/how-to-use', label: 'How to Use' },
+            { href: '/faq', label: 'FAQ' },
+            { href: '/updates', label: 'Updates' },
+            { href: '/about', label: 'About' },
+          ]}
+        />
       </DecoratedArticle>
     </div>
   )
