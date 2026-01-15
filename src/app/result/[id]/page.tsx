@@ -1,4 +1,5 @@
 import ClientMapResult from '../../../components/ClientMapResult'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import seedData from '../../../../public/data/seed_data.json'
 import { MapTypeTextBlock } from '@/components/map/MapTypeTextBlock'
@@ -14,6 +15,33 @@ export async function generateStaticParams() {
   return seeds.map((seed) => ({
     id: seed.seed_id,
   }))
+}
+
+function normalizeSeedId(seedId: string): string | null {
+  const parsedSeedId = Number(seedId)
+  if (!Number.isFinite(parsedSeedId) || !Number.isInteger(parsedSeedId) || parsedSeedId < 0) {
+    return null
+  }
+
+  const canonicalSeedId = parsedSeedId <= 319 ? String(parsedSeedId).padStart(3, '0') : String(parsedSeedId)
+  if (!seedIdSet.has(canonicalSeedId)) {
+    return null
+  }
+
+  return canonicalSeedId
+}
+
+export async function generateMetadata({ params }: ResultPageProps): Promise<Metadata> {
+  const { id: seedId } = await params
+  const canonicalSeedId = normalizeSeedId(seedId)
+
+  if (!canonicalSeedId) {
+    return { title: 'Pattern | Nightreign Seed Finder' }
+  }
+
+  return {
+    title: `Pattern ${canonicalSeedId} | Nightreign Seed Finder`,
+  }
 }
 
 interface ResultPageProps {
@@ -57,14 +85,8 @@ function mapTypeLabelToKey(value: string | null | undefined): MapTypeKey | null 
 export default async function ResultPage({ params }: ResultPageProps) {
   const { id: seedId } = await params
 
-  const parsedSeedId = Number(seedId)
-  if (!Number.isFinite(parsedSeedId) || !Number.isInteger(parsedSeedId) || parsedSeedId < 0) {
-    notFound()
-  }
-
-  const canonicalSeedId = parsedSeedId <= 319 ? String(parsedSeedId).padStart(3, '0') : String(parsedSeedId)
-
-  if (!seedIdSet.has(canonicalSeedId)) {
+  const canonicalSeedId = normalizeSeedId(seedId)
+  if (!canonicalSeedId) {
     notFound()
   }
 
