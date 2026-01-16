@@ -10,6 +10,7 @@ import { useSpawnAnalysis } from '@/hooks/useSpawnAnalysis'
 import { pagesWebpUrl } from '@/lib/pagesAssets'
 import { trackAnalyticsEvent } from '@/lib/analytics/events'
 import { getInteractiveCoordinates } from '@/lib/constants/mapCoordinates'
+import { getViewportSizeFromWindow, isMobileLayout } from '@/lib/responsive'
 
 interface MapBuilderProps {
   mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'greatHollow'
@@ -120,7 +121,7 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      setIsMobile(isMobileLayout(getViewportSizeFromWindow()))
     }
 
     const handleResize = () => {

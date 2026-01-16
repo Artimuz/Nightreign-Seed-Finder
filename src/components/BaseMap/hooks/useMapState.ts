@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { getViewportSizeFromWindow, isMobileLayout } from '@/lib/responsive'
 
 export interface IconConfig {
   size: [number, number]
@@ -20,7 +21,7 @@ export function useMapState(containerRef?: React.RefObject<HTMLDivElement | null
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      setIsMobile(isMobileLayout(getViewportSizeFromWindow()))
     }
 
     const updateContainerSize = () => {

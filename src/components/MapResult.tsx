@@ -11,6 +11,7 @@ import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
 import type { Seed } from '@/lib/types'
 import crystalData from '../../public/data/crystal_data.json'
 import { trackAnalyticsEvent } from '@/lib/analytics/events'
+import { getViewportSizeFromWindow, isMobileLayout } from '@/lib/responsive'
 
 interface MapResultProps {
   seedNumber: string
@@ -43,7 +44,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      setIsMobile(isMobileLayout(getViewportSizeFromWindow()))
     }
 
     checkIfMobile()

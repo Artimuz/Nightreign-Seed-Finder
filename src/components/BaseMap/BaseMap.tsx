@@ -11,6 +11,7 @@ import {
   cleanupMap,
   getMapImage
 } from '@/lib/map'
+import { getViewportSizeFromWindow, isMobileLayout } from '@/lib/responsive'
 
 // Fix for Leaflet default icons in Next.js
 delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: () => void })._getIconUrl
@@ -54,7 +55,7 @@ export default function BaseMap({
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      setIsMobile(isMobileLayout(getViewportSizeFromWindow()))
     }
 
     checkIfMobile()

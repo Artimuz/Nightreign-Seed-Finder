@@ -130,6 +130,32 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 1180px) and (orientation: portrait) {
+  .sidebar-container {
+    @apply w-72;
+  }
+  
+  .sidebar-content {
+    @apply p-4;
+  }
+  
+  .sidebar-header {
+    @apply mb-6;
+  }
+  
+  .sidebar-title {
+    @apply text-lg;
+  }
+  
+  .sidebar-nav-card {
+    @apply p-3;
+  }
+  
+  .sidebar-nav-title {
+    @apply text-base;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar-container {
     @apply w-72;

@@ -20,7 +20,7 @@ export const CardImage: React.FC<CardImageProps> = ({ src, alt, priority = false
       fill
       className="map-card-image object-cover object-center"
       priority={priority}
-      sizes="(max-width: 480px) 200px, (max-width: 768px) 250px, 350px"
+      sizes="(max-width: 480px) 200px, (max-width: 1180px) 250px, 350px"
       unoptimized={isLocalSrc || isPagesSrc}
     />
   );

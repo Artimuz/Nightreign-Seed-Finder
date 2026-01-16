@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { useLayoutEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { getMapTypeText, type MapTypeKey } from '@/lib/map/mapTypeText'
+import { getViewportSizeFromWindow, isMobileLayout } from '@/lib/responsive'
 
 const storageKey = 'seedfinder-maptext-visible'
 
@@ -34,6 +35,7 @@ type AdditionalTextSection = {
 export function MapTypeTextBlock({ mapType, additionalSections }: { mapType: MapTypeKey; additionalSections?: AdditionalTextSection[] }) {
   const mapText = useMemo(() => getMapTypeText(mapType), [mapType])
   const [visible, setVisible] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
 
   useLayoutEffect(() => {
     const stored = readVisibilityFromStorage()
@@ -42,12 +44,43 @@ export function MapTypeTextBlock({ mapType, additionalSections }: { mapType: Map
     }
   }, [])
 
+  useEffect(() => {
+    const update = () => {
+      setIsMobile(isMobileLayout(getViewportSizeFromWindow()))
+    }
+
+    update()
+    window.addEventListener('resize', update)
+    window.addEventListener('orientationchange', update)
+
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('orientationchange', update)
+    }
+  }, [])
+
+  const shouldHideBehindMap = isMobile && !visible
+  const containerClassName = shouldHideBehindMap ? 'fixed left-0 right-0 top-[75px] z-0 px-4 pb-3 pointer-events-none' : 'fixed left-0 right-0 top-[75px] z-20 px-4 pb-3'
+
   return (
-    <div className="fixed left-0 right-0 top-[75px] z-20 px-4 pb-3">
+    <div className={containerClassName}>
+      {!visible && shouldHideBehindMap ? (
+        <button
+          type="button"
+          onClick={() => {
+            const next = true
+            writeVisibilityToStorage(next)
+            setVisible(next)
+          }}
+          className="fixed top-[90px] right-4 z-20 rounded-md bg-gray-700/60 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-600 pointer-events-auto"
+        >
+          Show
+        </button>
+      ) : null}
       <div className="mx-auto w-full max-w-5xl rounded-xl border border-gray-600/40 bg-black/85 backdrop-blur-sm">
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <h2 className="min-w-0 truncate text-sm font-semibold text-gray-100">{mapText.title}</h2>
-          {!visible ? (
+          {!visible && !shouldHideBehindMap ? (
             <button
               type="button"
               onClick={() => {

@@ -154,6 +154,20 @@ body {
   transform: translateY(36px);
 }
 
+@media (max-width: 1180px) and (orientation: portrait) {
+  .leaflet-top.leaflet-right .leaflet-great-hollow-toggle {
+    transform: translateY(80px);
+  }
+
+  .mapresult-seed-label {
+    transform: translateY(39px);
+  }
+
+  .mapbuilder-remaining-seeds {
+    transform: translateY(55px);
+  }
+}
+
 @media (max-width: 768px) {
   .leaflet-top.leaflet-right .leaflet-great-hollow-toggle {
     transform: translateY(80px);

@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { MAP_TYPES } from '@/lib/types'
 import { MapSelectionCard } from './MapSelectionCard'
-import '@/styles/map-cards.css'
 import seedData from '../../../public/data/seed_data.json'
 import { trackAnalyticsEvent } from '@/lib/analytics/events'
 
@@ -92,7 +91,7 @@ export const MapSelectionCards: React.FC<MapSelectionCardsProps> = ({ selectedNi
           <h2 className="text-2xl md:text-2xl font-semibold text-white text-outlined seed-finder-glow">Select your map</h2>
         </div>
 
-        <div className={`desktop-map-cards-container hidden md:flex${hasClicked && clickedCard ? ' card-clicked' : ''}`}>
+        <div className={`desktop-map-cards-container${hasClicked && clickedCard ? ' card-clicked' : ''}`}>
           {MAP_TYPES.map((mapData) => {
             const isOther = hasClicked && clickedCard && clickedCard !== mapData.key
             const seedCounts = getSeedCounts(mapData.key)
@@ -117,7 +116,7 @@ export const MapSelectionCards: React.FC<MapSelectionCardsProps> = ({ selectedNi
 
         <div
           ref={mobileContainerRef}
-          className={`mobile-map-icons-container block md:hidden${hasClicked && clickedCard ? ' icon-clicked' : ''}`}
+          className={`mobile-map-icons-container${hasClicked && clickedCard ? ' icon-clicked' : ''}`}
         >
           <div className="mobile-icons-row mobile-icons-first">
             {MAP_TYPES.slice(0, 3).map((mapData) => {
