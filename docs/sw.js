@@ -1,16 +1,7 @@
-import { NextResponse } from 'next/server'
-
-export const runtime = 'nodejs'
-
-export function GET(request: Request) {
-  const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? '0'
-  const requestUrl = new URL(request.url)
-  const cacheVersion = requestUrl.searchParams.get('v')
-
-  const js = `const APP_VERSION = ${JSON.stringify(appVersion)}
+const appVersion = new URL(self.location.href).searchParams.get('v') ?? '0'
 const SW_REVISION = '7'
 
-const staticCacheName = \`next-static-\${APP_VERSION}-\${SW_REVISION}\`
+const staticCacheName = `next-static-${appVersion}-${SW_REVISION}`
 
 const shouldHandleRequest = (requestUrl, requestMethod) => {
   if (requestMethod !== 'GET') return false
@@ -129,18 +120,4 @@ async function warmCache(urls, cacheName) {
       }
     })
   )
-}
-
-`
-
-  const cacheControl = cacheVersion && cacheVersion === appVersion
-    ? 'public, max-age=31536000, immutable'
-    : 'no-cache'
-
-  return new NextResponse(js, {
-    headers: {
-      'Content-Type': 'application/javascript; charset=utf-8',
-      'Cache-Control': cacheControl,
-    },
-  })
 }

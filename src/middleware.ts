@@ -159,7 +159,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|sw.js|Images/|fonts/|.*\\.(?:ico|svg|png|webp|webm|otf|woff|woff2|ttf|json|txt|xml|map)$).*)',
-  ],
+  matcher: ['/api/log', '/api/report-bug'],
 }
