@@ -20,10 +20,31 @@ if (typeof window !== 'undefined') {
   windowWithGtag.__telemetryEvents = windowWithGtag.__telemetryEvents ?? []
 }
 
+function getPageContext(): Record<string, unknown> {
+  if (typeof window === 'undefined') return {}
+
+  const context: Record<string, unknown> = {}
+
+  const href = window.location.href
+  if (href && href.length > 0) context.page_location = href
+
+  const path = window.location.pathname
+  const search = window.location.search
+  const pagePath = search && search.length > 0 ? `${path}${search}` : path
+  if (pagePath && pagePath.length > 0) context.page_path = pagePath
+
+  if (typeof document !== 'undefined') {
+    const title = document.title
+    if (title && title.length > 0) context.page_title = title
+  }
+
+  return context
+}
+
 export function trackAnalyticsEvent(eventName: AnalyticsEventName, params?: Record<string, unknown>): void {
   if (typeof window === 'undefined') return
 
-  const safeParams = params ?? {}
+  const safeParams = { ...getPageContext(), ...(params ?? {}) }
 
   const windowWithGtag = window as WindowWithGtag
   const telemetryEvents = windowWithGtag.__telemetryEvents ?? []

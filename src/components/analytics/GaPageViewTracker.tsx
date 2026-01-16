@@ -3,8 +3,10 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
+type GtagFunction = (command: 'event' | 'config' | 'js', target: string | Date, params?: Record<string, unknown>) => void
+
 type WindowWithGtag = Window & {
-  gtag?: (...args: unknown[]) => void
+  gtag?: GtagFunction
 }
 
 function getMeasurementId(): string | null {
@@ -15,7 +17,21 @@ function getMeasurementId(): string | null {
 }
 
 function buildPagePath(pathname: string): string {
-  return pathname
+  if (typeof window === 'undefined') return pathname
+  const search = window.location.search
+  return search && search.length > 0 ? `${pathname}${search}` : pathname
+}
+
+function buildPageLocation(): string | null {
+  if (typeof window === 'undefined') return null
+  const href = window.location.href
+  return href && href.length > 0 ? href : null
+}
+
+function buildPageTitle(): string | null {
+  if (typeof document === 'undefined') return null
+  const title = document.title
+  return title && title.length > 0 ? title : null
 }
 
 export function GaPageViewTracker() {
@@ -32,7 +48,17 @@ export function GaPageViewTracker() {
     if (typeof gtag !== 'function') return
 
     const pagePath = buildPagePath(pathname)
-    gtag('config', measurementId, { page_path: pagePath })
+    const pageLocation = buildPageLocation()
+    const pageTitle = buildPageTitle()
+
+    const params: Record<string, unknown> = {
+      page_path: pagePath,
+    }
+
+    if (pageLocation) params.page_location = pageLocation
+    if (pageTitle) params.page_title = pageTitle
+
+    gtag('event', 'page_view', params)
   }, [pathname])
 
   return null
