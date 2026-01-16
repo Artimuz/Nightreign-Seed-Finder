@@ -58,10 +58,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          async
+        <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3952409900980393"
-          crossOrigin="anonymous"
+          strategy="afterInteractive"
         />
         {gaMeasurementId ? (
           <>

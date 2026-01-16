@@ -6,16 +6,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const packageJson = require('./package.json');
 
 const contentSecurityPolicy = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://ep2.adtrafficquality.google",
-  "script-src-elem 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://ep2.adtrafficquality.google",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https:",
-  "connect-src 'self' https://*.supabase.co https://*.supabase.io wss://*.supabase.co wss://*.supabase.io https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://artimuz.github.io https://*.adtrafficquality.google",
-  "font-src 'self'",
+  "default-src 'self' https: data: blob:",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
+  "script-src-elem 'self' 'unsafe-inline' https:",
+  "style-src 'self' 'unsafe-inline' https:",
+  "img-src 'self' https: data: blob:",
+  "connect-src 'self' https: wss:",
+  "font-src 'self' https: data:",
+  "frame-src 'self' https:",
   "object-src 'none'",
   "base-uri 'self'",
-  "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://ep2.adtrafficquality.google https://www.google.com",
   "frame-ancestors 'none'",
 ].join('; ')
 
@@ -46,7 +46,7 @@ const nextConfig = {
     qualities: [75, 85],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    contentSecurityPolicy: "default-src 'self' https: data: blob:;",
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
