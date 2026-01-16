@@ -1,4 +1,5 @@
 import './globals.css'
+import { Suspense } from 'react'
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Header } from '@/components/ui/Header'
@@ -77,7 +78,9 @@ export default function RootLayout({
       <body className="antialiased overflow-x-hidden">
         <GlobalUpdateProvider>
           <PwaServiceWorkerRegister />
-          <GaPageViewTracker />
+          <Suspense fallback={null}>
+            <GaPageViewTracker />
+          </Suspense>
           <GlobalBackground />
           <Header />
           <main className="min-h-screen relative">

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 type GtagFunction = (command: 'event' | 'config' | 'js', target: string | Date, params?: Record<string, unknown>) => void
 
@@ -16,10 +16,9 @@ function getMeasurementId(): string | null {
   return trimmed.length > 0 ? trimmed : null
 }
 
-function buildPagePath(pathname: string): string {
-  if (typeof window === 'undefined') return pathname
-  const search = window.location.search
-  return search && search.length > 0 ? `${pathname}${search}` : pathname
+function buildPagePath(pathname: string, searchParamsKey: string): string {
+  if (!searchParamsKey || searchParamsKey.length === 0) return pathname
+  return `${pathname}?${searchParamsKey}`
 }
 
 function buildPageLocation(): string | null {
@@ -36,18 +35,17 @@ function buildPageTitle(): string | null {
 
 export function GaPageViewTracker() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const searchParamsKey = searchParams?.toString() ?? ''
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') return
 
-    const measurementId = getMeasurementId()
-    if (!measurementId) return
+    if (!getMeasurementId()) return
 
     const windowWithGtag = window as WindowWithGtag
-    const gtag = windowWithGtag.gtag
-    if (typeof gtag !== 'function') return
 
-    const pagePath = buildPagePath(pathname)
+    const pagePath = buildPagePath(pathname, searchParamsKey)
     const pageLocation = buildPageLocation()
     const pageTitle = buildPageTitle()
 
@@ -58,8 +56,22 @@ export function GaPageViewTracker() {
     if (pageLocation) params.page_location = pageLocation
     if (pageTitle) params.page_title = pageTitle
 
-    gtag('event', 'page_view', params)
-  }, [pathname])
+    const sendPageView = (attempt: number) => {
+      const gtag = windowWithGtag.gtag
+      if (typeof gtag === 'function') {
+        gtag('event', 'page_view', params)
+        return
+      }
+
+      if (attempt >= 20) return
+
+      window.setTimeout(() => {
+        sendPageView(attempt + 1)
+      }, 100)
+    }
+
+    sendPageView(0)
+  }, [pathname, searchParamsKey])
 
   return null
 }
