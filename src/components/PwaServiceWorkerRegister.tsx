@@ -33,9 +33,9 @@ export function PwaServiceWorkerRegister() {
 
     const register = async () => {
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js', {
+        const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? '0'
+        const registration = await navigator.serviceWorker.register(`/sw.js?v=${encodeURIComponent(appVersion)}`, {
           scope: '/',
-          updateViaCache: 'none',
         })
 
         const onControllerChange = () => {

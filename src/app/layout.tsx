@@ -1,5 +1,5 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Header } from '@/components/ui/Header'
 import { Footer } from '@/components/ui/Footer'
@@ -8,6 +8,10 @@ import { GlobalUpdateProvider } from '@/components/providers/GlobalUpdateProvide
 import { PwaServiceWorkerRegister } from '@/components/PwaServiceWorkerRegister'
 import { GaPageViewTracker } from '@/components/analytics/GaPageViewTracker'
 import { pagesIcoUrl, pagesJpgUrl } from '@/lib/pagesAssets'
+
+export const viewport: Viewport = {
+  themeColor: '#000000',
+}
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +26,6 @@ export const metadata: Metadata = {
   icons: {
     icon: pagesIcoUrl('/favicon.ico')
   },
-  themeColor: '#000000',
   other: {
     'google-adsense-account': 'ca-pub-3952409900980393',
   },

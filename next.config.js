@@ -24,6 +24,7 @@ const nextConfig = {
     NEXT_PUBLIC_APP_VERSION: packageJson.version,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -47,9 +48,6 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  experimental: {
-    optimizePackageImports: ['framer-motion'],
-  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -61,23 +59,12 @@ const nextConfig = {
   },
   webpack(config, { isServer }) {
     if (!isServer) {
-      const oneMegabyteInBytes = 1024 * 1024;
-
       config.optimization = {
         ...config.optimization,
         moduleIds: 'deterministic',
         chunkIds: 'deterministic',
         runtimeChunk: false,
-        splitChunks: {
-          chunks: 'all',
-          minSize: oneMegabyteInBytes,
-          maxInitialRequests: 1,
-          maxAsyncRequests: 1,
-          cacheGroups: {
-            default: false,
-            defaultVendors: false,
-          },
-        },
+        splitChunks: false,
       };
     }
 
@@ -141,15 +128,6 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/sw.js',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-cache',
           },
         ],
       },

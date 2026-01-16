@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server'
 
 export const runtime = 'nodejs'
 
-export function GET() {
+export function GET(request: Request) {
   const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? '0'
+  const requestUrl = new URL(request.url)
+  const cacheVersion = requestUrl.searchParams.get('v')
 
   const js = `const APP_VERSION = ${JSON.stringify(appVersion)}
 const SW_REVISION = '7'
@@ -131,10 +133,14 @@ async function warmCache(urls, cacheName) {
 
 `
 
+  const cacheControl = cacheVersion && cacheVersion === appVersion
+    ? 'public, max-age=31536000, immutable'
+    : 'no-cache'
+
   return new NextResponse(js, {
     headers: {
       'Content-Type': 'application/javascript; charset=utf-8',
-      'Cache-Control': 'no-cache',
+      'Cache-Control': cacheControl,
     },
   })
 }
