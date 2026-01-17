@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import CrystalFinderHelpModal from '@/components/CrystalFinderHelpModal'
 import L from 'leaflet'
-import { Events, buildingIcons, nightlordIcons, nightlordStatusCards } from '@/lib/constants/icons'
+import { Events, buildingIcons, nightlordStatusCards } from '@/lib/constants/icons'
 import { getAllSeeds } from '@/lib/data/seedSearch'
 import { normalizeNightlordKey } from '@/lib/map/nightlordUtils'
-import { getCrystalSlotCoordinates, getEventCoordinateForSource, getNightlordCoordinate, getNightlordStatusCardCoordinate, toLeafletCoordinates } from '@/lib/constants/mapCoordinates'
+import { EVENT_COORDINATE_GREAT_HOLLOW, getCrystalSlotCoordinates, getEventCoordinate, getNightlordStatusCardCoordinate, toLeafletCoordinates } from '@/lib/constants/mapCoordinates'
 import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
 import type { Seed } from '@/lib/types'
 import crystalData from '../../public/data/crystal_data.json'
@@ -26,17 +26,13 @@ const normalizeMapTypeKey = (value?: string | null): string => {
 export default function MapResult({ seedNumber }: MapResultProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const leafletMapRef = useRef<L.Map | null>(null)
-  const undergroundControlButtonRef = useRef<HTMLButtonElement | null>(null)
   const crystalFinderControlButtonRef = useRef<HTMLButtonElement | null>(null)
   const crystalFinderHelpButtonRef = useRef<HTMLButtonElement | null>(null)
   const crystalFinderResetButtonRef = useRef<HTMLButtonElement | null>(null)
-  const undergroundOverlayRef = useRef<L.ImageOverlay | null>(null)
-  const undergroundShadeRef = useRef<L.Rectangle | null>(null)
   const crystalMarkersRef = useRef<Map<string, L.Marker>>(new Map())
 
   const [isMobile, setIsMobile] = useState(false)
   const [seedData, setSeedData] = useState<Seed | null>(null)
-  const [isUndergroundEnabled, setIsUndergroundEnabled] = useState(false)
   const [isCrystalFinderEnabled, setIsCrystalFinderEnabled] = useState(false)
   const [isCrystalFinderHelpOpen, setIsCrystalFinderHelpOpen] = useState(false)
   const [crystalSlotStates, setCrystalSlotStates] = useState<Map<string, CrystalSlotState>>(() => new Map())
@@ -65,7 +61,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
   useEffect(() => {
     if (!isGreatHollowSeed) {
-      setIsUndergroundEnabled(false)
       setIsCrystalFinderEnabled(false)
       setIsCrystalFinderHelpOpen(false)
       setCrystalSlotStates(new Map())
@@ -79,10 +74,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
   const seedImageProvider = useMemo(() => {
     return getSeedImageProvider(seedNumber)
   }, [seedNumber])
-
-  const isDlcSeedImage = useMemo(() => {
-    return seedImageProvider.sourceLabel === 'kevins78'
-  }, [seedImageProvider.sourceLabel])
 
   const crystalLayouts = useMemo(() => {
     const layouts = crystalData as unknown as Array<{ id: string; slots: Record<string, string> }>
@@ -121,13 +112,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
   }, [remainingCrystalLayouts])
 
   useEffect(() => {
-    if (!isGreatHollowSeed) return
-
-    const img = new Image()
-    img.src = seedImageProvider.undergroundImageUrl
-  }, [isGreatHollowSeed, seedImageProvider.undergroundImageUrl])
-
-  useEffect(() => {
     if (!mapRef.current) return
 
     const containerSize = Math.min(mapRef.current.offsetWidth, mapRef.current.offsetHeight) || 1000
@@ -139,12 +123,9 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       leafletMapRef.current = null
     }
 
-    undergroundControlButtonRef.current = null
     crystalFinderControlButtonRef.current = null
     crystalFinderHelpButtonRef.current = null
     crystalFinderResetButtonRef.current = null
-    undergroundOverlayRef.current = null
-    undergroundShadeRef.current = null
 
     crystalMarkersRef.current.forEach((marker) => marker.remove())
     crystalMarkersRef.current = new Map()
@@ -169,47 +150,21 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
     if (isGreatHollowSeed) {
       map.createPane('greatHollowSurfacePane')
-      map.createPane('greatHollowShadePane')
-      map.createPane('greatHollowUndergroundPane')
       map.createPane('greatHollowCrystalPane')
 
       const surfacePane = map.getPane('greatHollowSurfacePane')
-      const shadePane = map.getPane('greatHollowShadePane')
-      const undergroundPane = map.getPane('greatHollowUndergroundPane')
       const crystalPane = map.getPane('greatHollowCrystalPane')
 
       if (surfacePane) surfacePane.style.zIndex = '200'
-      if (shadePane) shadePane.style.zIndex = '250'
-      if (undergroundPane) undergroundPane.style.zIndex = '300'
       if (crystalPane) crystalPane.style.zIndex = '400'
 
       const surfaceOverlay = L.imageOverlay(seedImageProvider.surfaceImageUrl, imageBounds, { pane: 'greatHollowSurfacePane' })
       surfaceOverlay.addTo(map)
 
-      const shadeOverlay = L.rectangle(imageBounds, {
-        interactive: false,
-        stroke: false,
-        fill: true,
-        fillColor: '#000',
-        fillOpacity: 0.8,
-        pane: 'greatHollowShadePane'
-      })
-
-      const undergroundOverlay = L.imageOverlay(seedImageProvider.undergroundImageUrl, imageBounds, { pane: 'greatHollowUndergroundPane' })
-
-      undergroundShadeRef.current = shadeOverlay
-      undergroundOverlayRef.current = undergroundOverlay
-
       const control = new L.Control({ position: 'topright' })
 
       control.onAdd = () => {
         const container = L.DomUtil.create('div', 'leaflet-great-hollow-toggle')
-        const button = L.DomUtil.create('button', 'leaflet-great-hollow-toggle__button', container)
-        button.type = 'button'
-        button.onclick = () => {
-          setIsUndergroundEnabled(previous => !previous)
-        }
-
         const crystalGroup = L.DomUtil.create('div', 'leaflet-great-hollow-toggle__group', container)
 
         const crystalButton = L.DomUtil.create('button', 'leaflet-great-hollow-toggle__button', crystalGroup)
@@ -238,7 +193,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         L.DomEvent.disableClickPropagation(container)
         L.DomEvent.disableScrollPropagation(container)
 
-        undergroundControlButtonRef.current = button
         crystalFinderControlButtonRef.current = crystalButton
         crystalFinderHelpButtonRef.current = helpButton
         crystalFinderResetButtonRef.current = resetButton
@@ -276,7 +230,9 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     let eventMarker: L.Marker | null = null
     const initialEventIcon = createEventIcon()
     if (initialEventIcon) {
-      const eventCoordinate = getEventCoordinateForSource(seedImageProvider.sourceLabel)
+      const eventCoordinate = isGreatHollowSeed
+        ? EVENT_COORDINATE_GREAT_HOLLOW
+        : getEventCoordinate(seedData?.map_type, seedImageProvider.sourceLabel)
       const leafletCoords = toLeafletCoordinates(eventCoordinate, containerSize)
       eventMarker = L.marker(leafletCoords, { icon: initialEventIcon, interactive: false })
       eventMarker.addTo(map)
@@ -310,43 +266,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         iconSize: [width, height],
         iconAnchor
       })
-    }
-
-    const createNightlordIcon = (): L.DivIcon | null => {
-      const nightlordIconUrl = getLookupValue(nightlordIcons, nightlordStatusKey)
-      if (!nightlordIconUrl) return null
-
-      const baseIconSize = Math.max(24, containerSize * 0.04)
-      const sizeMultiplier = 2.2
-
-      const zoomScale = getZoomScale()
-      const size = Math.round(baseIconSize * sizeMultiplier * zoomScale)
-      const half = Math.round(size / 2)
-
-      return L.divIcon({
-        html: `<img src="${nightlordIconUrl}" alt="${nightlordStatusKey}" style="width: ${size}px; height: ${size}px; object-fit: contain; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));" />`,
-        className: 'nightlord-icon',
-        iconSize: [size, size],
-        iconAnchor: [half, half]
-      })
-    }
-
-    let nightlordMarker: L.Marker | null = null
-    if (isDlcSeedImage) {
-      const initialNightlordIcon = createNightlordIcon()
-      if (initialNightlordIcon) {
-        const baseCoordinate = getNightlordCoordinate()
-        const leafletCoords = toLeafletCoordinates(baseCoordinate, containerSize)
-
-        nightlordMarker = L.marker(leafletCoords, {
-          icon: initialNightlordIcon,
-          interactive: false,
-          bubblingMouseEvents: false,
-          zIndexOffset: 500,
-        })
-
-        nightlordMarker.addTo(map)
-      }
     }
 
     let nightlordStatusMarker: L.Marker | null = null
@@ -418,12 +337,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
 
     map.on('zoom', () => {
       map.panInsideBounds(imageBounds, { animate: false })
-      if (nightlordMarker) {
-        const updated = createNightlordIcon()
-        if (updated) {
-          nightlordMarker.setIcon(updated)
-        }
-      }
       if (nightlordStatusMarker) {
         const updated = createNightlordStatusIcon()
         if (updated) {
@@ -464,10 +377,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
         nightlordStatusMarker.remove()
         nightlordStatusMarker = null
       }
-      if (nightlordMarker) {
-        nightlordMarker.remove()
-        nightlordMarker = null
-      }
       crystalMarkersRef.current.forEach((marker) => marker.remove())
       crystalMarkersRef.current = new Map()
 
@@ -482,9 +391,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     seedData,
     nightlordStatusKey,
     seedImageProvider.surfaceImageUrl,
-    seedImageProvider.undergroundImageUrl,
     seedImageProvider.sourceLabel,
-    isDlcSeedImage,
     isGreatHollowSeed
   ])
 
@@ -496,10 +403,7 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     const map = leafletMapRef.current
     if (!map) return
 
-    const undergroundOverlay = undergroundOverlayRef.current
-    const shadeOverlay = undergroundShadeRef.current
-
-    if (!isGreatHollowSeed || !undergroundOverlay || !shadeOverlay) return
+    if (!isGreatHollowSeed) return
 
     const container = map.getContainer()
 
@@ -509,16 +413,6 @@ export default function MapResult({ seedNumber }: MapResultProps) {
     }
 
     container.addEventListener('contextmenu', suppressContextMenu)
-
-    const button = undergroundControlButtonRef.current
-    if (button) {
-      button.textContent = isUndergroundEnabled ? 'Underground: ON' : 'Underground: OFF'
-      if (isUndergroundEnabled) {
-        button.classList.add('leaflet-great-hollow-toggle__button--active')
-      } else {
-        button.classList.remove('leaflet-great-hollow-toggle__button--active')
-      }
-    }
 
     const crystalButton = crystalFinderControlButtonRef.current
     if (crystalButton) {
@@ -538,26 +432,10 @@ export default function MapResult({ seedNumber }: MapResultProps) {
       resetButton.style.display = displayValue
     }
 
-    if (isUndergroundEnabled) {
-      if (!map.hasLayer(shadeOverlay)) {
-        shadeOverlay.addTo(map)
-      }
-      if (!map.hasLayer(undergroundOverlay)) {
-        undergroundOverlay.addTo(map)
-      }
-    } else {
-      if (map.hasLayer(undergroundOverlay)) {
-        undergroundOverlay.removeFrom(map)
-      }
-      if (map.hasLayer(shadeOverlay)) {
-        shadeOverlay.removeFrom(map)
-      }
-    }
-
     return () => {
       container.removeEventListener('contextmenu', suppressContextMenu)
     }
-  }, [isCrystalFinderEnabled, isGreatHollowSeed, isUndergroundEnabled])
+  }, [isCrystalFinderEnabled, isGreatHollowSeed])
 
   const setCrystalSlotState = (slotId: string, state: CrystalSlotState) => {
     setCrystalSlotStates((previous) => {

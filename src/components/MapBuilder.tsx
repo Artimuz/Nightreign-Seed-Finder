@@ -11,6 +11,8 @@ import { pagesWebpUrl } from '@/lib/pagesAssets'
 import { trackAnalyticsEvent } from '@/lib/analytics/events'
 import { getInteractiveCoordinates } from '@/lib/constants/mapCoordinates'
 import { getViewportSizeFromWindow, isMobileLayout } from '@/lib/responsive'
+import { getSeedImageProvider } from '@/lib/map/seedImageProvider'
+import { buildingIcons } from '@/lib/constants/icons'
 
 interface MapBuilderProps {
   mapType?: 'normal' | 'crater' | 'mountaintop' | 'noklateo' | 'rotted' | 'greatHollow'
@@ -31,6 +33,8 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   const markersRef = useRef<Map<string, L.Marker>>(new Map())
   const iconConfigRef = useRef<{ size: [number, number], anchor: [number, number], popupAnchor: [number, number] } | null>(null)
   const spawnMarkerRef = useRef<L.Marker | null>(null)
+  const prefetchedSeedIdsRef = useRef<Set<string>>(new Set())
+  const prefetchedBuildingIconUrlsRef = useRef<Set<string>>(new Set())
   const [isMobile, setIsMobile] = useState(false)
   const [selectedBuildings, setSelectedBuildings] = useState<Record<string, string>>({})
   const [selectedNightlord, setSelectedNightlord] = useState<string>('')
@@ -148,6 +152,55 @@ export default function MapBuilder({ mapType = 'normal' }: MapBuilderProps) {
   useEffect(() => {
     updateRemainingSeedsCount()
   }, [selectedBuildings, selectedNightlord, mapType, selectedSpawnSlot])
+
+  useEffect(() => {
+    Object.values(buildingIcons).forEach((url) => {
+      if (prefetchedBuildingIconUrlsRef.current.has(url)) {
+        return
+      }
+
+      prefetchedBuildingIconUrlsRef.current.add(url)
+
+      const image = new Image()
+      image.src = url
+    })
+  }, [])
+
+  useEffect(() => {
+    const threshold = isMobile ? 5 : 10
+
+    const cleanedSlots: Record<string, string> = {}
+    Object.keys(selectedBuildings).forEach((key) => {
+      if (!Object.prototype.hasOwnProperty.call(selectedBuildings, key)) return
+      const building = selectedBuildings[key]
+      if (building && building !== 'empty' && building.trim() !== '') {
+        if (typeof key === 'string' && /^[a-zA-Z0-9_]+$/.test(key)) {
+          cleanedSlots[key] = building
+        }
+      }
+    })
+
+    const cleanedNightlord = (!selectedNightlord || selectedNightlord === 'empty') ? null : selectedNightlord
+    const remainingSeeds = getRemainingSeeds(mapType, cleanedSlots, cleanedNightlord, selectedSpawnSlot)
+
+    if (remainingSeeds.length === 0 || remainingSeeds.length > threshold) {
+      return
+    }
+
+    const targetSeeds = remainingSeeds.slice(0, threshold)
+
+    targetSeeds.forEach((seed) => {
+      if (prefetchedSeedIdsRef.current.has(seed.seed_id)) {
+        return
+      }
+
+      prefetchedSeedIdsRef.current.add(seed.seed_id)
+
+      const surfaceImageUrl = getSeedImageProvider(seed.seed_id).surfaceImageUrl
+      const image = new Image()
+      image.src = surfaceImageUrl
+    })
+  }, [isMobile, mapType, selectedBuildings, selectedNightlord, selectedSpawnSlot])
 
   useEffect(() => {
     if (pendingLogSeed) {

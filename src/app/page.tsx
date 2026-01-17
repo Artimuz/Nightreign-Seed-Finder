@@ -4,12 +4,14 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { MapSelectionCards } from '@/components/cards/MapSelectionCards'
 import PreNightlordSelector from '@/components/ui/PreNightlordSelector'
+import HomePrefetchAssets from '@/components/HomePrefetchAssets'
 
 export default function HomePage() {
   const [selectedNightlord, setSelectedNightlord] = useState<string>('empty')
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 pb-24 pt-28 text-gray-100">
+      <HomePrefetchAssets />
       <header className="mx-auto max-w-3xl text-center">
         <h1 className="text-3xl font-semibold">Nightreign Seed Finder</h1>
         <p className="mt-6 text-gray-300 leading-snug sm:leading-normal">

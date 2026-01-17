@@ -77,12 +77,12 @@ export const CRYSTAL_SLOT_COORDINATES_GREAT_HOLLOW_21: Coordinate[] = [
   { id: '13', x: 512, y: 667 },
   { id: '14', x: 357, y: 749 },
   { id: '15', x: 419, y: 793 },
-  { id: '16', x: 713, y: 523 },
-  { id: '17', x: 667, y: 603 },
-  { id: '18', x: 765, y: 624 },
-  { id: '19', x: 615, y: 667 },
-  { id: '20', x: 763, y: 741 },
-  { id: '21', x: 625, y: 743 }
+  { id: '16', x: 850, y: 607 },
+  { id: '17', x: 804, y: 687 },
+  { id: '18', x: 902, y: 708 },
+  { id: '19', x: 752, y: 751 },
+  { id: '20', x: 900, y: 825 },
+  { id: '21', x: 762, y: 827 }
 ]
 
 export const NIGHTLORD_COORDINATE: Coordinate = {
@@ -99,8 +99,14 @@ export const NIGHTLORD_STATUS_CARD_COORDINATE: Coordinate = {
 
 export const EVENT_COORDINATE_THEFIFTHMATT: Coordinate = {
   id: 'event',
-  x: 900,
-  y: 900
+  x: 102,
+  y: 740
+}
+
+export const EVENT_COORDINATE_GREAT_HOLLOW: Coordinate = {
+  id: 'event',
+  x: 102,
+  y: 740
 }
 
 export const EVENT_COORDINATE_KEVINS78: Coordinate = {
@@ -113,6 +119,12 @@ export const getEventCoordinateForSource = (sourceLabel?: string): Coordinate =>
   const normalized = (sourceLabel ?? '').toLowerCase()
   if (normalized === 'kevins78') return EVENT_COORDINATE_KEVINS78
   return EVENT_COORDINATE_THEFIFTHMATT
+}
+
+export const getEventCoordinate = (mapType?: string, sourceLabel?: string): Coordinate => {
+  const normalizedMapType = normalizeMapTypeKey(mapType)
+  if (normalizedMapType === 'greathollow') return EVENT_COORDINATE_GREAT_HOLLOW
+  return getEventCoordinateForSource(sourceLabel)
 }
 
 export const EVENT_COORDINATE: Coordinate = EVENT_COORDINATE_THEFIFTHMATT
@@ -152,10 +164,6 @@ export const getNightlordCoordinate = (): Coordinate => {
 
 export const getNightlordStatusCardCoordinate = (): Coordinate => {
   return NIGHTLORD_STATUS_CARD_COORDINATE
-}
-
-export const getEventCoordinate = (): Coordinate => {
-  return EVENT_COORDINATE_THEFIFTHMATT
 }
 
 export const isBuildingSlot = (id: string, mapType?: string): boolean => {

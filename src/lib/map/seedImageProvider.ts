@@ -19,7 +19,10 @@ const dlcProvider = {
 export function getSeedImageProvider(seedId: string): SeedImageProvider {
   const parsedSeedId = Number(seedId)
 
-  const provider = Number.isFinite(parsedSeedId) && parsedSeedId >= 0 && parsedSeedId <= 319 ? baseProvider : dlcProvider
+  const isLegacySeed = Number.isFinite(parsedSeedId) && parsedSeedId >= 0 && parsedSeedId <= 319
+  const isPost1000Seed = Number.isFinite(parsedSeedId) && parsedSeedId >= 1000
+
+  const provider = isLegacySeed || isPost1000Seed ? baseProvider : dlcProvider
 
   const surfaceImageUrl = `${provider.baseUrl}${seedId}.${provider.fileExtension}`
   const undergroundImageUrl = `${provider.baseUrl}${seedId}_under.${provider.fileExtension}`
